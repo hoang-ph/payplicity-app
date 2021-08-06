@@ -33,7 +33,7 @@ async function render(req, res) {
     </StaticRouter>
   );
   const body = ReactDOMServer.renderToString(element);
-  
+
   if (context.url) {
     res.redirect(301, context.url);
   } else {

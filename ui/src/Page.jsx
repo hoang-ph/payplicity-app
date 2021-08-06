@@ -7,7 +7,7 @@ import {
 import { LinkContainer } from 'react-router-bootstrap';
 
 import Contents from './Contents.jsx';
-import IssueAddNavItem from './IssueAddNavItem.jsx';
+// import IssueAddNavItem from './IssueAddNavItem.jsx';
 import ExpenseAddNavItem from './ExpenseAddNavItem.jsx';
 import SignInNavItem from './SignInNavItem.jsx';
 import Search from './Search.jsx';
@@ -26,10 +26,10 @@ function NavBar({ user, onUserChange }) {
           <NavItem>Home</NavItem>
         </LinkContainer>
         <LinkContainer to="/issues">
-          <NavItem>Issue List</NavItem>
+          <NavItem>Expense List</NavItem>
         </LinkContainer>
-        <LinkContainer to="/report">
-          <NavItem>Report</NavItem>
+        <LinkContainer to="/summary">
+          <NavItem>Summary</NavItem>
         </LinkContainer>
       </Nav>
       <Col sm={5}>
@@ -61,7 +61,7 @@ function Footer() {
       <p className="text-center">
         Full source code available at this
         {' '}
-        <a href="https://github.com/vasansr/pro-mern-stack-2">
+        <a href="https://github.ccs.neu.edu/NEU-CS5610-SU21/payplicity-app">
           GitHub repository
         </a>
       </p>
