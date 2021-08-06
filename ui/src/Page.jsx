@@ -8,6 +8,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 import Contents from './Contents.jsx';
 import IssueAddNavItem from './IssueAddNavItem.jsx';
+import ExpenseAddNavItem from './ExpenseAddNavItem.jsx';
 import SignInNavItem from './SignInNavItem.jsx';
 import Search from './Search.jsx';
 import UserContext from './UserContext.js';
@@ -18,7 +19,7 @@ function NavBar({ user, onUserChange }) {
   return (
     <Navbar fluid>
       <Navbar.Header>
-        <Navbar.Brand>Issue Tracker</Navbar.Brand>
+        <Navbar.Brand>Payplicity</Navbar.Brand>
       </Navbar.Header>
       <Nav>
         <LinkContainer exact to="/">
@@ -37,7 +38,7 @@ function NavBar({ user, onUserChange }) {
         </Navbar.Form>
       </Col>
       <Nav pullRight>
-        <IssueAddNavItem user={user} />
+        <ExpenseAddNavItem user={user} />
         <SignInNavItem user={user} onUserChange={onUserChange} />
         <NavDropdown
           id="user-dropdown"

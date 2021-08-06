@@ -2,21 +2,32 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import {
   NavItem, Glyphicon, Modal, Form, FormGroup, FormControl, ControlLabel,
-  Button, ButtonToolbar, Tooltip, OverlayTrigger,
+  Button, ButtonToolbar, Tooltip, OverlayTrigger, InputGroup,
 } from 'react-bootstrap';
 
 import graphQLFetch from './graphQLFetch.js';
 import withToast from './withToast.jsx';
 
-class IssueAddNavItem extends React.Component {
+class ExpenseAddNavItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showing: false,
     };
+    this.getCurrentDate = this.getCurrentDate.bind(this);
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  getCurrentDate() {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    // eslint-disable-next-line prefer-template
+    return mm + '/' + dd + '/' + yyyy;
   }
 
   showModal() {
@@ -59,24 +70,43 @@ class IssueAddNavItem extends React.Component {
           <OverlayTrigger
             placement="left"
             delayShow={1000}
-            overlay={<Tooltip id="create-issue">Create Issue</Tooltip>}
+            overlay={<Tooltip id="create-expense">Create Expense</Tooltip>}
           >
             <Glyphicon glyph="plus" />
           </OverlayTrigger>
         </NavItem>
         <Modal keyboard show={showing} onHide={this.hideModal}>
           <Modal.Header closeButton>
-            <Modal.Title>Create Issue</Modal.Title>
+            <Modal.Title>Create Expense</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form name="issueAdd">
+            <Form name="expenseAdd">
               <FormGroup>
-                <ControlLabel>Title</ControlLabel>
-                <FormControl name="title" autoFocus placeholder="Title" />
+                <ControlLabel>Description:</ControlLabel>
+                <FormControl name="expense" autoFocus />
               </FormGroup>
               <FormGroup>
-                <ControlLabel>Owner</ControlLabel>
-                <FormControl name="owner" placeholder="Owner" />
+                <ControlLabel>Amount</ControlLabel>
+                <InputGroup>
+                  <InputGroup.Addon>$</InputGroup.Addon>
+                  <FormControl name="amount" placeholder="0.00" />
+                </InputGroup>
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Date</ControlLabel>
+                <FormControl name="title" placeholder={this.getCurrentDate()} />
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>File</ControlLabel>
+                <FormControl name="file" type="file" placeholder="No file chosen" />
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Split</ControlLabel>
+                <FormControl name="split" placeholder="$0.00" />
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Group</ControlLabel>
+                <FormControl name="group" placeholder="$0.00" />
               </FormGroup>
             </Form>
           </Modal.Body>
@@ -87,7 +117,7 @@ class IssueAddNavItem extends React.Component {
                 bsStyle="primary"
                 onClick={this.handleSubmit}
               >
-                Submit
+                Add
               </Button>
               <Button bsStyle="link" onClick={this.hideModal}>Cancel</Button>
             </ButtonToolbar>
@@ -98,4 +128,4 @@ class IssueAddNavItem extends React.Component {
   }
 }
 
-export default withToast(withRouter(IssueAddNavItem));
+export default withToast(withRouter(ExpenseAddNavItem));

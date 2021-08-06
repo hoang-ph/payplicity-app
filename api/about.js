@@ -1,6 +1,6 @@
 const { mustBeSignedIn } = require('./auth.js');
 
-let aboutMessage = 'Issue Tracker API v1.0';
+let aboutMessage = 'Payplicity v.0.0.1';
 
 function setAboutMessage(_, { message }) {
   aboutMessage = message;
