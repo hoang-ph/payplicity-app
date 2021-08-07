@@ -7,7 +7,7 @@ Link to the heroku deployment for iteration 1:
 https://payplicity-ui.herokuapp.com/
 
 Screenshot of the UI component when adding a new expense
-![iter1] (https://cdn.discordapp.com/attachments/770761149716234261/873370306100748288/new.PNG)
+![iter1](https://cdn.discordapp.com/attachments/770761149716234261/873370306100748288/new.PNG)
 
 Work:
 Phong:
