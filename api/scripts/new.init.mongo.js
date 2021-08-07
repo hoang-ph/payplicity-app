@@ -7,6 +7,7 @@
  */
 
 db.expenses.remove({});
+db.counters.remove({})
 db.users.remove({});
 
 const expensesDB = [

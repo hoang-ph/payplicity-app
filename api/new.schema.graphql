@@ -32,7 +32,7 @@ type Expense {
   group: GroupType
 }
 
-type IssueCounts {
+type ExpenseCounts {
   owner: String!
   Housing: Int
   Transportation: Int
@@ -52,7 +52,7 @@ type ExpenseListWithPages {
 }
 
 type GroupType {
-  groupName: String!
+  groupName: String
   groupMember: [ {User, UserRole! } ]
 }
 
@@ -60,7 +60,7 @@ type User {
   signedIn: Boolean!
   givenName: String
   name: String
-  email: String
+  email: String!
   password: String
   group: GroupType
 }
