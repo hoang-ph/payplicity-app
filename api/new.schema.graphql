@@ -13,15 +13,11 @@ enum CategoryType {
   Misc
 }
 
-enum UserRole {
-  Admin
-  Basic
-}
-
 type Expense {
   _id: ID!
   id: Int!
-  owner: String!
+  owner: User
+  email: String!
   title: String
   description: String!
   category: CategoryType!
@@ -29,7 +25,6 @@ type Expense {
   amount: Int!
   paid: Int
   imageSrc: String
-  group: GroupType
 }
 
 type ExpenseCounts {
@@ -51,23 +46,17 @@ type ExpenseListWithPages {
   pages: Int
 }
 
-type GroupType {
-  groupName: String
-  groupMember: [ {User, UserRole! } ]
-}
-
 type User {
   signedIn: Boolean!
   givenName: String
   name: String
   email: String!
   password: String
-  group: GroupType
 }
 
 "Toned down Expense, used as inputs, without server generated values."
 input ExpenseInputs {
-  owner: String!
+  owner: User!
   title: String
   description: String!
   "Optional, if not supplied, will be set to 'Misc'"
@@ -84,7 +73,6 @@ input ExpenseInputs {
 be set to the given value, undefined fields will remain unmodified. Remaining
 balance (amount) will be subtracted from new paid amount if capable"""
 input ExpenseUpdateInputs {
-  owner: String
   title: String
   description: String
   category: CategoryType
