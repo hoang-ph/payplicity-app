@@ -14,20 +14,9 @@ class ExpenseAddNavItem extends React.Component {
     this.state = {
       showing: false,
     };
-    this.getCurrentDate = this.getCurrentDate.bind(this);
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getCurrentDate() {
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = today.getFullYear();
-    // eslint-disable-next-line prefer-template
-    return mm + '/' + dd + '/' + yyyy;
   }
 
   showModal() {
@@ -93,20 +82,29 @@ class ExpenseAddNavItem extends React.Component {
                 </InputGroup>
               </FormGroup>
               <FormGroup>
+                <ControlLabel>Category</ControlLabel>
+                <InputGroup>
+                  <FormControl name="category" componentClass="select" placeholder="select">
+                    <option value="misc"> Misc</option>
+                    <option value="housing"> Housing</option>
+                    <option value="transportation">Transportation</option>
+                    <option value="dining">Dining</option>
+                    <option value="savings">Savings</option>
+                    <option value="groceries">Groceries</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="utility">Utility & Phone</option>
+                    <option value="medical">Medical</option>
+                    <option value="clothing">Clothing</option>
+                  </FormControl>
+                </InputGroup>
+              </FormGroup>
+              <FormGroup>
                 <ControlLabel>Date</ControlLabel>
-                <FormControl name="title" placeholder={this.getCurrentDate()} />
+                <FormControl name="title" placeholder="mm/dd/yyyy" />
               </FormGroup>
               <FormGroup>
                 <ControlLabel>File</ControlLabel>
                 <FormControl name="file" type="file" placeholder="No file chosen" />
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>Split</ControlLabel>
-                <FormControl name="split" placeholder="$0.00" />
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>Group</ControlLabel>
-                <FormControl name="group" placeholder="$0.00" />
               </FormGroup>
             </Form>
           </Modal.Body>
