@@ -114,7 +114,7 @@ async function counts(_, { category, debtMin, debtMax }) {
 module.exports = {
   list,
   add: mustBeSignedIn(add),
-  get,
+  get: mustBeSignedIn(get),
   update: mustBeSignedIn(update),
   counts,
 };
