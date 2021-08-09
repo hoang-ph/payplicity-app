@@ -40,6 +40,9 @@ function NavBar({ user, onUserChange }) {
       <Nav pullRight>
         <ExpenseAddNavItem user={user} />
         <SignInNavItem user={user} onUserChange={onUserChange} />
+        <LinkContainer to="/login">
+            <NavItem>Login</NavItem>
+        </LinkContainer>
         <NavDropdown
           id="user-dropdown"
           title={<Glyphicon glyph="option-vertical" />}
@@ -48,11 +51,6 @@ function NavBar({ user, onUserChange }) {
           <LinkContainer to="/about">
             <MenuItem>About</MenuItem>
           </LinkContainer>
-
-          <LinkContainer to="/login">
-            <MenuItem>Login</MenuItem>
-          </LinkContainer>
-
         </NavDropdown>
       </Nav>
     </Navbar>
