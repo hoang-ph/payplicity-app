@@ -5,14 +5,15 @@ import IssueEdit from './IssueEdit.jsx';
 import About from './About.jsx';
 import NotFound from './NotFound.jsx';
 import Login from './Login.jsx';
-
+import LandingPage from './LandingPage.jsx';
 
 const routes = [
+  { path: '/payplicity', component: LandingPage },
   { path: '/issues/:id?', component: IssueList },
   { path: '/edit/:id', component: IssueEdit },
   { path: '/summary', component: ExpenseSummary },
   { path: '/about', component: About },
-  {path: '/login', component: Login},
+  { path: '/login', component: Login },
   { path: '*', component: NotFound },
 ];
 

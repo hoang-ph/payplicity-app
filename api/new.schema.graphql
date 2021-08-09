@@ -88,8 +88,8 @@ type Query {
   user: User!
   expenseList(
     category: CategoryType
-    debtMin: Int
-    debtMax: Int
+    amountMin: Int
+    amountMax: Int
     search: String
     page: Int = 1
   ): ExpenseListWithPages
