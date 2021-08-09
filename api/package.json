@@ -24,11 +24,11 @@
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.17.1",
-    "google-auth-library": "^2.0.2",
+    "google-auth-library": "^7.5.0",
     "graphql": "^0.13.2",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.9",
-    "nodemon": "^1.19.4"
+    "nodemon": "^2.0.12"
   },
   "devDependencies": {
     "eslint": "^5.16.0",

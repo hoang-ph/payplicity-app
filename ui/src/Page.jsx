@@ -48,6 +48,11 @@ function NavBar({ user, onUserChange }) {
           <LinkContainer to="/about">
             <MenuItem>About</MenuItem>
           </LinkContainer>
+
+          <LinkContainer to="/login">
+            <MenuItem>Login</MenuItem>
+          </LinkContainer>
+
         </NavDropdown>
       </Nav>
     </Navbar>

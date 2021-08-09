@@ -6,6 +6,7 @@ const GraphQLDate = require('./graphql_date.js');
 const about = require('./about.js');
 const issue = require('./issue.js');
 const auth = require('./auth.js');
+//const login = require('./login.js')
 
 const resolvers = {
   Query: {
