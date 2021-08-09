@@ -41,7 +41,7 @@ function NavBar({ user, onUserChange }) {
         <ExpenseAddNavItem user={user} />
         <SignInNavItem user={user} onUserChange={onUserChange} />
         <LinkContainer to="/login">
-            <NavItem>Login</NavItem>
+          <NavItem>Login</NavItem>
         </LinkContainer>
         <NavDropdown
           id="user-dropdown"
