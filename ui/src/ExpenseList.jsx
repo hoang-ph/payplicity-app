@@ -3,9 +3,9 @@ import URLSearchParams from 'url-search-params';
 import { Panel, Pagination, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import IssueFilter from './IssueFilter.jsx';
-import IssueTable from './IssueTable.jsx';
-import IssueDetail from './IssueDetail.jsx';
+import ExpenseFilter from './ExpenseFilter.jsx';
+import ExpenseTable from './ExpenseTable.jsx';
+import ExpenseDetail from './ExpenseDetail.jsx';
 import graphQLFetch from './graphQLFetch.js';
 import withToast from './withToast.jsx';
 import store from './store.js';
@@ -49,8 +49,8 @@ class ExpenseList extends React.Component {
     if (Number.isNaN(page)) page = 1;
     vars.page = page;
 
-    const query = `query ExpenseList(
-      $status: StatusType
+    const query = `query expenseList(
+      $category: CategoryType
       $amountMin: Int
       $amountMax: Int
       $hasSelection: Boolean!
@@ -63,14 +63,14 @@ class ExpenseList extends React.Component {
         amountMax: $amountMax
         page: $page
       ) {
-        issues {
-          id title status owner
-          created effort due
+        expenses {
+          description category amount
+          created imageSrc
         }
         pages
       }
-      issue(id: $selectedId) @include (if : $hasSelection) {
-        id description
+      expense(id: $selectedId) @include (if : $hasSelection) {
+        id imageSrc
       }
     }`;
 
@@ -82,21 +82,21 @@ class ExpenseList extends React.Component {
     super();
     const initialData = store.initialData || { ExpenseList: {} };
     const {
-      ExpenseList: { issues, pages }, issue: selectedIssue,
+      ExpenseList: { expenses, pages }, expense: selectedExpense,
     } = initialData;
     delete store.initialData;
     this.state = {
-      issues,
-      selectedIssue,
+      expenses,
+      selectedExpense,
       pages,
     };
-    this.closeIssue = this.closeIssue.bind(this);
-    this.deleteIssue = this.deleteIssue.bind(this);
+    this.closeExpense = this.closeExpense.bind(this);
+    this.deleteExpense = this.deleteExpense.bind(this);
   }
 
   componentDidMount() {
-    const { issues } = this.state;
-    if (issues == null) this.loadData();
+    const { expenses } = this.state;
+    if (expenses == null) this.loadData();
   }
 
   componentDidUpdate(prevProps) {
@@ -115,57 +115,35 @@ class ExpenseList extends React.Component {
     const data = await ExpenseList.fetchData(match, search, showError);
     if (data) {
       this.setState({
-        issues: data.ExpenseList.issues,
-        selectedIssue: data.issue,
+        expenses: data.ExpenseList.expenses,
+        selectedExpense: data.expense,
         pages: data.ExpenseList.pages,
       });
     }
   }
 
-  async closeIssue(index) {
-    const query = `mutation issueClose($id: Int!) {
-      issueUpdate(id: $id, changes: { status: Closed }) {
-        id title status owner
-        effort created due description
-      }
+  async deleteExpense(index) {
+    const query = `mutation expenseDelete($id: Int!) {
+      expenseDelete(id: $id)
     }`;
-    const { issues } = this.state;
-    const { showError } = this.props;
-    const data = await graphQLFetch(query, { id: issues[index].id },
-      showError);
-    if (data) {
-      this.setState((prevState) => {
-        const newList = [...prevState.issues];
-        newList[index] = data.issueUpdate;
-        return { issues: newList };
-      });
-    } else {
-      this.loadData();
-    }
-  }
-
-  async deleteIssue(index) {
-    const query = `mutation issueDelete($id: Int!) {
-      issueDelete(id: $id)
-    }`;
-    const { issues } = this.state;
+    const { expenses } = this.state;
     const { location: { pathname, search }, history } = this.props;
     const { showSuccess, showError } = this.props;
-    const { id } = issues[index];
+    const { id } = expenses[index];
     const data = await graphQLFetch(query, { id }, showError);
-    if (data && data.issueDelete) {
+    if (data && data.expenseDelete) {
       this.setState((prevState) => {
-        const newList = [...prevState.issues];
-        if (pathname === `/issues/${id}`) {
-          history.push({ pathname: '/issues', search });
+        const newList = [...prevState.expenses];
+        if (pathname === `/expenses/${id}`) {
+          history.push({ pathname: '/expenses', search });
         }
         newList.splice(index, 1);
-        return { issues: newList };
+        return { expenses: newList };
       });
       const undoMessage = (
         <span>
-          {`Deleted issue ${id} successfully.`}
-          <Button bsStyle="link" onClick={() => this.restoreIssue(id)}>
+          {`Deleted expense ${id} successfully.`}
+          <Button bsStyle="link" onClick={() => this.restoreExpense(id)}>
             UNDO
           </Button>
         </span>
@@ -176,23 +154,23 @@ class ExpenseList extends React.Component {
     }
   }
 
-  async restoreIssue(id) {
-    const query = `mutation issueRestore($id: Int!) {
-      issueRestore(id: $id)
+  async restoreExpense(id) {
+    const query = `mutation restoreExpense($id: Int!) {
+      expenseRestore(id: $id)
     }`;
     const { showSuccess, showError } = this.props;
     const data = await graphQLFetch(query, { id }, showError);
     if (data) {
-      showSuccess(`Issue ${id} restored successfully.`);
+      showSuccess(`Expense ${id} restored successfully.`);
       this.loadData();
     }
   }
 
   render() {
-    const { issues } = this.state;
-    if (issues == null) return null;
+    const { expenses } = this.state;
+    if (expenses == null) return null;
 
-    const { selectedIssue, pages } = this.state;
+    const { selectedExpense, pages } = this.state;
     const { location: { search } } = this.props;
 
     const params = new URLSearchParams(search);
@@ -220,15 +198,14 @@ class ExpenseList extends React.Component {
             <Panel.Title toggle>Filter</Panel.Title>
           </Panel.Heading>
           <Panel.Body collapsible>
-            <IssueFilter urlBase="/issues" />
+            <ExpenseFilter urlBase="/expenses" />
           </Panel.Body>
         </Panel>
-        <IssueTable
-          issues={issues}
-          closeIssue={this.closeIssue}
-          deleteIssue={this.deleteIssue}
+        <ExpenseTable
+          expenses={expenses}
+          deleteExpense={this.deleteExpense}
         />
-        <IssueDetail issue={selectedIssue} />
+        <ExpenseDetail expense={selectedExpense} />
         <Pagination>
           <PageLink params={params} page={prevSection}>
             <Pagination.Item>{'<'}</Pagination.Item>
