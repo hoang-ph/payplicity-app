@@ -3,47 +3,34 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 //import "../styles/Login.css";
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default class Login extends React.Component {
 
-  function validateForm() {
-    return email.length > 0 && password.length > 0;
-  }
+    constructor(props) {
+        super(props);
+        const loginHolder = store.initialData ? store.initialData.about : null;
+        //delete store.initialData;
+        this.state = { loginHolder };
+      }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-  }
 
-  return (
-    <div className="Login">
-      <Form onSubmit={handleSubmit}>
-        <Form.Group size="lg" controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            autoFocus
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-        <Button block size="lg" type="submit" disabled={!validateForm()}>
-          Login
-        </Button>
+      async componentDidMount() {
+        const { loginHolder } = this.state;
+        if (loginHolder == null) {
+          const data = 'componentDidMount';
+          this.setState({ loginHolder: data.about });
+        }
+      }
+    
+      render() {
+        const { loginHolder } = this.state;
+        return (
+          <div className="text-center">
+            <h3>Payplicity</h3>
+            <h4>
+              {loginHolder}
+            </h4>
+          </div>
+        );
+      }
 
-        <Button block size="lg" type="submit" disabled={!validateForm()}>
-          Login via Google
-        </Button>
-      
-      </Form>
-    </div>
-  );
 }
