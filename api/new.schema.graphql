@@ -36,7 +36,7 @@ type ExpenseCounts {
   Savings: Int
   Entertainment: Int
   UtilitiesAndPhone: Int
-  Medical: int
+  Medical: Int
   Clothing: Int
   Misc: Int
 }
@@ -56,17 +56,15 @@ type User {
 
 "Toned down Expense, used as inputs, without server generated values."
 input ExpenseInputs {
-  owner: User!
   title: String
   description: String!
   "Optional, if not supplied, will be set to 'Misc'"
   category: CategoryType = Misc
   "Optional, if not supplied, will be set to current day'"
-  created: GraphQLDate = new Date()
+  created: GraphQLDate
   amount: Int!
   paid: Int
   imageSrc: String
-  group: GroupType
 }  
 
 """Inputs for expenseUpdate: all are optional. Whichever is specified will
@@ -80,7 +78,6 @@ input ExpenseUpdateInputs {
   amount: Int
   paid: Int
   imageSrc: String
-  group: GroupType
 }
 ##### Top level declarations
 type Query {
