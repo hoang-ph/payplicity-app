@@ -93,7 +93,7 @@ class IssueReport extends React.Component {
             <IssueFilter urlBase="/report" />
           </Panel.Body>
         </Panel>
-        <Table bordered condensed hover responsive>
+        <Table bordered condensed hover>
           <thead>
             <tr>
               <th />

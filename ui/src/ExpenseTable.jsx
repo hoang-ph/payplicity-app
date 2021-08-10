@@ -8,15 +8,15 @@ import {
 import UserContext from './UserContext.js';
 
 // eslint-disable-next-line react/prefer-stateless-function
-class IssueRowPlain extends React.Component {
+class ExpenseRowPlain extends React.Component {
   render() {
     const {
-      issue, location: { search }, closeIssue, deleteIssue, index,
+      expense, location: { search }, deleteExpense, index,
     } = this.props;
     const user = this.context;
     const disabled = !user.signedIn;
 
-    const selectLocation = { pathname: `/issues/${issue.id}`, search };
+    const selectLocation = { pathname: `/expenses/${expense.id}`, search };
     const editTooltip = (
       <Tooltip id="edit-tooltip" placement="top">Edit Expense</Tooltip>
     );
@@ -24,27 +24,19 @@ class IssueRowPlain extends React.Component {
       <Tooltip id="delete-tooltip" placement="top">Delete Expense</Tooltip>
     );
 
-    function onClose(e) {
-      e.preventDefault();
-      closeIssue(index);
-    }
-
     function onDelete(e) {
       e.preventDefault();
-      deleteIssue(index);
+      deleteExpense(index);
     }
 
     const tableRow = (
       <tr>
-        <td>{issue.id}</td>
-        <td>{issue.status}</td>
-        <td>{issue.owner}</td>
-        <td>{issue.created.toDateString()}</td>
-        <td>{issue.effort}</td>
-        <td>{issue.due ? issue.due.toDateString() : ''}</td>
-        <td>{issue.title}</td>
+        <td>{expense.description}</td>
+        <td>{expense.category}</td>
+        <td>{expense.amount}</td>
+        <td>{expense.created.toDateString()}</td>
         <td>
-          <LinkContainer to={`/edit/${issue.id}`}>
+          <LinkContainer to={`/edit/${expense.id}`}>
             <OverlayTrigger delayShow={1000} overlay={editTooltip}>
               <Button bsSize="xsmall">
                 <Glyphicon glyph="edit" />
@@ -69,37 +61,32 @@ class IssueRowPlain extends React.Component {
   }
 }
 
-IssueRowPlain.contextType = UserContext;
-const IssueRow = withRouter(IssueRowPlain);
-delete IssueRow.contextType;
+ExpenseRowPlain.contextType = UserContext;
+const ExpenseRow = withRouter(ExpenseRowPlain);
+delete ExpenseRow.contextType;
 
-export default function IssueTable({ issues, closeIssue, deleteIssue }) {
-  const issueRows = issues.map((issue, index) => (
-    <IssueRow
-      key={issue.id}
-      issue={issue}
-      closeIssue={closeIssue}
-      deleteIssue={deleteIssue}
+export default function ExpenseTable({ expenses, deleteExpense }) {
+  const expenseRows = expenses.map((expense, index) => (
+    <ExpenseRow
+      key={expense.id}
+      expense={expense}
+      deleteExpense={deleteExpense}
       index={index}
     />
   ));
 
   return (
-    <Table bordered condensed hover responsive>
+    <Table bordered condensed hover>
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Status</th>
-          <th>Owner</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Amount</th>
           <th>Created</th>
-          <th>Effort</th>
-          <th>Due Date</th>
-          <th>Title</th>
-          <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        {issueRows}
+        {expenseRows}
       </tbody>
     </Table>
   );

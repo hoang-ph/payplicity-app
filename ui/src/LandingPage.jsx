@@ -6,44 +6,29 @@ import graphQLFetch from './graphQLFetch.js';
 import SignInNavItem from './SignInNavItem.jsx';
 import store from './store.js';
 
-function WelcomeSection ({ user, onUserChange }) {
+function WelcomeSection({ user, onUserChange }) {
   return (
     <div>
       <Jumbotron>
-      <h1>Welcome to Payplicity</h1>
-      <p>
-        Trouble keeping track of your spending? Let us help you to manage your 
-        money
-      </p>
-      <LinkContainer to="/login">
-       <p>Login</p>
-      </LinkContainer>
-      <p>
-        Register - need to make a /register
-      </p>
-      <LinkContainer to="/issues">
-        <p>Expense List - for testing</p>
-      </LinkContainer>
-      <p>
-        <SignInNavItem user={user} onUserChange={onUserChange} />
-      </p>
-    </Jumbotron>
+        <h1>Welcome to Payplicity</h1>
+        <p>
+          Trouble keeping track of your spending? Let us help you to manage your
+          money
+        </p>
+        <LinkContainer to="/login">
+          <p>Login</p>
+        </LinkContainer>
+        <p>
+          Register - need to make a /register
+        </p>
+        <LinkContainer to="/issues">
+          <p>Expense List - for testing</p>
+        </LinkContainer>
+        <p>
+          <SignInNavItem user={user} onUserChange={onUserChange} />
+        </p>
+      </Jumbotron>
     </div>
-  )
-}
-
-function Footer() {
-  return (
-    <small>
-      <hr />
-      <p className="text-center">
-        Full source code available at this
-        {' '}
-        <a href="https://github.ccs.neu.edu/NEU-CS5610-SU21/payplicity-app">
-          GitHub repository
-        </a>
-      </p>
-    </small>
   );
 }
 
@@ -84,7 +69,6 @@ export default class LandingPage extends React.Component {
     return (
       <div>
         <WelcomeSection user={user} onUserChange={this.onUserChange} />
-        <Footer />
       </div>
     );
   }

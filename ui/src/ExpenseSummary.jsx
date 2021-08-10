@@ -1,35 +1,28 @@
 import React from 'react';
 import { Panel, Table } from 'react-bootstrap';
 
-import IssueFilter from './IssueFilter.jsx';
+import ExpenseFilter from './ExpenseFilter.jsx';
 import withToast from './withToast.jsx';
 import graphQLFetch from './graphQLFetch.js';
 import store from './store.js';
 
-const statuses = ['New', 'Assigned', 'Fixed', 'Closed'];
+const categories = ['Housing', 'Transportation', 'Dinning', 'Groceries', 'Savings',
+  'Entertainment', 'UtilitiesAndPhone', 'Medical', 'Clothing', 'Misc'];
 
 class ExpenseSummary extends React.Component {
   static async fetchData(match, search, showError) {
     const params = new URLSearchParams(search);
-    const vars = { };
-    if (params.get('status')) vars.status = params.get('status');
+    const vars = {};
+    if (params.get('category')) vars.category = params.get('category');
 
-    const effortMin = parseInt(params.get('effortMin'), 10);
-    if (!Number.isNaN(effortMin)) vars.effortMin = effortMin;
-    const effortMax = parseInt(params.get('effortMax'), 10);
-    if (!Number.isNaN(effortMax)) vars.effortMax = effortMax;
-
-    const query = `query issueList(
-      $status: StatusType
-      $effortMin: Int
-      $effortMax: Int
+    const query = `query expenseList(
+      $category: CategoryType
     ) {
-      issueCounts(
-        status: $status
-        effortMin: $effortMin
-        effortMax: $effortMax
+      expenseCounts(
+        category: $category
       ) {
-        owner New Assigned Fixed Closed
+        owner Housing Transportation Dinning Groceries Savings
+        Entertainment UtilitiesAndPhone Medical Clothing Misc
       }
     }`;
     const data = await graphQLFetch(query, vars, showError);
@@ -38,7 +31,7 @@ class ExpenseSummary extends React.Component {
 
   constructor(props) {
     super(props);
-    const stats = store.initialData ? store.initialData.issueCounts : null;
+    const stats = store.initialData ? store.initialData.expenseCounts : null;
     delete store.initialData;
     this.state = { stats };
   }
@@ -60,7 +53,7 @@ class ExpenseSummary extends React.Component {
     const { location: { search }, match, showError } = this.props;
     const data = await ExpenseSummary.fetchData(match, search, showError);
     if (data) {
-      this.setState({ stats: data.issueCounts });
+      this.setState({ stats: data.expenseCounts });
     }
   }
 
@@ -69,16 +62,16 @@ class ExpenseSummary extends React.Component {
     if (stats == null) return null;
 
     const headerColumns = (
-      statuses.map(status => (
-        <th key={status}>{status}</th>
+      categories.map(category => (
+        <th key={category}>{category}</th>
       ))
     );
 
     const statRows = stats.map(counts => (
       <tr key={counts.owner}>
         <td>{counts.owner}</td>
-        {statuses.map(status => (
-          <td key={status}>{counts[status]}</td>
+        {categories.map(category => (
+          <td key={category}>{counts[category]}</td>
         ))}
       </tr>
     ));
@@ -90,7 +83,7 @@ class ExpenseSummary extends React.Component {
             <Panel.Title toggle>Filter</Panel.Title>
           </Panel.Heading>
           <Panel.Body collapsible>
-            <IssueFilter urlBase="/report" />
+            <ExpenseFilter urlBase="/summary" />
           </Panel.Body>
         </Panel>
         <Table bordered condensed hover responsive>

@@ -8,9 +8,7 @@ export default function template(body, initialData, userData) {
   <title>Pro MERN Stack</title>
   <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" >
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <script src="https://apis.google.com/js/api:client.js"></script>
-
   <style>
     table.table-hover tr {cursor: pointer;}
     .panel-title a {display: block; width: 100%; cursor: pointer;}
@@ -23,7 +21,6 @@ export default function template(body, initialData, userData) {
     window.__INITIAL_DATA__ = ${serialize(initialData)}
     window.__USER_DATA__ = ${serialize(userData)}
   </script>
-
   <script src="/env.js"></script>
   <script src="/vendor.bundle.js"></script>
   <script src="/app.bundle.js"></script>

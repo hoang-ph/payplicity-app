@@ -30,23 +30,25 @@ class ExpenseAddNavItem extends React.Component {
   async handleSubmit(e) {
     e.preventDefault();
     this.hideModal();
-    const form = document.forms.issueAdd;
-    const issue = {
-      owner: form.owner.value,
-      title: form.title.value,
-      due: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 10),
+    const form = document.forms.expenseAdd;
+    const expense = {
+      description: form.description.value,
+      amount: form.amount.value,
+      category: form.category.value,
+      date: new Date(form.date.value) || new Date(),
+      file: form.file.value,
     };
-    const query = `mutation issueAdd($issue: IssueInputs!) {
-      issueAdd(issue: $issue) {
+    const query = `mutation expenseAdd($expense: ExpenseInputs!) {
+      expenseAdd(expense: $expense) {
         id
       }
     }`;
 
     const { showError } = this.props;
-    const data = await graphQLFetch(query, { issue }, showError);
+    const data = await graphQLFetch(query, { expense }, showError);
     if (data) {
       const { history } = this.props;
-      history.push(`/edit/${data.issueAdd.id}`);
+      history.push(`/edit/${data.expenseAdd.id}`);
     }
   }
 
@@ -72,7 +74,7 @@ class ExpenseAddNavItem extends React.Component {
             <Form name="expenseAdd">
               <FormGroup>
                 <ControlLabel>Description:</ControlLabel>
-                <FormControl name="expense" autoFocus />
+                <FormControl name="description" autoFocus />
               </FormGroup>
               <FormGroup>
                 <ControlLabel>Amount</ControlLabel>
@@ -100,7 +102,7 @@ class ExpenseAddNavItem extends React.Component {
               </FormGroup>
               <FormGroup>
                 <ControlLabel>Date</ControlLabel>
-                <FormControl name="title" placeholder="mm/dd/yyyy" />
+                <FormControl name="date" placeholder="mm/dd/yyyy" />
               </FormGroup>
               <FormGroup>
                 <ControlLabel>File</ControlLabel>
