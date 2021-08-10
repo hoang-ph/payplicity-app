@@ -1,7 +1,6 @@
-import IssueList from './IssueList.jsx';
-// import IssueReport from './IssueReport.jsx';
+import ExpenseList from './ExpenseList.jsx';
 import ExpenseSummary from './ExpenseSummary.jsx';
-import IssueEdit from './IssueEdit.jsx';
+import ExpenseEdit from './ExpenseEdit.jsx';
 import About from './About.jsx';
 import NotFound from './NotFound.jsx';
 import Login from './Login.jsx';
@@ -9,8 +8,8 @@ import LandingPage from './LandingPage.jsx';
 
 const routes = [
   { path: '/payplicity', component: LandingPage },
-  { path: '/issues/:id?', component: IssueList },
-  { path: '/edit/:id', component: IssueEdit },
+  { path: '/expenses/:id?', component: ExpenseList },
+  { path: '/edit/:id', component: ExpenseEdit },
   { path: '/summary', component: ExpenseSummary },
   { path: '/about', component: About },
   { path: '/login', component: Login },

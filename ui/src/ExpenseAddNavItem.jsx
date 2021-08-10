@@ -39,7 +39,7 @@ class ExpenseAddNavItem extends React.Component {
       file: form.file.value,
     };
     const query = `mutation expenseAdd($expense: ExpenseInputs!) {
-      ExpenseAdd(expense: $expense) {
+      expenseAdd(expense: $expense) {
         id
       }
     }`;

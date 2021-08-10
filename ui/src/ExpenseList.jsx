@@ -31,12 +31,7 @@ class ExpenseList extends React.Component {
   static async fetchData(match, search, showError) {
     const params = new URLSearchParams(search);
     const vars = { hasSelection: false, selectedId: 0 };
-    if (params.get('status')) vars.status = params.get('status');
-
-    const amountMin = parseInt(params.get('amountMin'), 10);
-    if (!Number.isNaN(amountMin)) vars.amountMin = amountMin;
-    const amountMax = parseInt(params.get('amountMax'), 10);
-    if (!Number.isNaN(amountMax)) vars.amountMax = amountMax;
+    if (params.get('category')) vars.category = params.get('category');
 
     const { params: { id } } = match;
     const idInt = parseInt(id, 10);
@@ -51,20 +46,16 @@ class ExpenseList extends React.Component {
 
     const query = `query expenseList(
       $category: CategoryType
-      $amountMin: Int
-      $amountMax: Int
       $hasSelection: Boolean!
       $selectedId: Int!
       $page: Int
     ) {
-      ExpenseList(
-        status: $status
-        amountMin: $amountMin
-        amountMax: $amountMax
+      expenseList(
+        category: $category
         page: $page
       ) {
         expenses {
-          description category amount
+          id description category amount
           created imageSrc
         }
         pages
@@ -80,17 +71,20 @@ class ExpenseList extends React.Component {
 
   constructor() {
     super();
-    const initialData = store.initialData || { ExpenseList: {} };
+    // console.log("top");
+    // console.log(store.initialData);
+    const initialData = store.initialData || { expenseList: {} };
     const {
-      ExpenseList: { expenses, pages }, expense: selectedExpense,
+      expenseList: { expenses, pages }, expense: selectedExpense,
     } = initialData;
+    // console.log("bottom");
+    // console.log(initialData);
     delete store.initialData;
     this.state = {
       expenses,
       selectedExpense,
       pages,
     };
-    this.closeExpense = this.closeExpense.bind(this);
     this.deleteExpense = this.deleteExpense.bind(this);
   }
 
@@ -115,9 +109,9 @@ class ExpenseList extends React.Component {
     const data = await ExpenseList.fetchData(match, search, showError);
     if (data) {
       this.setState({
-        expenses: data.ExpenseList.expenses,
+        expenses: data.expenseList.expenses,
         selectedExpense: data.expense,
-        pages: data.ExpenseList.pages,
+        pages: data.expenseList.pages,
       });
     }
   }
@@ -155,7 +149,7 @@ class ExpenseList extends React.Component {
   }
 
   async restoreExpense(id) {
-    const query = `mutation restoreExpense($id: Int!) {
+    const query = `mutation expenseRestore($id: Int!) {
       expenseRestore(id: $id)
     }`;
     const { showSuccess, showError } = this.props;

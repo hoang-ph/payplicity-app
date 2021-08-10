@@ -1,6 +1,6 @@
 const { UserInputError } = require('apollo-server-express');
-const { getDb, getNextSequence } = require('./new_db');
-const { mustBeSignedIn } = require('./auth');
+const { getDb, getNextSequence } = require('./new_db.js');
+const { mustBeSignedIn } = require('./auth.js');
 
 async function get(_, { email }) {
   const db = getDb();
@@ -39,11 +39,8 @@ async function list(_, {
 
 function validate(expense) {
   const errors = [];
-  if (expense.title.length === null) {
-    errors.push('Title filed must be entered.');
-  }
-  if (expense.paid > expense.amount) {
-    errors.push('Paid amount cannot be larger than owned amount.');
+  if (expense.description.length === null) {
+    errors.push('Description filed must be entered.');
   }
   if (expense.amount <= 0) {
     errors.push('Owned amount has to be greater than 0.');

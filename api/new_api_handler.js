@@ -4,24 +4,21 @@ const { ApolloServer } = require('apollo-server-express');
 
 const GraphQLDate = require('./graphql_date.js');
 const about = require('./about.js');
-const issue = require('./issue.js');
+const expense = require('./expense.js');
 const auth = require('./auth.js');
-// const login = require('./login.js')
 
 const resolvers = {
   Query: {
     about: about.getMessage,
     user: auth.resolveUser,
-    issueList: issue.list,
-    issue: issue.get,
-    issueCounts: issue.counts,
+    expenseList: expense.list,
+    expense: expense.get,
+    expenseCounts: expense.counts,
   },
   Mutation: {
     setAboutMessage: about.setAboutMessage,
-    issueAdd: issue.add,
-    issueUpdate: issue.update,
-    issueDelete: issue.delete,
-    issueRestore: issue.restore,
+    expenseAdd: expense.add,
+    expenseUpdate: expense.update,
   },
   GraphQLDate,
 };
@@ -32,7 +29,7 @@ function getContext({ req }) {
 }
 
 const server = new ApolloServer({
-  typeDefs: fs.readFileSync('schema.graphql', 'utf-8'),
+  typeDefs: fs.readFileSync('new.schema.graphql', 'utf-8'),
   resolvers,
   context: getContext,
   formatError: (error) => {

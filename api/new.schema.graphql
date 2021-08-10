@@ -22,8 +22,7 @@ type Expense {
   description: String!
   category: CategoryType!
   created: GraphQLDate!
-  amount: Int!
-  paid: Int
+  amount: Float!
   imageSrc: String
 }
 
@@ -56,14 +55,12 @@ type User {
 
 "Toned down Expense, used as inputs, without server generated values."
 input ExpenseInputs {
-  title: String
   description: String!
   "Optional, if not supplied, will be set to 'Misc'"
   category: CategoryType = Misc
   "Optional, if not supplied, will be set to current day'"
   created: GraphQLDate
-  amount: Int!
-  paid: Int
+  amount: Float!
   imageSrc: String
 }  
 
@@ -71,12 +68,10 @@ input ExpenseInputs {
 be set to the given value, undefined fields will remain unmodified. Remaining
 balance (amount) will be subtracted from new paid amount if capable"""
 input ExpenseUpdateInputs {
-  title: String
   description: String
   category: CategoryType
   created: GraphQLDate
-  amount: Int
-  paid: Int
+  amount: Float
   imageSrc: String
 }
 ##### Top level declarations
@@ -85,20 +80,18 @@ type Query {
   user: User!
   expenseList(
     category: CategoryType
-    amountMin: Int
-    amountMax: Int
     search: String
     page: Int = 1
   ): ExpenseListWithPages
   expense(id: Int!): Expense!
   expenseCounts(
     category: CategoryType
-    debtMin: Int
-    debtMax: Int
   ): [ExpenseCounts!]!
 }
 type Mutation {
   setAboutMessage(message: String!): String
   expenseAdd(expense: ExpenseInputs!): Expense!
   expenseUpdate(id: Int!, changes: ExpenseUpdateInputs!): Expense!
+  expenseDelete(id: Int!): Boolean!
+  expenseRestore(id: Int!): Boolean!
 }
