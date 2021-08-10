@@ -76,7 +76,7 @@ export default function ExpenseTable({ expenses, deleteExpense }) {
   ));
 
   return (
-    <Table bordered condensed hover responsive>
+    <Table bordered condensed hover>
       <thead>
         <tr>
           <th>Description</th>

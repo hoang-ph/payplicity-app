@@ -71,14 +71,10 @@ class ExpenseList extends React.Component {
 
   constructor() {
     super();
-    // console.log("top");
-    // console.log(store.initialData);
     const initialData = store.initialData || { expenseList: {} };
     const {
       expenseList: { expenses, pages }, expense: selectedExpense,
     } = initialData;
-    // console.log("bottom");
-    // console.log(initialData);
     delete store.initialData;
     this.state = {
       expenses,
