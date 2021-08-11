@@ -26,7 +26,7 @@ export default class Home extends React.Component {
       );
     }
     return (
-      <Redirect to="/expense" />
+      <Redirect to="/expenses" />
     );
   }
 }

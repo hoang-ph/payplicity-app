@@ -2,7 +2,7 @@ import React from 'react';
 import {
   NavItem, Modal, Button, NavDropdown, MenuItem,
 } from 'react-bootstrap';
-
+import { withRouter } from 'react-router-dom';
 import withToast from './withToast.jsx';
 
 class SignInNavItem extends React.Component {
@@ -56,6 +56,8 @@ class SignInNavItem extends React.Component {
 
       const { onUserChange } = this.props;
       onUserChange({ signedIn, givenName });
+      const { history } = this.props;
+      history.push('/expenses');
     } catch (error) {
       showError(`Error signing into the app: ${error}`);
     }
@@ -73,6 +75,8 @@ class SignInNavItem extends React.Component {
       await auth2.signOut();
       const { onUserChange } = this.props;
       onUserChange({ signedIn: false, givenName: '' });
+      const { history } = this.props;
+      history.push('/home');
     } catch (error) {
       showError(`Error signing out: ${error}`);
     }
@@ -130,4 +134,5 @@ class SignInNavItem extends React.Component {
   }
 }
 
-export default withToast(SignInNavItem);
+const SignInNavItemWithToast = withToast(SignInNavItem);
+export default withRouter(SignInNavItemWithToast);
