@@ -61,7 +61,7 @@ class ExpenseList extends React.Component {
         pages
       }
       expense(id: $selectedId) @include (if : $hasSelection) {
-        id imageSrc
+        id description
       }
     }`;
 
@@ -69,8 +69,8 @@ class ExpenseList extends React.Component {
     return data;
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     const initialData = store.initialData || { expenseList: {} };
     const {
       expenseList: { expenses, pages }, expense: selectedExpense,
