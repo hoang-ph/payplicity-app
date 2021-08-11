@@ -16,12 +16,13 @@ class ExpenseSummary extends React.Component {
     if (params.get('category')) vars.category = params.get('category');
 
     const query = `query expenseList(
+      $email: String
       $category: CategoryType
     ) {
       expenseCounts(
         category: $category
       ) {
-        owner Housing Transportation Dining Groceries Savings
+        Housing Transportation Dining Groceries Savings
         Entertainment UtilitiesAndPhone Medical Clothing Misc
       }
     }`;

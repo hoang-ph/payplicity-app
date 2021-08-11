@@ -45,12 +45,14 @@ class ExpenseList extends React.Component {
     vars.page = page;
 
     const query = `query expenseList(
+      $email: String
       $category: CategoryType
       $hasSelection: Boolean!
       $selectedId: Int!
       $page: Int
     ) {
       expenseList(
+        email: $email
         category: $category
         page: $page
       ) {
@@ -73,7 +75,7 @@ class ExpenseList extends React.Component {
     super(props);
     const initialData = store.initialData || { expenseList: {} };
     const {
-      expenseList: { expenses, pages }, expense: selectedExpense,
+      expenseList: { email, expenses, pages }, expense: selectedExpense,
     } = initialData;
     delete store.initialData;
     this.state = {

@@ -2,9 +2,9 @@ const { UserInputError } = require('apollo-server-express');
 const { getDb, getNextSequence } = require('./new_db.js');
 const { mustBeSignedIn } = require('./auth.js');
 
-async function get(_, { name }) {
+async function get(_, { email }) {
   const db = getDb();
-  const expense = await db.collection('expenses').findOne({ name });
+  const expense = await db.collection('expenses').findOne({ email });
   return expense;
 }
 

@@ -15,18 +15,18 @@ enum CategoryType {
 
 type Expense {
   _id: ID!
-  id: Int
-  email: String!
+  id: Int!
+  email: String
   title: String
-  description: String!
-  category: CategoryType!
-  created: GraphQLDate!
-  amount: Float!
+  description: String
+  category: CategoryType
+  created: GraphQLDate
+  amount: Float
   imageSrc: String
 }
 
 type ExpenseCounts {
-  owner: String
+  email: String
   Housing: Int
   Transportation: Int
   Dining: Int
@@ -79,11 +79,12 @@ type Query {
   home: String!
   user: User!
   expenseList(
+    email: String
     category: CategoryType
     search: String
     page: Int = 1
   ): ExpenseListWithPages
-  expense(id: Int!): Expense!
+  expense(email: String!): Expense
   expenseCounts(
     category: CategoryType
   ): [ExpenseCounts!]!
