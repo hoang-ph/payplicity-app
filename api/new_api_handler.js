@@ -16,6 +16,7 @@ const resolvers = {
     expenseCounts: expense.counts,
   },
   Mutation: {
+    setAboutMessage: about.setAboutMessage,
     expenseAdd: expense.add,
     expenseUpdate: expense.update,
   },

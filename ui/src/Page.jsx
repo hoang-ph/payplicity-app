@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-  Navbar, Nav, NavItem,
+  Navbar, Nav, NavItem, NavDropdown,
+  MenuItem, Glyphicon,
   Grid, Col,
 } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -14,29 +15,17 @@ import graphQLFetch from './graphQLFetch.js';
 import store from './store.js';
 
 function NavBar({ user, onUserChange }) {
-  if (!user.signedIn) {
-    return (
-      <Navbar fluid>
-        <Navbar.Header>
-          <Navbar.Brand>Payplicity</Navbar.Brand>
-        </Navbar.Header>
-        <Col sm={5}>
-          <p> </p>
-        </Col>
-        <Nav pullRight>
-          <SignInNavItem user={user} onUserChange={onUserChange} />
-        </Nav>
-      </Navbar>
-    );
-  }
   return (
     <Navbar fluid>
       <Navbar.Header>
         <Navbar.Brand>Payplicity</Navbar.Brand>
       </Navbar.Header>
       <Nav>
+        <LinkContainer exact to="/">
+          <NavItem>Home</NavItem>
+        </LinkContainer>
         <LinkContainer to="/expenses">
-          <NavItem>Expenses</NavItem>
+          <NavItem>Expense List</NavItem>
         </LinkContainer>
         <LinkContainer to="/summary">
           <NavItem>Summary</NavItem>
@@ -50,6 +39,18 @@ function NavBar({ user, onUserChange }) {
       <Nav pullRight>
         <ExpenseAddNavItem user={user} />
         <SignInNavItem user={user} onUserChange={onUserChange} />
+        <LinkContainer to="/login">
+          <NavItem>Login</NavItem>
+        </LinkContainer>
+        <NavDropdown
+          id="user-dropdown"
+          title={<Glyphicon glyph="option-vertical" />}
+          noCaret
+        >
+          <LinkContainer to="/about">
+            <MenuItem>About</MenuItem>
+          </LinkContainer>
+        </NavDropdown>
       </Nav>
     </Navbar>
   );
@@ -102,6 +103,7 @@ export default class Page extends React.Component {
   render() {
     const { user } = this.state;
     if (user == null) return null;
+
     return (
       <div>
         <NavBar user={user} onUserChange={this.onUserChange} />

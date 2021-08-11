@@ -32,12 +32,11 @@ class ExpenseAddNavItem extends React.Component {
     this.hideModal();
     const form = document.forms.expenseAdd;
     const expense = {
-      email: this.props.user.email,
       description: form.description.value,
       amount: form.amount.value,
       category: form.category.value,
-      created: new Date(form.date.value) || new Date(),
-      imageSrc: form.file.value,
+      date: new Date(form.date.value) || new Date(),
+      file: form.file.value,
     };
     const query = `mutation expenseAdd($expense: ExpenseInputs!) {
       expenseAdd(expense: $expense) {
@@ -87,16 +86,16 @@ class ExpenseAddNavItem extends React.Component {
                 <ControlLabel>Category</ControlLabel>
                 <InputGroup>
                   <FormControl name="category" componentClass="select" placeholder="select">
-                    <option value="Misc"> Misc</option>
-                    <option value="Housing"> Housing</option>
-                    <option value="Transportation">Transportation</option>
-                    <option value="Dining">Dining</option>
-                    <option value="Savings">Savings</option>
-                    <option value="Groceries">Groceries</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Utility">Utility & Phone</option>
-                    <option value="Medical">Medical</option>
-                    <option value="Clothing">Clothing</option>
+                    <option value="misc"> Misc</option>
+                    <option value="housing"> Housing</option>
+                    <option value="transportation">Transportation</option>
+                    <option value="dining">Dining</option>
+                    <option value="savings">Savings</option>
+                    <option value="groceries">Groceries</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="utility">Utility & Phone</option>
+                    <option value="medical">Medical</option>
+                    <option value="clothing">Clothing</option>
                   </FormControl>
                 </InputGroup>
               </FormGroup>

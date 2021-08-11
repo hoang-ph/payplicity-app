@@ -5,6 +5,8 @@ import {
   FormControl, ControlLabel, Button
 } from "react-bootstrap";
 import { userInfo } from "os";
+import SignInNavItem from './SignInNavItem.jsx';
+
 //import "../styles/Login.css";
 
 export default class Login extends React.Component {
@@ -22,6 +24,10 @@ export default class Login extends React.Component {
       "name": "",
       "givenName": "",
     }
+
+    this.handleChange = this.handleChange.bind(this)
+    this.signin = this.signin(this)
+    this.register = this.register.bind(this)
   }
 
 
@@ -35,32 +41,66 @@ export default class Login extends React.Component {
 
   handleChange(e, name) {
     this.setState({ [name]: e.target.value })
+    console.log('handlechange', this.state)
   }
 
   signin() {
-    userInfo = { "email": this.state.sign_email, "password": this.state.sign_password }
+    const userInfo = { "email": this.state.sign_email, "password": this.state.sign_password }
+
+    fetch("http://localhost:3000/auth/signin", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userInfo)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Success", data)
+      })
+      .catch(error => {
+        console.log("error", error)
+      })
   }
 
-  register() {
-    userInfo = {
-      "email": this.state.sign_email,
-      "password": this.state.sign_password,
-      "name": this.state.name,
-      "givenName": this.state.givenName
+  register = (e) => {
+    //e.preventDefault();  //form is to empty
+    console.log("register", this.state)
+    const userInfo = {
+      "user": {
+        "email": this.state.reg_email,
+        "password": this.state.reg_password,
+        "name": this.state.name,
+        "givenName": this.state.givenName
+      }
     }
+    fetch("http://localhost:3000/auth/signup", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userInfo)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Success", data)
+      })
+      .catch(error => {
+        console.log("error", error)
+      })
     console.log(userInfo)
-
   }
 
   render() {
-    const { loginHolder } = this.state;
+    //const { loginHolder } = this.state;
+    console.log("render", this.state)
     return (
       <div>
         <div className="col-md-6 col-sm-12">
           <h3 className="text-center"
-            style={{ "margin-bottom": "30px" }}>Sign Up</h3>
+            style={{ "margin-bottom": "30px" }}>Sign In</h3>
           <Form horizontal>
-            <FormGroup controlId="formHorizontalEmail">
+            <FormGroup controlId="formSignupEmail">
               <Col componentClass={ControlLabel} sm={2}>
                 Email:
               </Col>
@@ -71,7 +111,7 @@ export default class Login extends React.Component {
               </Col>
             </FormGroup>
 
-            <FormGroup controlId="formHorizontalPassword">
+            <FormGroup controlId="formSignupPassword">
               <Col componentClass={ControlLabel} sm={2}>
                 Password:
               </Col>
@@ -84,8 +124,11 @@ export default class Login extends React.Component {
 
             <FormGroup>
               <Col smOffset={2} sm={10}>
-                <Button type="submit"
-                  onClick={this.signin}>Sign in</Button>
+                <Button type="submit">Sign in</Button>
+                {' '} OR {' '}
+                <Button>
+                  Sign in with google
+                </Button>
               </Col>
             </FormGroup>
           </Form>
@@ -93,7 +136,7 @@ export default class Login extends React.Component {
         <div className="col-md-6 col-sm-12">
           <h3 className="text-center"
             style={{ "margin-bottom": "30px" }}>Register</h3>
-          <Form horizontal>
+          <Form horizontal onSubmit={this.register}>
             <FormGroup controlId="formHorizontalName">
               <Col componentClass={ControlLabel} sm={2}>
                 Name:
@@ -142,7 +185,7 @@ export default class Login extends React.Component {
             <FormGroup>
               <Col smOffset={2} sm={10}>
                 <Button type="submit"
-                  onClick={this.register}>Register</Button>
+                >Register</Button>
               </Col>
             </FormGroup>
           </Form>

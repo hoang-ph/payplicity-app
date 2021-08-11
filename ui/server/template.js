@@ -5,7 +5,7 @@ export default function template(body, initialData, userData) {
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Payplicity</title>
+  <title>Pro MERN Stack</title>
   <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" >
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://apis.google.com/js/api:client.js"></script>

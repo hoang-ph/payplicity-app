@@ -9,18 +9,10 @@ const owners = [
   },
 ];
 
-const categories = [
-  'Housing',
-  'Transportation',
-  'Dining',
-  'Groceries',
-  'Savings',
-  'Entertainment',
-  'UtilitiesAndPhone',
-  'Medical',
-  'Clothing',
-  'Misc',
-];
+  const categories = ['Housing', 'Transportation', 'Dinning', 'Groceries', 
+                    'Savings', 'Entertainment', 'UtilitiesAndPhone',
+                    'Medical', 'Clothing', 'Misc' 
+                  ];
 
 const initialCount = db.expenses.count();
 
