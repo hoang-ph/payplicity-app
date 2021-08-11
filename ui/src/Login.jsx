@@ -22,6 +22,10 @@ export default class Login extends React.Component {
       "name": "",
       "givenName": "",
     }
+
+    this.handleChange = this.handleChange.bind(this)
+    this.signin = this.signin(this)
+    this.register = this.register(this)
   }
 
 
@@ -35,19 +39,34 @@ export default class Login extends React.Component {
 
   handleChange(e, name) {
     this.setState({[name]: e.target.value})
+    console.log(this.state)
   }
 
   signin(){
-    userInfo = { "email": this.state.sign_email,  "password": this.state.sign_password }
+    const userInfo = { "email": this.state.sign_email,  "password": this.state.sign_password }
   }
 
   register() {
-    userInfo = { "email": this.state.sign_email,  
-                 "password": this.state.sign_password,
+    console.log(this.state)
+    const userInfo = {"user": { "email": this.state.reg_email,  
+                 "password": this.state.reg_password,
                  "name": this.state.name,
-                 "givenName": this.state.givenName}
+                 "givenName": this.state.givenName}}
+    fetch("http://localhost:3000/auth/signup", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userInfo)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Success", data)
+    })
+    .catch(error => {
+      console.log("error", error)
+    })
     console.log(userInfo)
-   
   }
 
   render() {
@@ -58,7 +77,7 @@ export default class Login extends React.Component {
           <h3 className="text-center"
             style={{ "margin-bottom": "30px" }}>Sign Up</h3>
           <Form horizontal>
-            <FormGroup controlId="formHorizontalEmail">
+            <FormGroup controlId="formSignupEmail">
               <Col componentClass={ControlLabel} sm={2}>
                 Email:
               </Col>
@@ -69,7 +88,7 @@ export default class Login extends React.Component {
               </Col>
             </FormGroup>
 
-            <FormGroup controlId="formHorizontalPassword">
+            <FormGroup controlId="formSignupPassword">
               <Col componentClass={ControlLabel} sm={2}>
                 Password:
               </Col>
@@ -82,8 +101,7 @@ export default class Login extends React.Component {
 
             <FormGroup>
               <Col smOffset={2} sm={10}>
-                <Button type="submit"
-                        onClick={this.signin}>Sign in</Button>
+                <Button type="submit">Sign in</Button>
               </Col>
             </FormGroup>
           </Form>
@@ -139,8 +157,8 @@ export default class Login extends React.Component {
 
             <FormGroup>
               <Col smOffset={2} sm={10}>
-                <Button type="submit"
-                        onClick={this.register}>Register</Button>
+                <Button type="submit" 
+                onClick={e => this.register()}>Register</Button>
               </Col>
             </FormGroup>
           </Form>
