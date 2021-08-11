@@ -8,7 +8,6 @@
 
 db.expenses.remove({});
 db.counters.remove({})
-db.users.remove({});
 
 const expensesDB = [
   {
@@ -37,7 +36,7 @@ const expensesDB = [
     email: 'johnny@yahoo.com',
     title: 'Cheesecake Factory',
     description: 'On a tuesday',
-    category: 'Dinning',
+    category: 'Dining',
     created: new Date('2021-08-05'),
     amount: 105.5,
     paid: 52.25,

@@ -3,7 +3,7 @@ scalar GraphQLDate
 enum CategoryType {
   Housing
   Transportation
-  Dinning
+  Dining
   Groceries
   Savings
   Entertainment
@@ -30,7 +30,7 @@ type ExpenseCounts {
   owner: String!
   Housing: Int
   Transportation: Int
-  Dinning: Int
+  Dining: Int
   Groceries: Int
   Savings: Int
   Entertainment: Int
@@ -55,6 +55,7 @@ type User {
 
 "Toned down Expense, used as inputs, without server generated values."
 input ExpenseInputs {
+  email: String!
   description: String!
   "Optional, if not supplied, will be set to 'Misc'"
   category: CategoryType = Misc

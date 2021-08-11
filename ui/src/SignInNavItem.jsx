@@ -52,10 +52,10 @@ class SignInNavItem extends React.Component {
       });
       const body = await response.text();
       const result = JSON.parse(body);
-      const { signedIn, givenName } = result;
+      const { email, signedIn, givenName } = result;
 
       const { onUserChange } = this.props;
-      onUserChange({ signedIn, givenName });
+      onUserChange({ email, signedIn, givenName });
     } catch (error) {
       showError(`Error signing into the app: ${error}`);
     }
@@ -74,7 +74,7 @@ class SignInNavItem extends React.Component {
       const auth2 = window.gapi.auth2.getAuthInstance();
       await auth2.signOut();
       const { onUserChange } = this.props;
-      onUserChange({ signedIn: false, givenName: '' });
+      onUserChange({ email: '', signedIn: false, givenName: '' });
     } catch (error) {
       showError(`Error signing out: ${error}`);
     }

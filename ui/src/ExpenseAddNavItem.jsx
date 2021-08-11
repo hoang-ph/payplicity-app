@@ -32,6 +32,7 @@ class ExpenseAddNavItem extends React.Component {
     this.hideModal();
     const form = document.forms.expenseAdd;
     const expense = {
+      email: this.props.user.email,
       description: form.description.value,
       amount: form.amount.value,
       category: form.category.value,

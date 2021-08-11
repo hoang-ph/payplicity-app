@@ -6,7 +6,7 @@ import withToast from './withToast.jsx';
 import graphQLFetch from './graphQLFetch.js';
 import store from './store.js';
 
-const categories = ['Housing', 'Transportation', 'Dinning', 'Groceries', 'Savings',
+const categories = ['Housing', 'Transportation', 'Dining', 'Groceries', 'Savings',
   'Entertainment', 'UtilitiesAndPhone', 'Medical', 'Clothing', 'Misc'];
 
 class ExpenseSummary extends React.Component {
@@ -21,7 +21,7 @@ class ExpenseSummary extends React.Component {
       expenseCounts(
         category: $category
       ) {
-        owner Housing Transportation Dinning Groceries Savings
+        owner Housing Transportation Dining Groceries Savings
         Entertainment UtilitiesAndPhone Medical Clothing Misc
       }
     }`;

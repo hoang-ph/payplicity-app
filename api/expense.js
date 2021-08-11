@@ -56,7 +56,7 @@ async function add(_, { expense }) {
 
   const newExpense = Object.assign({}, expense);
   newExpense.created = new Date();
-  newExpense.id = await getNextSequence('expense');
+  newExpense.id = await getNextSequence('expenses');
 
   const result = await db.collection('expenses').insertOne(newExpense);
   const savedExpense = await db.collection('expenses')
@@ -110,7 +110,7 @@ async function counts(_, { category, debtMin, debtMax }) {
 
 module.exports = {
   list,
-  add: mustBeSignedIn(add),
+  add, //: mustBeSignedIn(add),
   get, // mustBeSignedIn(get)
   update: mustBeSignedIn(update),
   counts,

@@ -26,7 +26,7 @@ const owners = [
   } 
   ];
 
-  const categories = ['Housing', 'Transportation', 'Dinning', 'Groceries', 
+  const categories = ['Housing', 'Transportation', 'Dining', 'Groceries', 
                     'Savings', 'Entertainment', 'UtilitiesAndPhone',
                     'Medical', 'Clothing', 'Misc' 
                   ];
