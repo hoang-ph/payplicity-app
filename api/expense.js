@@ -11,18 +11,12 @@ async function get(_, { email }) {
 const PAGE_SIZE = 10;
 
 async function list(_, {
-  category, debtMin, debtMax, search, page,
+  category, search, page,
 }) {
   const db = getDb();
   const filter = {};
 
   if (category) filter.category = category;
-
-  if (debtMin !== undefined || debtMax !== undefined) {
-    filter.amount = {};
-    if (debtMin !== undefined) filter.amount.$gte = debtMin;
-    if (debtMax !== undefined) filter.amount.$lte = debtMax;
-  }
 
   if (search) filter.$text = { $search: search };
 
@@ -110,7 +104,7 @@ async function counts(_, { category, debtMin, debtMax }) {
 
 module.exports = {
   list,
-  add, //: mustBeSignedIn(add),
+  add, // mustBeSignedIn(add),
   get, // mustBeSignedIn(get)
   update: mustBeSignedIn(update),
   counts,

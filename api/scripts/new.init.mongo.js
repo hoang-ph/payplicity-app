@@ -7,7 +7,7 @@
  */
 
 db.expenses.remove({});
-db.counters.remove({})
+db.counters.remove({});
 
 const expensesDB = [
   {
@@ -15,7 +15,7 @@ const expensesDB = [
     owner: {
       signedIn: true,
       name: 'Tony',
-      email: 'tony@stark.com'
+      email: 'tony@stark.com',
     },
     email: 'tony@strak.com',
     title: 'Movie Night',
@@ -31,7 +31,7 @@ const expensesDB = [
     owner: {
       signedIn: false,
       name: 'John',
-      email: 'johnny@yahoo.com'
+      email: 'johnny@yahoo.com',
     },
     email: 'johnny@yahoo.com',
     title: 'Cheesecake Factory',

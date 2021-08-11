@@ -6,40 +6,48 @@
 const owners = [
   {
     name: 'Ravan',
-    email: 'ravan@a'
+    email: 'ravan@a',
   },
   {
     name: 'Eddie',
-    email: 'eddie@1'
+    email: 'eddie@1',
   },
   {
     name: 'Pieta',
-    email: 'pieta@1'
+    email: 'pieta@1',
   },
   {
     name: 'Parvati',
-    email: 'p@a'
+    email: 'p@a',
   },
   {
     name: 'Victor',
-    email: 'vvv@vvv'
-  } 
-  ];
+    email: 'vvv@vvv',
+  },
+];
 
-  const categories = ['Housing', 'Transportation', 'Dining', 'Groceries', 
-                    'Savings', 'Entertainment', 'UtilitiesAndPhone',
-                    'Medical', 'Clothing', 'Misc' 
-                  ];
+const categories = [
+  'Housing',
+  'Transportation',
+  'Dining',
+  'Groceries',
+  'Savings',
+  'Entertainment',
+  'UtilitiesAndPhone',
+  'Medical',
+  'Clothing',
+  'Misc',
+];
 
 const initialCount = db.expenses.count();
 
 for (let i = 0; i < 100; i += 1) {
-  const randomCreatedDate = (new Date())
-    - Math.floor(Math.random() * 60) * 1000 * 60 * 60 * 24;
+  const randomCreatedDate = new Date() - Math.floor(Math.random() * 60) * 1000 * 60 * 60 * 24;
   const created = new Date(randomCreatedDate);
 
-  const owner = owners[Math.floor(Math.random() * 5)];
-  const email = owner.email;
+  const person = owners[Math.floor(Math.random() * 5)].name;
+  const { owner } = person;
+  const { email } = person;
   const category = categories[Math.floor(Math.random() * 10)];
   const description = `Lorem ipsum dolor sit amet, ${i}`;
   const amount = Math.ceil(Math.random() * 20);
@@ -47,7 +55,14 @@ for (let i = 0; i < 100; i += 1) {
   const id = initialCount + i + 1;
 
   const expense = {
-    id, owner, email, description, category, created, amount, paid
+    id,
+    owner,
+    email,
+    description,
+    category,
+    created,
+    amount,
+    paid,
   };
   db.expenses.insertOne(expense);
 }
