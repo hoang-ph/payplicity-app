@@ -25,7 +25,7 @@ routes.use(cors({ origin, credentials: true }));
 
 function getUser(req) {
   const token = req.cookies.jwt;
-  if (!token) return { signedIn: false };
+  if (!token) return { signedIn: false, email: "unknown" }; // it was   crashing the code because its mandatory field
 
   try {
     const credentials = jwt.verify(token, JWT_SECRET);
@@ -114,14 +114,15 @@ routes.post('/signup', async (req, res) => {
     }
   */
   const db = getDb();
+  console.log(req.body);
   const newUser = req.body.user;
-  
+  console.log(newUser);
   newUser.signedIn = true
 
   console.log(newUser)
   const result = await db.collection('user').insertOne(newUser);
   const savedUser = await db.collection('user')
-    .findOne({ email: result.email })
+    .findOne({ email: newUser.email })
   console.log("SavedUser", savedUser)
 
   // TODO: This might be wrong. Maybe savedUser is not the type that we expect
