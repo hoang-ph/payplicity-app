@@ -4,10 +4,10 @@ import ExpenseEdit from './ExpenseEdit.jsx';
 import About from './About.jsx';
 import NotFound from './NotFound.jsx';
 import Login from './Login.jsx';
-import LandingPage from './LandingPage.jsx';
+import Home from './Home.jsx';
 
 const routes = [
-  { path: '/payplicity', component: LandingPage },
+  { path: '/home', component: Home },
   { path: '/expenses/:id?', component: ExpenseList },
   { path: '/edit/:id', component: ExpenseEdit },
   { path: '/summary', component: ExpenseSummary },

@@ -6,7 +6,7 @@ import routes from './routes.js';
 export default function Contents() {
   return (
     <Switch>
-      <Redirect exact from="/" to="/payplicity" />
+      <Redirect exact from="/" to="/home" />
       {routes.map(attrs => <Route {...attrs} key={attrs.path} />)}
     </Switch>
   );

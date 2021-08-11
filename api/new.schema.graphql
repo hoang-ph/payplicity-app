@@ -89,7 +89,6 @@ type Query {
   ): [ExpenseCounts!]!
 }
 type Mutation {
-  setAboutMessage(message: String!): String
   expenseAdd(expense: ExpenseInputs!): Expense!
   expenseUpdate(id: Int!, changes: ExpenseUpdateInputs!): Expense!
   expenseDelete(id: Int!): Boolean!

@@ -102,7 +102,7 @@ class SignInNavItem extends React.Component {
       );
     }
 
-    const { showing, disabled } = this.state;
+    const { showing } = this.state;
     return (
       <>
         <NavItem onClick={this.showModal}>
@@ -115,11 +115,10 @@ class SignInNavItem extends React.Component {
           <Modal.Body>
             <Button
               block
-              disabled={disabled}
               bsStyle="primary"
               onClick={this.signIn}
             >
-              <img src="https://goo.gl/4yjp6B" alt="Sign In" />
+              <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="Sign In" />
             </Button>
           </Modal.Body>
           <Modal.Footer>
