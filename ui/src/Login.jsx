@@ -34,20 +34,22 @@ export default class Login extends React.Component {
   }
 
   handleChange(e, name) {
-    this.setState({[name]: e.target.value})
+    this.setState({ [name]: e.target.value })
   }
 
-  signin(){
-    userInfo = { "email": this.state.sign_email,  "password": this.state.sign_password }
+  signin() {
+    userInfo = { "email": this.state.sign_email, "password": this.state.sign_password }
   }
 
   register() {
-    userInfo = { "email": this.state.sign_email,  
-                 "password": this.state.sign_password,
-                 "name": this.state.name,
-                 "givenName": this.state.givenName}
+    userInfo = {
+      "email": this.state.sign_email,
+      "password": this.state.sign_password,
+      "name": this.state.name,
+      "givenName": this.state.givenName
+    }
     console.log(userInfo)
-   
+
   }
 
   render() {
@@ -83,7 +85,7 @@ export default class Login extends React.Component {
             <FormGroup>
               <Col smOffset={2} sm={10}>
                 <Button type="submit"
-                        onClick={this.signin}>Sign in</Button>
+                  onClick={this.signin}>Sign in</Button>
               </Col>
             </FormGroup>
           </Form>
@@ -140,7 +142,7 @@ export default class Login extends React.Component {
             <FormGroup>
               <Col smOffset={2} sm={10}>
                 <Button type="submit"
-                        onClick={this.register}>Register</Button>
+                  onClick={this.register}>Register</Button>
               </Col>
             </FormGroup>
           </Form>

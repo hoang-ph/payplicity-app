@@ -56,11 +56,11 @@ class SignInNavItem extends React.Component {
 
       const { onUserChange } = this.props;
       onUserChange({ signedIn, givenName });
-      const { history } = this.props;
-      history.push('/expenses');
     } catch (error) {
       showError(`Error signing into the app: ${error}`);
     }
+    const { history } = this.props;
+    history.push('/expenses');
   }
 
   async signOut() {
@@ -75,11 +75,11 @@ class SignInNavItem extends React.Component {
       await auth2.signOut();
       const { onUserChange } = this.props;
       onUserChange({ signedIn: false, givenName: '' });
-      const { history } = this.props;
-      history.push('/home');
     } catch (error) {
       showError(`Error signing out: ${error}`);
     }
+    const { history } = this.props;
+    history.push('/home');
   }
 
   showModal() {
