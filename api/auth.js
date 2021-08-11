@@ -4,6 +4,7 @@ const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 const { AuthenticationError } = require('apollo-server-express');
 const cors = require('cors');
+const { getDb } = require('./new_db.js');
 
 let { JWT_SECRET } = process.env;
 
@@ -20,7 +21,7 @@ const routes = new Router();
 routes.use(bodyParser.json());
 
 const origin = process.env.UI_SERVER_ORIGIN || 'http://localhost:8000';
-routes.use(cors({ origin, credentials: true }));
+routes.use(cors({ origin, credentials: false }));
 
 function getUser(req) {
   const token = req.cookies.jwt;
@@ -34,26 +35,7 @@ function getUser(req) {
   }
 }
 
-routes.post('/signin', async (req, res) => {
-  if (!JWT_SECRET) {
-    res.status(500).send('Missing JWT_SECRET. Refusing to authenticate');
-  }
-
-  const googleToken = req.body.google_token;
-  if (!googleToken) {
-    res.status(400).send({ code: 400, message: 'Missing Token' });
-    return;
-  }
-
-  const client = new OAuth2Client();
-  let payload;
-  try {
-    const ticket = await client.verifyIdToken({ idToken: googleToken });
-    payload = ticket.getPayload();
-  } catch (error) {
-    res.status(403).send('Invalid credentials');
-  }
-
+function createCookie(payload, res) {
   const { given_name: givenName, name, email } = payload;
   const credentials = {
     signedIn: true, givenName, name, email,
@@ -63,9 +45,54 @@ routes.post('/signin', async (req, res) => {
   res.cookie('jwt', token, { httpOnly: true, domain: process.env.COOKIE_DOMAIN });
 
   res.json(credentials);
+}
+
+routes.post('/signin', async (req, res) => {
+  if (!JWT_SECRET) {
+    res.status(500).send('Missing JWT_SECRET. Refusing to authenticate');
+  }
+
+  let payload;
+  const googleToken = req.body.google_token;
+  if (googleToken) {
+    const client = new OAuth2Client();
+    try {
+      const ticket = await client.verifyIdToken({ idToken: googleToken });
+      payload = ticket.getPayload();
+    } catch (error) {
+      res.status(403).send('Invalid credentials');
+    }
+  } else if (req.body.email && req.body.password) {
+    const db = getDb();
+    payload = await db.collection('user').findOne({
+      email: req.body.email,
+      password: req.body.password
+    })
+
+    if (!payload) {
+      res.status(403).send('Invalid credentials');
+    }
+
+  } else {
+    res.status(400).send({ code: 400, message: 'Missing Token and Credentials' });
+    return;
+  }
+
+
+  createCookie(payload, res)
 });
 
 routes.post('/signout', async (req, res) => {
+  // TODO: maybe broken maybe fix
+  if (req.cookie) {
+    let email;
+    jwt.verify(req.cookie.jwt, JWT_SECRET, function (err, decoded) {
+      email = decoded.email
+    });
+    const user = await db.collection('user').findOne({ email });
+    await db.collection('user').updateOne({ "email": user.email }, { $set: { signedIn: false } })
+  }
+
   res.clearCookie('jwt', {
     domain: process.env.COOKIE_DOMAIN,
   });
@@ -75,6 +102,28 @@ routes.post('/signout', async (req, res) => {
 routes.post('/user', (req, res) => {
   res.json(getUser(req));
 });
+
+routes.post('/signup', async (req, res) => {
+  /*
+    Expects user info to be passed in this format
+    user : {
+      givenName: "String",
+      name: "string",
+      email: "string",
+      password: "string",
+    }
+  */
+  const db = getDb();
+  const newUser = Object.assign({}, req.body.user);
+  newUser.signedIn = true
+
+  const result = await db.collection('user').insertOne(newUser);
+  const savedUser = await db.collection('user')
+    .findOne({ email: result.email })
+
+  // TODO: This might be wrong. Maybe savedUser is not the type that we expect
+  createCookie(savedUser, res)
+})
 
 function mustBeSignedIn(resolver) {
   return (root, args, { user }) => {
