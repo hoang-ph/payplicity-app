@@ -84,7 +84,6 @@ export default class Page extends React.Component {
     const user = store.userData ? store.userData.user : null;
     delete store.userData;
     this.state = { user };
-
     this.onUserChange = this.onUserChange.bind(this);
   }
 

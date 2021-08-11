@@ -5,24 +5,7 @@
 
 const owners = [
   {
-    name: 'Ravan',
-    email: 'ravan@a',
-  },
-  {
-    name: 'Eddie',
-    email: 'eddie@1',
-  },
-  {
-    name: 'Pieta',
-    email: 'pieta@1',
-  },
-  {
-    name: 'Parvati',
-    email: 'p@a',
-  },
-  {
-    name: 'Victor',
-    email: 'vvv@vvv',
+    email: 'haiphong1712@gmail.com',
   },
 ];
 
@@ -41,28 +24,24 @@ const categories = [
 
 const initialCount = db.expenses.count();
 
-for (let i = 0; i < 100; i += 1) {
+for (let i = 0; i < 30; i += 1) {
   const randomCreatedDate = new Date() - Math.floor(Math.random() * 60) * 1000 * 60 * 60 * 24;
   const created = new Date(randomCreatedDate);
 
-  const person = owners[Math.floor(Math.random() * 5)].name;
-  const { owner } = person;
-  const { email } = person;
+  // const owner = owners[Math.floor(Math.random() * 5)];
+  const email = 'haiphong1712@gmail.com';
   const category = categories[Math.floor(Math.random() * 10)];
   const description = `Lorem ipsum dolor sit amet, ${i}`;
   const amount = Math.ceil(Math.random() * 20);
-  const paid = Math.ceil(Math.random() * 5);
   const id = initialCount + i + 1;
 
   const expense = {
     id,
-    owner,
     email,
     description,
     category,
     created,
     amount,
-    paid,
   };
   db.expenses.insertOne(expense);
 }

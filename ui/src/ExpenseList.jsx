@@ -9,6 +9,7 @@ import ExpenseDetail from './ExpenseDetail.jsx';
 import graphQLFetch from './graphQLFetch.js';
 import withToast from './withToast.jsx';
 import store from './store.js';
+import UserContext from './UserContext.js';
 
 const SECTION_SIZE = 5;
 
@@ -28,11 +29,10 @@ function PageLink({
 }
 
 class ExpenseList extends React.Component {
-  static async fetchData(match, search, showError) {
+  static async fetchData(match, search, showError, user) {
     const params = new URLSearchParams(search);
     const vars = { hasSelection: false, selectedId: 0 };
     if (params.get('category')) vars.category = params.get('category');
-
     const { params: { id } } = match;
     const idInt = parseInt(id, 10);
     if (!Number.isNaN(idInt)) {
@@ -43,28 +43,27 @@ class ExpenseList extends React.Component {
     let page = parseInt(params.get('page'), 10);
     if (Number.isNaN(page)) page = 1;
     vars.page = page;
+    vars.email = user.email;
 
-    const query = `query expenseList(
+    const query = `query ($email: String!
       $category: CategoryType
       $hasSelection: Boolean!
       $selectedId: Int!
-      $page: Int
-    ) {
+      $page: Int) {
       expenseList(
+        email: $email
         category: $category
         page: $page
       ) {
         expenses {
-          id description category amount
-          created imageSrc
+          id email description category amount created
         }
         pages
       }
-      expense(id: $selectedId) @include (if : $hasSelection) {
+      expense(id: $selectedId, email: $email) @include (if : $hasSelection) {
         id description
       }
     }`;
-
     const data = await graphQLFetch(query, vars, showError);
     return data;
   }
@@ -85,24 +84,27 @@ class ExpenseList extends React.Component {
   }
 
   componentDidMount() {
+    const user = this.context;
     const { expenses } = this.state;
-    if (expenses == null) this.loadData();
+    if (expenses == null) this.loadData(user);
+    this.loadData(user);
   }
 
   componentDidUpdate(prevProps) {
+    const user = this.context;
     const {
       location: { search: prevSearch },
       match: { params: { id: prevId } },
     } = prevProps;
     const { location: { search }, match: { params: { id } } } = this.props;
     if (prevSearch !== search || prevId !== id) {
-      this.loadData();
+      this.loadData(user);
     }
   }
 
-  async loadData() {
+  async loadData(user) {
     const { location: { search }, match, showError } = this.props;
-    const data = await ExpenseList.fetchData(match, search, showError);
+    const data = await ExpenseList.fetchData(match, search, showError, user);
     if (data) {
       this.setState({
         expenses: data.expenseList.expenses,
@@ -209,6 +211,8 @@ class ExpenseList extends React.Component {
     );
   }
 }
+
+ExpenseList.contextType = UserContext;
 
 const ExpenseListWithToast = withToast(ExpenseList);
 ExpenseListWithToast.fetchData = ExpenseList.fetchData;

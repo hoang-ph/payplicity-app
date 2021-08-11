@@ -12,35 +12,27 @@ db.counters.remove({});
 const expensesDB = [
   {
     id: 1,
-    owner: {
-      signedIn: true,
-      name: 'Tony',
-      email: 'tony@stark.com',
-    },
     email: 'tony@strak.com',
-    title: 'Movie Night',
     description: 'Fast and Furious 9',
     category: 'Entertainment',
     created: new Date('2021-07-04'),
     amount: 69.95,
-    paid: 15.05,
-    imageSrc: 'https://www.google.com/search?q=movie+receipt&tbm=isch&ved=2ahUKEwjf1c2r8pzyAhW7LDQIHSHpAv4Q2-cCegQIABAA&oq=movie+re&gs_lcp=CgNpbWcQARgAMgQIABBDMggIABCABBCxAzIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEOgQIIxAnOgsIABCABBCxAxCDAToHCAAQsQMQQ1DOsAFY5rYBYMfBAWgAcAB4AIABSogBjASSAQE4mAEAoAEBqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=lm0NYd-yNbvZ0PEPodKL8A8&bih=789&biw=1440#imgrc=8sNzkh7W38NBRM',
   },
   {
     id: 2,
-    owner: {
-      signedIn: false,
-      name: 'John',
-      email: 'johnny@yahoo.com',
-    },
     email: 'johnny@yahoo.com',
-    title: 'Cheesecake Factory',
     description: 'On a tuesday',
     category: 'Dining',
     created: new Date('2021-08-05'),
     amount: 105.5,
-    paid: 52.25,
-    imageSrc: 'https://www.google.com/shttps://www.google.com/search?q=restaurant+receipt&tbm=isch&ved=2ahUKEwiv1tjf9JzyAhUQjp4KHZRBBfEQ2-cCegQIABAA&oq=restaurant+rec&gs_lcp=CgNpbWcQARgAMgUIABCABDIECAAQQzIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBAgAEEMyBQgAEIAEMgUIABCABDIFCAAQgAQ6BAgjECc6CAgAEIAEELEDOggIABCxAxCDAToLCAAQgAQQsQMQgwE6BwgAELEDEENQixBY_zZglz5oA3AAeACAAUaIAbsHkgECMTWYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=HHANYa_YO5Cc-gSUg5WIDw&bih=789&biw=1440#imgrc=lwxf-xfKw80d8Mearch?q=movie+receipt&tbm=isch&ved=2ahUKEwjf1c2r8pzyAhW7LDQIHSHpAv4Q2-cCegQIABAA&oq=movie+re&gs_lcp=CgNpbWcQARgAMgQIABBDMggIABCABBCxAzIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEOgQIIxAnOgsIABCABBCxAxCDAToHCAAQsQMQQ1DOsAFY5rYBYMfBAWgAcAB4AIABSogBjASSAQE4mAEAoAEBqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=lm0NYd-yNbvZ0PEPodKL8A8&bih=789&biw=1440#imgrc=8sNzkh7W38NBRM',
+  },
+  {
+    id: 3,
+    email: 'johnny@yahoo.com',
+    description: 'On thursday',
+    category: 'Misc',
+    created: new Date('2021-08-05'),
+    amount: 105.5,
   },
 ];
 
