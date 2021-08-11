@@ -38,11 +38,17 @@ function getUser(req) {
 function createCookie(payload, res) {
   const { given_name: givenName, name, email } = payload;
   const credentials = {
-    signedIn: true, givenName, name, email,
+    signedIn: true,
+    givenName,
+    name,
+    email,
   };
 
   const token = jwt.sign(credentials, JWT_SECRET);
-  res.cookie('jwt', token, { httpOnly: true, domain: process.env.COOKIE_DOMAIN });
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    domain: process.env.COOKIE_DOMAIN,
+  });
 
   res.json(credentials);
 }
@@ -66,20 +72,20 @@ routes.post('/signin', async (req, res) => {
     const db = getDb();
     payload = await db.collection('user').findOne({
       email: req.body.email,
-      password: req.body.password
-    })
+      password: req.body.password,
+    });
 
     if (!payload) {
       res.status(403).send('Invalid credentials');
     }
-
   } else {
-    res.status(400).send({ code: 400, message: 'Missing Token and Credentials' });
+    res
+      .status(400)
+      .send({ code: 400, message: 'Missing Token and Credentials' });
     return;
   }
 
-
-  createCookie(payload, res)
+  createCookie(payload, res);
 });
 
 routes.post('/signout', async (req, res) => {
@@ -87,10 +93,12 @@ routes.post('/signout', async (req, res) => {
   if (req.cookie) {
     let email;
     jwt.verify(req.cookie.jwt, JWT_SECRET, function (err, decoded) {
-      email = decoded.email
+      email = decoded.email;
     });
     const user = await db.collection('user').findOne({ email });
-    await db.collection('user').updateOne({ "email": user.email }, { $set: { signedIn: false } })
+    await db
+      .collection('user')
+      .updateOne({ email: user.email }, { $set: { signedIn: false } });
   }
 
   res.clearCookie('jwt', {
@@ -115,15 +123,16 @@ routes.post('/signup', async (req, res) => {
   */
   const db = getDb();
   const newUser = Object.assign({}, req.body.user);
-  newUser.signedIn = true
+  newUser.signedIn = true;
 
   const result = await db.collection('user').insertOne(newUser);
-  const savedUser = await db.collection('user')
-    .findOne({ email: result.email })
+  const savedUser = await db
+    .collection('user')
+    .findOne({ email: result.email });
 
   // TODO: This might be wrong. Maybe savedUser is not the type that we expect
-  createCookie(savedUser, res)
-})
+  createCookie(savedUser, res);
+});
 
 function mustBeSignedIn(resolver) {
   return (root, args, { user }) => {
@@ -139,5 +148,8 @@ function resolveUser(_, args, { user }) {
 }
 
 module.exports = {
-  routes, getUser, mustBeSignedIn, resolveUser,
+  routes,
+  getUser,
+  mustBeSignedIn,
+  resolveUser,
 };

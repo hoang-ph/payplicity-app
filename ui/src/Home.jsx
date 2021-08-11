@@ -1,32 +1,41 @@
 import React from 'react';
 import { Jumbotron } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
 import UserContext from './UserContext.js';
+import store from './store.js';
+import graphQLFetch from './graphQLFetch.js';
 
 export default class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { showing: true };
+  static async fetchData() {
+    const data = await graphQLFetch('query {home}');
+    return data;
   }
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+    const apiHome = store.initialData ? store.initialData.expenseCounts : null;
+    delete store.initialData;
+    this.state = { apiHome };
+  }
+
+  async componentDidMount() {
+    const { apiHome } = this.state;
+    if (apiHome == null) {
+      const data = await Home.fetchData();
+      this.setState({ apiHome: data.home });
+    }
     const user = this.context;
     if (user.signedIn) {
-      this.setState({ showing: false });
+      const { history } = this.props;
+      history.push('/expenses');
     }
   }
 
   render() {
-    const { showing } = this.state;
-    if (showing) {
-      return (
-        <Jumbotron>
-          <h1>Welcome to Payplicity</h1>
-        </Jumbotron>
-      );
-    }
+    const { apiHome } = this.state;
     return (
-      <Redirect to="/expenses" />
+      <Jumbotron>
+        <h1>{apiHome}</h1>
+      </Jumbotron>
     );
   }
 }

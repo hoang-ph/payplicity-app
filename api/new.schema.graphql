@@ -77,7 +77,7 @@ input ExpenseUpdateInputs {
 }
 ##### Top level declarations
 type Query {
-  about: String!
+  home: String!
   user: User!
   expenseList(
     category: CategoryType
