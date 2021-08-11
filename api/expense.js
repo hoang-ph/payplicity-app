@@ -2,19 +2,21 @@ const { UserInputError } = require('apollo-server-express');
 const { getDb, getNextSequence } = require('./new_db.js');
 const { mustBeSignedIn } = require('./auth.js');
 
-async function get(_, { email }) {
+async function get(_, { name }) {
   const db = getDb();
-  const expense = await db.collection('expenses').findOne({ email });
+  const expense = await db.collection('expenses').findOne({ name });
   return expense;
 }
 
 const PAGE_SIZE = 10;
 
 async function list(_, {
-  category, debtMin, debtMax, search, page,
+  email, category, search, page,
 }) {
   const db = getDb();
   const filter = {};
+
+  if (email) filter.email = email;
 
   if (category) filter.category = category;
 
@@ -76,17 +78,11 @@ async function update(_, { id, changes }) {
   return savedExpense;
 }
 
-async function counts(_, { category, debtMin, debtMax }) {
+async function counts(_, { category }) {
   const db = getDb();
   const filter = {};
 
   if (category) filter.category = category;
-
-  if (debtMin !== undefined || debtMax !== undefined) {
-    filter.amount = {};
-    if (debtMin !== undefined) filter.amount.$gte = debtMin;
-    if (debtMax !== undefined) filter.amount.$lte = debtMax;
-  }
 
   const results = await db.collection('expenses').aggregate([
     { $match: filter },
@@ -110,7 +106,7 @@ async function counts(_, { category, debtMin, debtMax }) {
 
 module.exports = {
   list,
-  add: mustBeSignedIn(add),
+  add, //mustBeSignedIn(add),
   get, // mustBeSignedIn(get)
   update: mustBeSignedIn(update),
   counts,

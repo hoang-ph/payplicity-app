@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import {
   NavItem, Glyphicon, Modal, Form, FormGroup, FormControl, ControlLabel,
   Button, ButtonToolbar, Tooltip, OverlayTrigger, InputGroup,
@@ -43,7 +43,6 @@ class ExpenseAddNavItem extends React.Component {
         id
       }
     }`;
-
     const { showError } = this.props;
     const data = await graphQLFetch(query, { expense }, showError);
     if (data) {
