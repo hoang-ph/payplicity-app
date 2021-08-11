@@ -36,7 +36,7 @@ function getUser(req) {
 }
 
 function createCookie(payload, res) {
-  const { given_name: givenName, name, email } = payload;
+  const { givenName, name, email } = payload;
   const credentials = {
     signedIn: true, givenName, name, email,
   };
@@ -114,12 +114,15 @@ routes.post('/signup', async (req, res) => {
     }
   */
   const db = getDb();
-  const newUser = Object.assign({}, req.body.user);
+  const newUser = req.body.user;
+  
   newUser.signedIn = true
 
+  console.log(newUser)
   const result = await db.collection('user').insertOne(newUser);
   const savedUser = await db.collection('user')
     .findOne({ email: result.email })
+  console.log("SavedUser", savedUser)
 
   // TODO: This might be wrong. Maybe savedUser is not the type that we expect
   createCookie(savedUser, res)
