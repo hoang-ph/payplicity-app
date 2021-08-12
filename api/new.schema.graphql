@@ -76,7 +76,7 @@ type Query {
   home: String!
   user: User!
   expenseList(
-    email: String!
+    email: String
     category: CategoryType
     search: String
     page: Int = 1
