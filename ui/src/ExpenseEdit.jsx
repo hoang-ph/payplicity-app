@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import {
   Col, Panel, Form, FormGroup, FormControl, ControlLabel,
@@ -102,6 +101,10 @@ class ExpenseEdit extends React.Component {
     if (data) {
       this.setState({ expense: data.expenseUpdate });
       showSuccess('Updated expense successfully');
+      setTimeout(() => {
+        const { history } = this.props;
+        history.push('/expenses');
+      }, 1000);
     }
   }
 
@@ -145,8 +148,6 @@ class ExpenseEdit extends React.Component {
     const { expense: { description, category } } = this.state;
     const { expense: { created, amount } } = this.state;
 
-    // const user = this.context;
-
     return (
       <Panel>
         <Panel.Heading>
@@ -178,7 +179,7 @@ class ExpenseEdit extends React.Component {
                   <option value="Savings">Savings</option>
                   <option value="Groceries">Groceries</option>
                   <option value="Entertainment">Entertainment</option>
-                  <option value="Utility">Utility & Phone</option>
+                  <option value="UtilitiesAndPhone">Utility & Phone</option>
                   <option value="Medical">Medical</option>
                   <option value="Clothing">Clothing</option>
                 </FormControl>
@@ -248,11 +249,6 @@ class ExpenseEdit extends React.Component {
             </FormGroup>
           </Form>
         </Panel.Body>
-        <Panel.Footer>
-          <Link to={`/edit/${id - 1}`}>Prev</Link>
-          {' | '}
-          <Link to={`/edit/${id + 1}`}>Next</Link>
-        </Panel.Footer>
       </Panel>
     );
   }
