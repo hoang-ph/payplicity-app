@@ -81,7 +81,7 @@ type Query {
     search: String
     page: Int = 1
   ): ExpenseListWithPages
-  expense(id: Int, email: String!): Expense!
+  expense(id: Int, email: String): Expense!
   expenseCounts(
     category: CategoryType
   ): [ExpenseCounts!]!

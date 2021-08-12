@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import {
   NavItem, Glyphicon, Modal, Form, FormGroup, FormControl, ControlLabel,
   Button, ButtonToolbar, Tooltip, OverlayTrigger, InputGroup,
@@ -31,8 +31,9 @@ class ExpenseAddNavItem extends React.Component {
     e.preventDefault();
     this.hideModal();
     const form = document.forms.expenseAdd;
+    const { user: { email } } = this.props;
     const expense = {
-      email: this.props.user.email,
+      email,
       description: form.description.value,
       amount: form.amount.value,
       category: form.category.value,

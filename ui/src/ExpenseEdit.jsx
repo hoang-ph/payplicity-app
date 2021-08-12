@@ -15,16 +15,17 @@ import store from './store.js';
 import UserContext from './UserContext.js';
 
 class ExpenseEdit extends React.Component {
-  static async fetchData(match, search, showError) {
-    const query = `query expense($id: Int!) {
-      expense(id: $id) {
-        id description category created amount imageSrc
+  static async fetchData(match, search, showError, user) {
+    const query = `query expense($id: Int!, $email: String) {
+      expense(id: $id, email: $email) {
+        id description category created amount
         email
       }
     }`;
-
     const { params: { id } } = match;
-    const result = await graphQLFetch(query, { id }, showError);
+    const vars = { id };
+    vars.email = user.email;
+    const result = await graphQLFetch(query, vars, showError);
     return result;
   }
 
@@ -45,15 +46,18 @@ class ExpenseEdit extends React.Component {
   }
 
   componentDidMount() {
+    const user = this.context;
     const { expense } = this.state;
-    if (expense == null) this.loadData();
+    if (expense == null) this.loadData(user);
+    this.loadData(user);
   }
 
   componentDidUpdate(prevProps) {
+    const user = this.context;
     const { match: { params: { id: prevId } } } = prevProps;
     const { match: { params: { id } } } = this.props;
     if (id !== prevId) {
-      this.loadData();
+      this.loadData(user);
     }
   }
 
@@ -88,8 +92,7 @@ class ExpenseEdit extends React.Component {
         id: $id
         changes: $changes
       ) {
-        id description category created amount imageSrc
-        email
+        id description category created amount email
       }
     }`;
 
@@ -102,9 +105,9 @@ class ExpenseEdit extends React.Component {
     }
   }
 
-  async loadData() {
+  async loadData(user) {
     const { match, showError } = this.props;
-    const data = await ExpenseEdit.fetchData(match, null, showError);
+    const data = await ExpenseEdit.fetchData(match, null, showError, user);
     this.setState({ expense: data ? data.expense : {}, invalidFields: {} });
   }
 
@@ -140,7 +143,7 @@ class ExpenseEdit extends React.Component {
     }
 
     const { expense: { description, category } } = this.state;
-    const { expense: { created, amount, imageSrc } } = this.state;
+    const { expense: { created, amount } } = this.state;
 
     // const user = this.context;
 
@@ -208,20 +211,6 @@ class ExpenseEdit extends React.Component {
                   key={id}
                 />
                 <FormControl.Feedback />
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>File attachment</Col>
-              <Col sm={9}>
-                <FormControl
-                  // componentClass={TextInput}
-                  type="file"
-                  size={50}
-                  name="file"
-                  value={imageSrc}
-                  onChange={this.onChange}
-                  key={id}
-                />
               </Col>
             </FormGroup>
             <FormGroup>
