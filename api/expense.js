@@ -11,18 +11,14 @@ async function get(_, { email }) {
 const PAGE_SIZE = 10;
 
 async function list(_, {
-  category, debtMin, debtMax, search, page,
+  email, category, search, page,
 }) {
   const db = getDb();
   const filter = {};
 
-  if (category) filter.category = category;
+  if (email) filter.email = email;
 
-  if (debtMin !== undefined || debtMax !== undefined) {
-    filter.amount = {};
-    if (debtMin !== undefined) filter.amount.$gte = debtMin;
-    if (debtMax !== undefined) filter.amount.$lte = debtMax;
-  }
+  if (category) filter.category = category;
 
   if (search) filter.$text = { $search: search };
 
@@ -76,17 +72,11 @@ async function update(_, { id, changes }) {
   return savedExpense;
 }
 
-async function counts(_, { category, debtMin, debtMax }) {
+async function counts(_, { category }) {
   const db = getDb();
   const filter = {};
 
   if (category) filter.category = category;
-
-  if (debtMin !== undefined || debtMax !== undefined) {
-    filter.amount = {};
-    if (debtMin !== undefined) filter.amount.$gte = debtMin;
-    if (debtMax !== undefined) filter.amount.$lte = debtMax;
-  }
 
   const results = await db.collection('expenses').aggregate([
     { $match: filter },
@@ -110,7 +100,7 @@ async function counts(_, { category, debtMin, debtMax }) {
 
 module.exports = {
   list,
-  add, //: mustBeSignedIn(add),
+  add,
   get, // mustBeSignedIn(get)
   update: mustBeSignedIn(update),
   counts,
