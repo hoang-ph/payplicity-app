@@ -37,7 +37,6 @@ class ExpenseAddNavItem extends React.Component {
       amount: form.amount.value,
       category: form.category.value,
       created: new Date(form.date.value) || new Date(),
-      imageSrc: form.file.value,
     };
     const query = `mutation expenseAdd($expense: ExpenseInputs!) {
       expenseAdd(expense: $expense) {
@@ -104,10 +103,6 @@ class ExpenseAddNavItem extends React.Component {
               <FormGroup>
                 <ControlLabel>Date</ControlLabel>
                 <FormControl name="date" placeholder="mm/dd/yyyy" />
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>File</ControlLabel>
-                <FormControl name="file" type="file" placeholder="No file chosen" />
               </FormGroup>
             </Form>
           </Modal.Body>

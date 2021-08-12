@@ -16,7 +16,7 @@ enum CategoryType {
 type Expense {
   _id: ID!
   id: Int
-  email: String!
+  email: String
   description: String!
   category: CategoryType!
   created: GraphQLDate!
@@ -52,7 +52,7 @@ type User {
 
 "Toned down Expense, used as inputs, without server generated values."
 input ExpenseInputs {
-  email: String!
+  email: String
   description: String!
   "Optional, if not supplied, will be set to 'Misc'"
   category: CategoryType = Misc
@@ -64,6 +64,7 @@ input ExpenseInputs {
 be set to the given value, undefined fields will remain unmodified. Remaining
 balance (amount) will be subtracted from new paid amount if capable"""
 input ExpenseUpdateInputs {
+  email: String
   description: String
   category: CategoryType
   created: GraphQLDate
