@@ -15,6 +15,7 @@ enum CategoryType {
 
 type Expense {
   _id: ID!
+<<<<<<< HEAD
   id: Int!
   email: String
   title: String
@@ -23,6 +24,14 @@ type Expense {
   created: GraphQLDate
   amount: Float
   imageSrc: String
+=======
+  id: Int
+  email: String!
+  description: String!
+  category: CategoryType!
+  created: GraphQLDate!
+  amount: Float!
+>>>>>>> dfc584a2b6462f3b83c4ee6e946ef642cd222d0f
 }
 
 type ExpenseCounts {
@@ -61,9 +70,7 @@ input ExpenseInputs {
   "Optional, if not supplied, will be set to current day'"
   created: GraphQLDate
   amount: Float!
-  imageSrc: String
 }  
-
 """Inputs for expenseUpdate: all are optional. Whichever is specified will
 be set to the given value, undefined fields will remain unmodified. Remaining
 balance (amount) will be subtracted from new paid amount if capable"""
@@ -72,19 +79,19 @@ input ExpenseUpdateInputs {
   category: CategoryType
   created: GraphQLDate
   amount: Float
-  imageSrc: String
 }
+
 ##### Top level declarations
 type Query {
   home: String!
   user: User!
   expenseList(
-    email: String
+    email: String!
     category: CategoryType
     search: String
     page: Int = 1
   ): ExpenseListWithPages
-  expense(email: String!): Expense
+  expense(id: Int, email: String!): Expense!
   expenseCounts(
     category: CategoryType
   ): [ExpenseCounts!]!

@@ -100,7 +100,7 @@ async function counts(_, { category }) {
 
 module.exports = {
   list,
-  add, //mustBeSignedIn(add),
+  add,
   get, // mustBeSignedIn(get)
   update: mustBeSignedIn(update),
   counts,
