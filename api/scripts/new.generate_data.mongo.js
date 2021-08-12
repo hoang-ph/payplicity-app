@@ -3,7 +3,7 @@
 
 // db.expenses.dropIndex('group_1'); // Bug fixed for now
 
-const emails = [ 'ravan@a', 'eddie@1', 'pieta@1', 'ok@ok', 'nguyen.an.1196@gmail.com'];
+const emails = [ 'ravan@a', 'eddie@1', 'pieta@1', 'haiphong1712@gmail.com', 'nguyen.an.1196@gmail.com'];
 
 const categories = [
   'Housing',

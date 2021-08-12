@@ -8,6 +8,7 @@
 
 db.expenses.remove({});
 db.counters.remove({});
+db.deleted_expenses.remove({});
 
 const expensesDB = [
   {
@@ -55,3 +56,5 @@ db.expenses.createIndex({ category: 1 });
 db.expenses.createIndex({ amount: 1 });
 db.expenses.createIndex({ created: 1 });
 db.expenses.createIndex({ title: 'text', description: 'text' });
+
+db.deleted_expenses.createIndex({ id: 1 }, { unique: true });
