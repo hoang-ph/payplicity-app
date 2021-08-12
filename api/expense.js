@@ -100,11 +100,11 @@ async function restore(_, { id }) {
   return false;
 }
 
-async function counts(_, { category }) {
+async function counts(_, { email }) {
   const db = getDb();
   const filter = {};
 
-  if (category) filter.category = category;
+  if (email) filter.email = email;
 
   const results = await db.collection('expenses').aggregate([
     { $match: filter },

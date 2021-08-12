@@ -25,16 +25,16 @@ type Expense {
 
 type ExpenseCounts {
   email: String
-  Housing: Int
-  Transportation: Int
-  Dining: Int
-  Groceries: Int
-  Savings: Int
-  Entertainment: Int
-  UtilitiesAndPhone: Int
-  Medical: Int
-  Clothing: Int
-  Misc: Int
+  Housing: Float
+  Transportation: Float
+  Dining: Float
+  Groceries: Float
+  Savings: Float
+  Entertainment: Float
+  UtilitiesAndPhone: Float
+  Medical: Float
+  Clothing: Float
+  Misc: Float
 }
 
 type ExpenseListWithPages {
@@ -82,9 +82,7 @@ type Query {
     page: Int = 1
   ): ExpenseListWithPages
   expense(id: Int, email: String): Expense!
-  expenseCounts(
-    category: CategoryType
-  ): [ExpenseCounts!]!
+  expenseCounts(email: String): ExpenseCounts!
 }
 type Mutation {
   expenseAdd(expense: ExpenseInputs!): Expense!
