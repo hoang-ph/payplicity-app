@@ -72,7 +72,7 @@ class ExpenseList extends React.Component {
     super(props);
     const initialData = store.initialData || { expenseList: {} };
     const {
-      expenseList: { expenses, pages }, expense: selectedExpense,
+      expenseList: { email, expenses, pages }, expense: selectedExpense,
     } = initialData;
     delete store.initialData;
     this.state = {

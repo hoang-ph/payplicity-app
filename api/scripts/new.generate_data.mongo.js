@@ -5,16 +5,23 @@
 
 const emails = [ 'ravan@a', 'eddie@1', 'pieta@1', 'ok@ok', 'nguyen.an.1196@gmail.com'];
 
-  const categories = ['Housing', 'Transportation', 'Dining', 'Groceries', 
-                    'Savings', 'Entertainment', 'UtilitiesAndPhone',
-                    'Medical', 'Clothing', 'Misc' 
-                  ];
+const categories = [
+  'Housing',
+  'Transportation',
+  'Dining',
+  'Groceries',
+  'Savings',
+  'Entertainment',
+  'UtilitiesAndPhone',
+  'Medical',
+  'Clothing',
+  'Misc',
+];
 
 const initialCount = db.expenses.count();
 
 for (let i = 0; i < 100; i += 1) {
-  const randomCreatedDate = (new Date())
-    - Math.floor(Math.random() * 60) * 1000 * 60 * 60 * 24;
+  const randomCreatedDate = new Date() - Math.floor(Math.random() * 60) * 1000 * 60 * 60 * 24;
   const created = new Date(randomCreatedDate);
 
   const email = emails[Math.floor(Math.random() * 5)];

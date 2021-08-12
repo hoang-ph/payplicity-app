@@ -7,7 +7,7 @@
  */
 
 db.expenses.remove({});
-db.counters.remove({})
+db.counters.remove({});
 
 const expensesDB = [
   {
@@ -15,7 +15,7 @@ const expensesDB = [
     owner: {
       signedIn: true,
       name: 'Tony',
-      email: 'tony@stark.com'
+      email: 'tony@stark.com',
     },
     email: 'tony@strak.com',
     title: 'Movie Night',
@@ -30,7 +30,7 @@ const expensesDB = [
     owner: {
       signedIn: false,
       name: 'John',
-      email: 'johnny@yahoo.com'
+      email: 'johnny@yahoo.com',
     },
     email: 'johnny@yahoo.com',
     title: 'Cheesecake Factory',
@@ -52,6 +52,6 @@ db.counters.insert({ _id: 'expenses', current: count });
 db.expenses.createIndex({ id: 1 }, { unique: true });
 db.expenses.createIndex({ email: 1 });
 db.expenses.createIndex({ category: 1 });
-db.expenses.createIndex({ owner: 1 });
+db.expenses.createIndex({ amount: 1 });
 db.expenses.createIndex({ created: 1 });
 db.expenses.createIndex({ title: 'text', description: 'text' });
