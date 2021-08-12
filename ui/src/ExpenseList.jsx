@@ -72,7 +72,7 @@ class ExpenseList extends React.Component {
     super(props);
     const initialData = store.initialData || { expenseList: {} };
     const {
-      expenseList: { email, expenses, pages }, expense: selectedExpense,
+      expenseList: { expenses, pages }, expense: selectedExpense,
     } = initialData;
     delete store.initialData;
     this.state = {
@@ -80,7 +80,7 @@ class ExpenseList extends React.Component {
       selectedExpense,
       pages,
     };
-    this.deleteExpense = this.deleteExpense.bind(this);
+    this.removeExpense = this.removeExpense.bind(this);
   }
 
   componentDidMount() {
@@ -114,16 +114,16 @@ class ExpenseList extends React.Component {
     }
   }
 
-  async deleteExpense(index) {
-    const query = `mutation expenseDelete($id: Int!) {
-      expenseDelete(id: $id)
+  async removeExpense(index) {
+    const query = `mutation expenseRemove($id: Int!) {
+      expenseRemove(id: $id)
     }`;
     const { expenses } = this.state;
     const { location: { pathname, search }, history } = this.props;
     const { showSuccess, showError } = this.props;
     const { id } = expenses[index];
     const data = await graphQLFetch(query, { id }, showError);
-    if (data && data.expenseDelete) {
+    if (data && data.expenseRemove) {
       this.setState((prevState) => {
         const newList = [...prevState.expenses];
         if (pathname === `/expenses/${id}`) {
@@ -134,7 +134,7 @@ class ExpenseList extends React.Component {
       });
       const undoMessage = (
         <span>
-          {`Deleted expense ${id} successfully.`}
+          {`Removed expense ${id} successfully.`}
           <Button bsStyle="link" onClick={() => this.restoreExpense(id)}>
             UNDO
           </Button>
@@ -195,7 +195,7 @@ class ExpenseList extends React.Component {
         </Panel>
         <ExpenseTable
           expenses={expenses}
-          deleteExpense={this.deleteExpense}
+          removeExpense={this.removeExpense}
         />
         <ExpenseDetail expense={selectedExpense} />
         <Pagination>

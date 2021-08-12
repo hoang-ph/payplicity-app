@@ -18,6 +18,8 @@ const resolvers = {
   Mutation: {
     expenseAdd: expense.add,
     expenseUpdate: expense.update,
+    expenseRemove: expense.remove,
+    expenseRestore: expense.restore,
   },
   GraphQLDate,
 };

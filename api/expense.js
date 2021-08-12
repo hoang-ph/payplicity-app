@@ -39,7 +39,7 @@ function validate(expense) {
     errors.push('Description filed must be entered.');
   }
   if (expense.amount <= 0) {
-    errors.push('Owned amount has to be greater than 0.');
+    errors.push('Amount has to be greater than 0.');
   }
   if (errors.length > 0) {
     throw new UserInputError('Invalid input(s)', { errors });
@@ -70,6 +70,34 @@ async function update(_, { id, changes }) {
   await db.collection('expenses').updateOne({ id }, { $set: changes });
   const savedExpense = await db.collection('expenses').findOne({ id });
   return savedExpense;
+}
+
+async function remove(_, { id }) {
+  const db = getDb();
+  const expense = await db.collection('expenses').findOne({ id });
+  if (!expense) return false;
+  expense.deleted = new Date();
+
+  let result = await db.collection('deleted_expenses').insertOne(expense);
+  if (result.insertedId) {
+    result = await db.collection('expenses').removeOne({ id });
+    return result.deletedCount === 1;
+  }
+  return false;
+}
+
+async function restore(_, { id }) {
+  const db = getDb();
+  const expense = await db.collection('deleted_expenses').findOne({ id });
+  if (!expense) return false;
+  expense.deleted = new Date();
+
+  let result = await db.collection('expenses').insertOne(expense);
+  if (result.insertedId) {
+    result = await db.collection('deleted_issues').removeOne({ id });
+    return result.deletedCount === 1;
+  }
+  return false;
 }
 
 async function counts(_, { category }) {
@@ -103,5 +131,7 @@ module.exports = {
   add,
   get, // mustBeSignedIn(get)
   update, // mustBeSignedIn(update),
+  remove,
+  restore,
   counts,
 };
