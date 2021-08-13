@@ -5,22 +5,14 @@
 
 const emails = [ 'ravan@a', 'eddie@1', 'pieta@1', 'haiphong1712@gmail.com', 'nguyen.an.1196@gmail.com'];
 
-const categories = [
-  'Housing',
-  'Transportation',
-  'Dining',
-  'Groceries',
-  'Savings',
-  'Entertainment',
-  'UtilitiesAndPhone',
-  'Medical',
-  'Clothing',
-  'Misc',
-];
+  const categories = ['Housing', 'Transportation', 'Dinning', 'Groceries', 
+                    'Savings', 'Entertainment', 'UtilitiesAndPhone',
+                    'Medical', 'Clothing', 'Misc' 
+                  ];
 
 const initialCount = db.expenses.count();
 
-for (let i = 0; i < 100; i += 1) {
+for (let i = 0; i < 30; i += 1) {
   const randomCreatedDate = new Date() - Math.floor(Math.random() * 60) * 1000 * 60 * 60 * 24;
   const created = new Date(randomCreatedDate);
 
@@ -28,7 +20,6 @@ for (let i = 0; i < 100; i += 1) {
   const category = categories[Math.floor(Math.random() * 10)];
   const description = `Lorem ipsum dolor sit amet, ${i}`;
   const amount = Math.ceil(Math.random() * 20);
-  const paid = Math.ceil(Math.random() * 5);
   const id = initialCount + i + 1;
 
   const expense = {

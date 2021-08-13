@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import {
   Col, Panel, Form, FormGroup, FormControl, ControlLabel,
@@ -12,22 +13,18 @@ import TextInput from './TextInput.jsx';
 import withToast from './withToast.jsx';
 import store from './store.js';
 import UserContext from './UserContext.js';
-import NotSignedIn from './NotSignedIn.jsx';
 
-class ExpenseEdit extends React.Component {
-  static async fetchData(match, search, showError, user) {
-    const query = `query expense($id: Int!, $email: String) {
-      expense(id: $id, email: $email) {
-        id description category created amount
-        email
+class IssueEdit extends React.Component {
+  static async fetchData(match, search, showError) {
+    const query = `query issue($id: Int!) {
+      issue(id: $id) {
+        id title status owner
+        effort created due description
       }
     }`;
+
     const { params: { id } } = match;
-    const vars = { id };
-    if (user) {
-      vars.email = user.email;
-    };
-    const result = await graphQLFetch(query, vars, showError);
+    const result = await graphQLFetch(query, { id }, showError);
     return result;
   }
 
@@ -48,17 +45,15 @@ class ExpenseEdit extends React.Component {
   }
 
   componentDidMount() {
-    const user = this.context;
-    const { expense } = this.state;
-    if (expense == null) this.loadData(user);
+    const { issue } = this.state;
+    if (issue == null) this.loadData();
   }
 
   componentDidUpdate(prevProps) {
-    const user = this.context;
     const { match: { params: { id: prevId } } } = prevProps;
     const { match: { params: { id } } } = this.props;
     if (id !== prevId) {
-      this.loadData(user);
+      this.loadData();
     }
   }
 
@@ -93,7 +88,8 @@ class ExpenseEdit extends React.Component {
         id: $id
         changes: $changes
       ) {
-        id description category created amount email
+        id title status owner
+        effort created due description
       }
     }`;
 
@@ -101,19 +97,15 @@ class ExpenseEdit extends React.Component {
     const { showSuccess, showError } = this.props;
     const data = await graphQLFetch(query, { changes, id: parseInt(id, 10) }, showError);
     if (data) {
-      this.setState({ expense: data.expenseUpdate });
-      showSuccess('Updated expense successfully');
-      setTimeout(() => {
-        const { history } = this.props;
-        history.push('/expenses');
-      }, 1000);
+      this.setState({ issue: data.issueUpdate });
+      showSuccess('Updated issue successfully');
     }
   }
 
-  async loadData(user) {
+  async loadData() {
     const { match, showError } = this.props;
-    const data = await ExpenseEdit.fetchData(match, null, showError, user);
-    this.setState({ expense: data ? data.expense : {}, invalidFields: {} });
+    const data = await IssueEdit.fetchData(match, null, showError);
+    this.setState({ issue: data ? data.issue : {}, invalidFields: {} });
   }
 
   showValidation() {
@@ -147,12 +139,13 @@ class ExpenseEdit extends React.Component {
       );
     }
 
-    const { expense: { description, category } } = this.state;
-    const { expense: { created, amount } } = this.state;
+    const { issue: { title, status } } = this.state;
+    const { issue: { owner, effort, description } } = this.state;
+    const { issue: { created, due } } = this.state;
+
+    const user = this.context;
 
     return (
-      <>
-      {!this.context.signedIn ? <NotSignedIn /> :
       <Panel>
         <Panel.Heading>
           <Panel.Title>{`Editing issue: ${id}`}</Panel.Title>
@@ -176,16 +169,10 @@ class ExpenseEdit extends React.Component {
                   value={status}
                   onChange={this.onChange}
                 >
-                  <option value="Misc"> Misc</option>
-                  <option value="Housing"> Housing</option>
-                  <option value="Transportation">Transportation</option>
-                  <option value="Dining">Dining</option>
-                  <option value="Savings">Savings</option>
-                  <option value="Groceries">Groceries</option>
-                  <option value="Entertainment">Entertainment</option>
-                  <option value="UtilitiesAndPhone">Utility & Phone</option>
-                  <option value="Medical">Medical</option>
-                  <option value="Clothing">Clothing</option>
+                  <option value="New">New</option>
+                  <option value="Assigned">Assigned</option>
+                  <option value="Fixed">Fixed</option>
+                  <option value="Closed">Closed</option>
                 </FormControl>
               </Col>
             </FormGroup>
@@ -231,6 +218,19 @@ class ExpenseEdit extends React.Component {
               </Col>
             </FormGroup>
             <FormGroup>
+              <Col componentClass={ControlLabel} sm={3}>Title</Col>
+              <Col sm={9}>
+                <FormControl
+                  componentClass={TextInput}
+                  size={50}
+                  name="title"
+                  value={title}
+                  onChange={this.onChange}
+                  key={id}
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup>
               <Col componentClass={ControlLabel} sm={3}>Description</Col>
               <Col sm={9}>
                 <FormControl
@@ -255,7 +255,7 @@ class ExpenseEdit extends React.Component {
                   >
                     Submit
                   </Button>
-                  <LinkContainer to="/expenses">
+                  <LinkContainer to="/issues">
                     <Button bsStyle="link">Back</Button>
                   </LinkContainer>
                 </ButtonToolbar>
@@ -266,8 +266,12 @@ class ExpenseEdit extends React.Component {
             </FormGroup>
           </Form>
         </Panel.Body>
-      </Panel>}
-    </>
+        <Panel.Footer>
+          <Link to={`/edit/${id - 1}`}>Prev</Link>
+          {' | '}
+          <Link to={`/edit/${id + 1}`}>Next</Link>
+        </Panel.Footer>
+      </Panel>
     );
   }
 }
