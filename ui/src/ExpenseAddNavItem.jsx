@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import {
   NavItem, Glyphicon, Modal, Form, FormGroup, FormControl, ControlLabel,
   Button, ButtonToolbar, Tooltip, OverlayTrigger, InputGroup,
@@ -31,12 +31,13 @@ class ExpenseAddNavItem extends React.Component {
     e.preventDefault();
     this.hideModal();
     const form = document.forms.expenseAdd;
+    const { user: { email } } = this.props;
     const expense = {
+      email,
       description: form.description.value,
-      amount: form.amount.value,
+      amount: form.amount.value || 0.00,
       category: form.category.value,
-      date: new Date(form.date.value) || new Date(),
-      file: form.file.value,
+      created: new Date(form.date.value) || new Date(),
     };
     const query = `mutation expenseAdd($expense: ExpenseInputs!) {
       expenseAdd(expense: $expense) {
@@ -102,10 +103,6 @@ class ExpenseAddNavItem extends React.Component {
               <FormGroup>
                 <ControlLabel>Date</ControlLabel>
                 <FormControl name="date" placeholder="mm/dd/yyyy" />
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>File</ControlLabel>
-                <FormControl name="file" type="file" placeholder="No file chosen" />
               </FormGroup>
             </Form>
           </Modal.Body>

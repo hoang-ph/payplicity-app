@@ -1,10 +1,10 @@
 const { UserInputError } = require('apollo-server-express');
 const { getDb, getNextSequence } = require('./new_db.js');
-const { mustBeSignedIn } = require('./auth.js');
+// const { mustBeSignedIn } = require('./auth.js');
 
-async function get(_, { email }) {
+async function get(_, { id, email }) {
   const db = getDb();
-  const expense = await db.collection('expenses').findOne({ email });
+  const expense = await db.collection('expenses').findOne({ id, email });
   return expense;
 }
 
@@ -45,7 +45,7 @@ function validate(expense) {
     errors.push('Description filed must be entered.');
   }
   if (expense.amount <= 0) {
-    errors.push('Owned amount has to be greater than 0.');
+    errors.push('Amount has to be greater than 0.');
   }
   if (errors.length > 0) {
     throw new UserInputError('Invalid input(s)', { errors });
@@ -78,36 +78,65 @@ async function update(_, { id, changes }) {
   return savedExpense;
 }
 
-async function counts(_, { category }) {
+async function remove(_, { id }) {
+  const db = getDb();
+  const expense = await db.collection('expenses').findOne({ id });
+  if (!expense) return false;
+  expense.deleted = new Date();
+
+  let result = await db.collection('deleted_expenses').insertOne(expense);
+  if (result.insertedId) {
+    result = await db.collection('expenses').removeOne({ id });
+    return result.deletedCount === 1;
+  }
+  return false;
+}
+
+async function restore(_, { id }) {
+  const db = getDb();
+  const expense = await db.collection('deleted_expenses').findOne({ id });
+  if (!expense) return false;
+  expense.deleted = new Date();
+
+  let result = await db.collection('expenses').insertOne(expense);
+  if (result.insertedId) {
+    result = await db.collection('deleted_issues').removeOne({ id });
+    return result.deletedCount === 1;
+  }
+  return false;
+}
+
+async function counts(_, { email }) {
   const db = getDb();
   const filter = {};
-
-  if (category) filter.category = category;
+  if (email) filter.email = email;
 
   const results = await db.collection('expenses').aggregate([
     { $match: filter },
     {
       $group: {
-        _id: { owner: '$owner', category: '$category' },
-        count: { $sum: 1 },
+        _id: '$category',
+        total: { $sum: '$amount' },
       },
     },
   ]).toArray();
+  console.log(results);
 
   const stats = {};
   results.forEach((result) => {
     // eslint-disable-next-line no-underscore-dangle
-    const { owner, status: statusKey } = result._id;
-    if (!stats[owner]) stats[owner] = { owner };
-    stats[owner][statusKey] = result.count;
+    const category = result._id;
+    stats[category] = result.total;
   });
-  return Object.values(stats);
+  return stats;
 }
 
 module.exports = {
   list,
   add,
   get, // mustBeSignedIn(get)
-  update: mustBeSignedIn(update),
+  update, // mustBeSignedIn(update),
+  remove,
+  restore,
   counts,
 };

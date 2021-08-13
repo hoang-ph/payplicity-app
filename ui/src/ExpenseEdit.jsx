@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import {
   Col, Panel, Form, FormGroup, FormControl, ControlLabel,
@@ -13,18 +12,22 @@ import TextInput from './TextInput.jsx';
 import withToast from './withToast.jsx';
 import store from './store.js';
 import UserContext from './UserContext.js';
+import NotSignedIn from './NotSignedIn.jsx';
 
-class IssueEdit extends React.Component {
-  static async fetchData(match, search, showError) {
-    const query = `query issue($id: Int!) {
-      issue(id: $id) {
-        id title status owner
-        effort created due description
+class ExpenseEdit extends React.Component {
+  static async fetchData(match, search, showError, user) {
+    const query = `query expense($id: Int!, $email: String) {
+      expense(id: $id, email: $email) {
+        id description category created amount
+        email
       }
     }`;
-
     const { params: { id } } = match;
-    const result = await graphQLFetch(query, { id }, showError);
+    const vars = { id };
+    if (user) {
+      vars.email = user.email;
+    };
+    const result = await graphQLFetch(query, vars, showError);
     return result;
   }
 
@@ -45,15 +48,17 @@ class IssueEdit extends React.Component {
   }
 
   componentDidMount() {
-    const { issue } = this.state;
-    if (issue == null) this.loadData();
+    const user = this.context;
+    const { expense } = this.state;
+    if (expense == null) this.loadData(user);
   }
 
   componentDidUpdate(prevProps) {
+    const user = this.context;
     const { match: { params: { id: prevId } } } = prevProps;
     const { match: { params: { id } } } = this.props;
     if (id !== prevId) {
-      this.loadData();
+      this.loadData(user);
     }
   }
 
@@ -88,8 +93,7 @@ class IssueEdit extends React.Component {
         id: $id
         changes: $changes
       ) {
-        id title status owner
-        effort created due description
+        id description category created amount email
       }
     }`;
 
@@ -97,15 +101,19 @@ class IssueEdit extends React.Component {
     const { showSuccess, showError } = this.props;
     const data = await graphQLFetch(query, { changes, id: parseInt(id, 10) }, showError);
     if (data) {
-      this.setState({ issue: data.issueUpdate });
-      showSuccess('Updated issue successfully');
+      this.setState({ expense: data.expenseUpdate });
+      showSuccess('Updated expense successfully');
+      setTimeout(() => {
+        const { history } = this.props;
+        history.push('/expenses');
+      }, 1000);
     }
   }
 
-  async loadData() {
+  async loadData(user) {
     const { match, showError } = this.props;
-    const data = await IssueEdit.fetchData(match, null, showError);
-    this.setState({ issue: data ? data.issue : {}, invalidFields: {} });
+    const data = await ExpenseEdit.fetchData(match, null, showError, user);
+    this.setState({ expense: data ? data.expense : {}, invalidFields: {} });
   }
 
   showValidation() {
@@ -139,13 +147,12 @@ class IssueEdit extends React.Component {
       );
     }
 
-    const { issue: { title, status } } = this.state;
-    const { issue: { owner, effort, description } } = this.state;
-    const { issue: { created, due } } = this.state;
-
-    const user = this.context;
+    const { expense: { description, category } } = this.state;
+    const { expense: { created, amount } } = this.state;
 
     return (
+      <>
+      {!this.context.signedIn ? <NotSignedIn /> :
       <Panel>
         <Panel.Heading>
           <Panel.Title>{`Editing issue: ${id}`}</Panel.Title>
@@ -169,10 +176,16 @@ class IssueEdit extends React.Component {
                   value={status}
                   onChange={this.onChange}
                 >
-                  <option value="New">New</option>
-                  <option value="Assigned">Assigned</option>
-                  <option value="Fixed">Fixed</option>
-                  <option value="Closed">Closed</option>
+                  <option value="Misc"> Misc</option>
+                  <option value="Housing"> Housing</option>
+                  <option value="Transportation">Transportation</option>
+                  <option value="Dining">Dining</option>
+                  <option value="Savings">Savings</option>
+                  <option value="Groceries">Groceries</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="UtilitiesAndPhone">Utility & Phone</option>
+                  <option value="Medical">Medical</option>
+                  <option value="Clothing">Clothing</option>
                 </FormControl>
               </Col>
             </FormGroup>
@@ -218,19 +231,6 @@ class IssueEdit extends React.Component {
               </Col>
             </FormGroup>
             <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>Title</Col>
-              <Col sm={9}>
-                <FormControl
-                  componentClass={TextInput}
-                  size={50}
-                  name="title"
-                  value={title}
-                  onChange={this.onChange}
-                  key={id}
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup>
               <Col componentClass={ControlLabel} sm={3}>Description</Col>
               <Col sm={9}>
                 <FormControl
@@ -266,12 +266,8 @@ class IssueEdit extends React.Component {
             </FormGroup>
           </Form>
         </Panel.Body>
-        <Panel.Footer>
-          <Link to={`/edit/${id - 1}`}>Prev</Link>
-          {' | '}
-          <Link to={`/edit/${id + 1}`}>Next</Link>
-        </Panel.Footer>
-      </Panel>
+      </Panel>}
+    </>
     );
   }
 }

@@ -16,7 +16,7 @@ enum CategoryType {
 type Expense {
   _id: ID!
   id: Int
-  email: String!
+  email: String
   description: String!
   category: CategoryType!
   created: GraphQLDate!
@@ -25,16 +25,16 @@ type Expense {
 
 type ExpenseCounts {
   email: String
-  Housing: Int
-  Transportation: Int
-  Dinning: Int
-  Groceries: Int
-  Savings: Int
-  Entertainment: Int
-  UtilitiesAndPhone: Int
-  Medical: Int
-  Clothing: Int
-  Misc: Int
+  Housing: Float
+  Transportation: Float
+  Dining: Float
+  Groceries: Float
+  Savings: Float
+  Entertainment: Float
+  UtilitiesAndPhone: Float
+  Medical: Float
+  Clothing: Float
+  Misc: Float
 }
 
 type ExpenseListWithPages {
@@ -46,12 +46,13 @@ type User {
   signedIn: Boolean!
   givenName: String
   name: String
-  email: String!
+  email: String
   password: String
 }
 
 "Toned down Expense, used as inputs, without server generated values."
 input ExpenseInputs {
+  email: String
   description: String!
   "Optional, if not supplied, will be set to 'Misc'"
   category: CategoryType = Misc
@@ -59,11 +60,11 @@ input ExpenseInputs {
   created: GraphQLDate
   amount: Float!
 }  
-
 """Inputs for expenseUpdate: all are optional. Whichever is specified will
 be set to the given value, undefined fields will remain unmodified. Remaining
 balance (amount) will be subtracted from new paid amount if capable"""
 input ExpenseUpdateInputs {
+  email: String
   description: String
   category: CategoryType
   created: GraphQLDate
@@ -75,20 +76,18 @@ type Query {
   about: String!
   user: User!
   expenseList(
-    email: String!
+    email: String
     category: CategoryType
     search: String
     page: Int = 1
   ): ExpenseListWithPages
-  expense(id: Int, email: String!): Expense!
-  expenseCounts(
-    category: CategoryType
-  ): [ExpenseCounts!]!
+  expense(id: Int, email: String): Expense!
+  expenseCounts(email: String): ExpenseCounts!
 }
 type Mutation {
   setAboutMessage(message: String!): String
   expenseAdd(expense: ExpenseInputs!): Expense!
   expenseUpdate(id: Int!, changes: ExpenseUpdateInputs!): Expense!
-  expenseDelete(id: Int!): Boolean!
+  expenseRemove(id: Int!): Boolean!
   expenseRestore(id: Int!): Boolean!
 }

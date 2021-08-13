@@ -11,7 +11,7 @@ import UserContext from './UserContext.js';
 class ExpenseRowPlain extends React.Component {
   render() {
     const {
-      expense, location: { search }, deleteExpense, index,
+      expense, location: { search }, removeExpense, index,
     } = this.props;
     const user = this.context;
     const disabled = !user.signedIn;
@@ -26,7 +26,7 @@ class ExpenseRowPlain extends React.Component {
 
     function onDelete(e) {
       e.preventDefault();
-      deleteExpense(index);
+      removeExpense(index);
     }
 
     const tableRow = (
@@ -65,12 +65,12 @@ ExpenseRowPlain.contextType = UserContext;
 const ExpenseRow = withRouter(ExpenseRowPlain);
 delete ExpenseRow.contextType;
 
-export default function ExpenseTable({ expenses, deleteExpense }) {
+export default function ExpenseTable({ expenses, removeExpense }) {
   const expenseRows = expenses.map((expense, index) => (
     <ExpenseRow
       key={expense.id}
       expense={expense}
-      deleteExpense={deleteExpense}
+      removeExpense={removeExpense}
       index={index}
     />
   ));

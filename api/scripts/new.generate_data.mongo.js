@@ -3,11 +3,7 @@
 
 // db.expenses.dropIndex('group_1'); // Bug fixed for now
 
-const owners = [
-  {
-    email: 'haiphong1712@gmail.com',
-  },
-];
+const emails = [ 'ravan@a', 'eddie@1', 'pieta@1', 'haiphong1712@gmail.com', 'nguyen.an.1196@gmail.com'];
 
   const categories = ['Housing', 'Transportation', 'Dinning', 'Groceries', 
                     'Savings', 'Entertainment', 'UtilitiesAndPhone',
@@ -20,20 +16,14 @@ for (let i = 0; i < 30; i += 1) {
   const randomCreatedDate = new Date() - Math.floor(Math.random() * 60) * 1000 * 60 * 60 * 24;
   const created = new Date(randomCreatedDate);
 
-  // const owner = owners[Math.floor(Math.random() * 5)];
-  const email = 'haiphong1712@gmail.com';
+  const email = emails[Math.floor(Math.random() * 5)];
   const category = categories[Math.floor(Math.random() * 10)];
   const description = `Lorem ipsum dolor sit amet, ${i}`;
   const amount = Math.ceil(Math.random() * 20);
   const id = initialCount + i + 1;
 
   const expense = {
-    id,
-    email,
-    description,
-    category,
-    created,
-    amount,
+    id, email, description, category, created, amount, paid
   };
   db.expenses.insertOne(expense);
 }

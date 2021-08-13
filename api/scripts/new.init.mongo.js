@@ -7,8 +7,8 @@
  */
 
 db.expenses.remove({});
-db.counters.remove({})
-db.users.remove({});
+db.counters.remove({});
+db.deleted_expenses.remove({});
 
 const expensesDB = [
   {
@@ -18,6 +18,7 @@ const expensesDB = [
     category: 'Entertainment',
     created: new Date('2021-07-04'),
     amount: 69.95,
+    paid: 15.05,
   },
   {
     id: 2,
@@ -34,6 +35,7 @@ const expensesDB = [
     category: 'Misc',
     created: new Date('2021-08-05'),
     amount: 105.5,
+    paid: 52.25,
   },
 ];
 
@@ -47,6 +49,8 @@ db.counters.insert({ _id: 'expenses', current: count });
 db.expenses.createIndex({ id: 1 }, { unique: true });
 db.expenses.createIndex({ email: 1 });
 db.expenses.createIndex({ category: 1 });
-db.expenses.createIndex({ owner: 1 });
+db.expenses.createIndex({ amount: 1 });
 db.expenses.createIndex({ created: 1 });
 db.expenses.createIndex({ title: 'text', description: 'text' });
+
+db.deleted_expenses.createIndex({ id: 1 }, { unique: true });

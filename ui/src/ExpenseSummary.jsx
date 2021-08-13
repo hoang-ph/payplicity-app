@@ -1,28 +1,31 @@
 import React from 'react';
-import { Panel, Table } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
+import { Chart } from 'react-google-charts';
 
 import ExpenseFilter from './ExpenseFilter.jsx';
 import withToast from './withToast.jsx';
 import graphQLFetch from './graphQLFetch.js';
 import store from './store.js';
+import UserContext from './UserContext.js';
+import NotSignedIn from './NotSignedIn.jsx';
 
-const categories = ['Housing', 'Transportation', 'Dinning', 'Groceries', 'Savings',
-  'Entertainment', 'UtilitiesAndPhone', 'Medical', 'Clothing', 'Misc'];
+// const categories = ['Housing', 'Transportation', 'Dining', 'Groceries', 'Savings',
+//   'Entertainment', 'UtilitiesAndPhone', 'Medical', 'Clothing', 'Misc'];
 
 class ExpenseSummary extends React.Component {
-  static async fetchData(match, search, showError) {
-    const params = new URLSearchParams(search);
+  static async fetchData(match, search, showError, user) {
+    // implement params search limit the summary by day, month, year
+    // const params = new URLSearchParams(search);
     const vars = {};
-    if (params.get('category')) vars.category = params.get('category');
+    if (user) {
+      vars.email = user.email;
+    }
+    // if (params.get('category')) vars.category = params.get('category');
 
-    const query = `query expenseList(
-      $category: CategoryType
-    ) {
-      expenseCounts(
-        category: $category
-      ) {
-        owner Housing Transportation Dinning Groceries Savings
-        Entertainment UtilitiesAndPhone Medical Clothing Misc
+    const query = `query ($email: String) {
+      expenseCounts(email: $email) {
+          Housing Transportation Dining Groceries Savings
+          Entertainment UtilitiesAndPhone Medical Clothing Misc
       }
     }`;
     const data = await graphQLFetch(query, vars, showError);
@@ -37,21 +40,23 @@ class ExpenseSummary extends React.Component {
   }
 
   componentDidMount() {
+    const user = this.context;
     const { stats } = this.state;
-    if (stats == null) this.loadData();
+    if (stats == null) this.loadData(user);
   }
 
   componentDidUpdate(prevProps) {
+    const user = this.context;
     const { location: { search: prevSearch } } = prevProps;
     const { location: { search } } = this.props;
     if (prevSearch !== search) {
-      this.loadData();
+      this.loadData(user);
     }
   }
 
-  async loadData() {
+  async loadData(user) {
     const { location: { search }, match, showError } = this.props;
-    const data = await ExpenseSummary.fetchData(match, search, showError);
+    const data = await ExpenseSummary.fetchData(match, search, showError, user);
     if (data) {
       this.setState({ stats: data.expenseCounts });
     }
@@ -60,47 +65,39 @@ class ExpenseSummary extends React.Component {
   render() {
     const { stats } = this.state;
     if (stats == null) return null;
-
-    const headerColumns = (
-      categories.map(category => (
-        <th key={category}>{category}</th>
-      ))
-    );
-
-    const statRows = stats.map(counts => (
-      <tr key={counts.owner}>
-        <td>{counts.owner}</td>
-        {categories.map(category => (
-          <td key={category}>{counts[category]}</td>
-        ))}
-      </tr>
-    ));
-
+    const data = Object.entries(stats);
+    data.unshift(['Category', 'Amount spent']);
     return (
       <>
-        <Panel>
-          <Panel.Heading>
-            <Panel.Title toggle>Filter</Panel.Title>
-          </Panel.Heading>
-          <Panel.Body collapsible>
-            <ExpenseFilter urlBase="/summary" />
-          </Panel.Body>
-        </Panel>
-        <Table bordered condensed hover responsive>
-          <thead>
-            <tr>
-              <th />
-              {headerColumns}
-            </tr>
-          </thead>
-          <tbody>
-            {statRows}
-          </tbody>
-        </Table>
+        {!this.context.signedIn ? <NotSignedIn /> :
+        <>
+          <Panel>
+            <Panel.Heading>
+              <Panel.Title toggle>Filter</Panel.Title>
+            </Panel.Heading>
+            <Panel.Body collapsible>
+              <ExpenseFilter urlBase="/summary" />
+            </Panel.Body>
+          </Panel>
+          <div className="chart">
+            <Chart
+              width="500px"
+              height="300px"
+              chartType="PieChart"
+              loader={<div>Loading Chart</div>}
+              data={data}
+              options={{
+                title: 'Amount Spent by Category',
+              }}
+              rootProps={{ 'data-testid': '1' }}
+            />
+          </div>
+        </>}
       </>
     );
   }
 }
+ExpenseSummary.contextType = UserContext;
 
 const ExpenseSummaryWithToast = withToast(ExpenseSummary);
 ExpenseSummaryWithToast.fetchData = ExpenseSummary.fetchData;
