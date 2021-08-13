@@ -122,7 +122,6 @@ async function counts(_, { email }) {
     const category = result._id;
     stats[category] = result.total;
   });
-  console.log(stats);
   return stats;
 }
 

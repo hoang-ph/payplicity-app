@@ -87,7 +87,6 @@ class ExpenseList extends React.Component {
     const user = this.context;
     const { expenses } = this.state;
     if (expenses == null) this.loadData(user);
-    this.loadData(user);
   }
 
   componentDidUpdate(prevProps) {

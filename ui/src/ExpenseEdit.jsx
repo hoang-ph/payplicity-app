@@ -48,7 +48,6 @@ class ExpenseEdit extends React.Component {
     const user = this.context;
     const { expense } = this.state;
     if (expense == null) this.loadData(user);
-    this.loadData(user);
   }
 
   componentDidUpdate(prevProps) {

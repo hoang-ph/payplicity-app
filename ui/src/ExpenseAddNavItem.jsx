@@ -35,7 +35,7 @@ class ExpenseAddNavItem extends React.Component {
     const expense = {
       email,
       description: form.description.value,
-      amount: form.amount.value,
+      amount: form.amount.value || 0.00,
       category: form.category.value,
       created: new Date(form.date.value) || new Date(),
     };
