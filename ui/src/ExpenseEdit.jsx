@@ -12,6 +12,7 @@ import TextInput from './TextInput.jsx';
 import withToast from './withToast.jsx';
 import store from './store.js';
 import UserContext from './UserContext.js';
+import NotSignedIn from './NotSignedIn.jsx';
 
 class ExpenseEdit extends React.Component {
   static async fetchData(match, search, showError, user) {
@@ -23,7 +24,9 @@ class ExpenseEdit extends React.Component {
     }`;
     const { params: { id } } = match;
     const vars = { id };
-    vars.email = user.email;
+    if (user) {
+      vars.email = user.email;
+    };
     const result = await graphQLFetch(query, vars, showError);
     return result;
   }
@@ -148,6 +151,8 @@ class ExpenseEdit extends React.Component {
     const { expense: { created, amount } } = this.state;
 
     return (
+      <>
+      {!this.context.signedIn ? <NotSignedIn /> :
       <Panel>
         <Panel.Heading>
           <Panel.Title>{`Editing expense: ${id}`}</Panel.Title>
@@ -248,7 +253,8 @@ class ExpenseEdit extends React.Component {
             </FormGroup>
           </Form>
         </Panel.Body>
-      </Panel>
+      </Panel>}
+    </>
     );
   }
 }

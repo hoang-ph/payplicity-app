@@ -10,6 +10,7 @@ import graphQLFetch from './graphQLFetch.js';
 import withToast from './withToast.jsx';
 import store from './store.js';
 import UserContext from './UserContext.js';
+import NotSignedIn from './NotSignedIn.jsx';
 
 const SECTION_SIZE = 5;
 
@@ -43,9 +44,11 @@ class ExpenseList extends React.Component {
     let page = parseInt(params.get('page'), 10);
     if (Number.isNaN(page)) page = 1;
     vars.page = page;
-    vars.email = user.email;
+    if (user) {
+      vars.email = user.email;
+    }
 
-    const query = `query ($email: String!
+    const query = `query ($email: String
       $category: CategoryType
       $hasSelection: Boolean!
       $selectedId: Int!
@@ -183,30 +186,33 @@ class ExpenseList extends React.Component {
     }
 
     return (
-      <React.Fragment>
-        <Panel>
-          <Panel.Heading>
-            <Panel.Title toggle>Filter</Panel.Title>
-          </Panel.Heading>
-          <Panel.Body collapsible>
-            <ExpenseFilter urlBase="/expenses" />
-          </Panel.Body>
-        </Panel>
-        <ExpenseTable
-          expenses={expenses}
-          removeExpense={this.removeExpense}
-        />
-        <ExpenseDetail expense={selectedExpense} />
-        <Pagination>
-          <PageLink params={params} page={prevSection}>
-            <Pagination.Item>{'<'}</Pagination.Item>
-          </PageLink>
-          {items}
-          <PageLink params={params} page={nextSection}>
-            <Pagination.Item>{'>'}</Pagination.Item>
-          </PageLink>
-        </Pagination>
-      </React.Fragment>
+      <>
+      {!this.context.signedIn ? <NotSignedIn /> :
+        <React.Fragment>
+          <Panel>
+            <Panel.Heading>
+              <Panel.Title toggle>Filter</Panel.Title>
+            </Panel.Heading>
+            <Panel.Body collapsible>
+              <ExpenseFilter urlBase="/expenses" />
+            </Panel.Body>
+          </Panel>
+          <ExpenseTable
+            expenses={expenses}
+            removeExpense={this.removeExpense}
+          />
+          <ExpenseDetail expense={selectedExpense} />
+          <Pagination>
+            <PageLink params={params} page={prevSection}>
+              <Pagination.Item>{'<'}</Pagination.Item>
+            </PageLink>
+            {items}
+            <PageLink params={params} page={nextSection}>
+              <Pagination.Item>{'>'}</Pagination.Item>
+            </PageLink>
+          </Pagination>
+        </React.Fragment>}
+      </>
     );
   }
 }
