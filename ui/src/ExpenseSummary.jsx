@@ -17,10 +17,9 @@ class ExpenseSummary extends React.Component {
 
     const query = `query expenseList(
       $email: String
-      $category: CategoryType
     ) {
       expenseCounts(
-        category: $category
+        email: $email
       ) {
         Housing Transportation Dining Groceries Savings
         Entertainment UtilitiesAndPhone Medical Clothing Misc

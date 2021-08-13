@@ -103,27 +103,27 @@ async function restore(_, { id }) {
 async function counts(_, { email }) {
   const db = getDb();
   const filter = {};
-
   if (email) filter.email = email;
 
   const results = await db.collection('expenses').aggregate([
     { $match: filter },
     {
       $group: {
-        _id: { owner: '$owner', category: '$category' },
-        count: { $sum: 1 },
+        _id: '$category',
+        total: { $sum: '$amount' },
       },
     },
   ]).toArray();
+  console.log(results);
 
   const stats = {};
   results.forEach((result) => {
     // eslint-disable-next-line no-underscore-dangle
-    const { owner, status: statusKey } = result._id;
-    if (!stats[owner]) stats[owner] = { owner };
-    stats[owner][statusKey] = result.count;
+    const category = result._id;
+    stats[category] = result.total;
   });
-  return Object.values(stats);
+  console.log(stats);
+  return stats;
 }
 
 module.exports = {
