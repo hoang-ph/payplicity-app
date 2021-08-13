@@ -7,7 +7,7 @@ import withToast from './withToast.jsx';
 import graphQLFetch from './graphQLFetch.js';
 import store from './store.js';
 import UserContext from './UserContext.js';
-
+import NotSignedIn from './NotSignedIn.jsx';
 
 // const categories = ['Housing', 'Transportation', 'Dining', 'Groceries', 'Savings',
 //   'Entertainment', 'UtilitiesAndPhone', 'Medical', 'Clothing', 'Misc'];
@@ -17,7 +17,9 @@ class ExpenseSummary extends React.Component {
     // implement params search limit the summary by day, month, year
     // const params = new URLSearchParams(search);
     const vars = {};
-    vars.email = user.email;
+    if (user) {
+      vars.email = user.email;
+    }
     // if (params.get('category')) vars.category = params.get('category');
 
     const query = `query ($email: String) {
@@ -67,27 +69,30 @@ class ExpenseSummary extends React.Component {
     data.unshift(['Category', 'Amount spent']);
     return (
       <>
-        <Panel>
-          <Panel.Heading>
-            <Panel.Title toggle>Filter</Panel.Title>
-          </Panel.Heading>
-          <Panel.Body collapsible>
-            <ExpenseFilter urlBase="/summary" />
-          </Panel.Body>
-        </Panel>
-        <div className="chart">
-          <Chart
-            width="500px"
-            height="300px"
-            chartType="PieChart"
-            loader={<div>Loading Chart</div>}
-            data={data}
-            options={{
-              title: 'Amount Spent by Category',
-            }}
-            rootProps={{ 'data-testid': '1' }}
-          />
-        </div>
+        {!this.context.signedIn ? <NotSignedIn /> :
+        <>
+          <Panel>
+            <Panel.Heading>
+              <Panel.Title toggle>Filter</Panel.Title>
+            </Panel.Heading>
+            <Panel.Body collapsible>
+              <ExpenseFilter urlBase="/summary" />
+            </Panel.Body>
+          </Panel>
+          <div className="chart">
+            <Chart
+              width="500px"
+              height="300px"
+              chartType="PieChart"
+              loader={<div>Loading Chart</div>}
+              data={data}
+              options={{
+                title: 'Amount Spent by Category',
+              }}
+              rootProps={{ 'data-testid': '1' }}
+            />
+          </div>
+        </>}
       </>
     );
   }
