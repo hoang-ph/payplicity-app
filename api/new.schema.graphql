@@ -3,7 +3,7 @@ scalar GraphQLDate
 enum CategoryType {
   Housing
   Transportation
-  Dinning
+  Dining
   Groceries
   Savings
   Entertainment
@@ -73,7 +73,7 @@ input ExpenseUpdateInputs {
 
 ##### Top level declarations
 type Query {
-  about: String!
+  home: String!
   user: User!
   expenseList(
     email: String
@@ -85,7 +85,6 @@ type Query {
   expenseCounts(email: String): ExpenseCounts!
 }
 type Mutation {
-  setAboutMessage(message: String!): String
   expenseAdd(expense: ExpenseInputs!): Expense!
   expenseUpdate(id: Int!, changes: ExpenseUpdateInputs!): Expense!
   expenseRemove(id: Int!): Boolean!

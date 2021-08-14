@@ -13,7 +13,13 @@ db.deleted_expenses.remove({});
 const expensesDB = [
   {
     id: 1,
+    owner: {
+      signedIn: true,
+      name: 'Tony',
+      email: 'tony@stark.com',
+    },
     email: 'tony@strak.com',
+    title: 'Movie Night',
     description: 'Fast and Furious 9',
     category: 'Entertainment',
     created: new Date('2021-07-04'),
@@ -22,17 +28,15 @@ const expensesDB = [
   },
   {
     id: 2,
+    owner: {
+      signedIn: false,
+      name: 'John',
+      email: 'johnny@yahoo.com',
+    },
     email: 'johnny@yahoo.com',
+    title: 'Cheesecake Factory',
     description: 'On a tuesday',
-    category: 'Dinning',
-    created: new Date('2021-08-05'),
-    amount: 105.5,
-  },
-  {
-    id: 3,
-    email: 'johnny@yahoo.com',
-    description: 'On thursday',
-    category: 'Misc',
+    category: 'Dining',
     created: new Date('2021-08-05'),
     amount: 105.5,
     paid: 52.25,

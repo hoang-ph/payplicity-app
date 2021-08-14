@@ -3,13 +3,13 @@ require('dotenv').config();
 const { ApolloServer } = require('apollo-server-express');
 
 const GraphQLDate = require('./graphql_date.js');
-const about = require('./about.js');
+const home = require('./home.js');
 const expense = require('./expense.js');
 const auth = require('./auth.js');
 
 const resolvers = {
   Query: {
-    about: about.getMessage,
+    home: home.getMessage,
     user: auth.resolveUser,
     expenseList: expense.list,
     expense: expense.get,
@@ -37,6 +37,8 @@ const server = new ApolloServer({
     console.log(error);
     return error;
   },
+  playground: true,
+  introspection: true,
 });
 
 function installHandler(app) {

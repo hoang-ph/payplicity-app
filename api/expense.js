@@ -20,12 +20,6 @@ async function list(_, {
 
   if (category) filter.category = category;
 
-  if (debtMin !== undefined || debtMax !== undefined) {
-    filter.amount = {};
-    if (debtMin !== undefined) filter.amount.$gte = debtMin;
-    if (debtMax !== undefined) filter.amount.$lte = debtMax;
-  }
-
   if (search) filter.$text = { $search: search };
 
   const cursor = db.collection('expenses').find(filter)
@@ -58,7 +52,7 @@ async function add(_, { expense }) {
 
   const newExpense = Object.assign({}, expense);
   newExpense.created = new Date();
-  newExpense.id = await getNextSequence('expense');
+  newExpense.id = await getNextSequence('expenses');
 
   const result = await db.collection('expenses').insertOne(newExpense);
   const savedExpense = await db.collection('expenses')
