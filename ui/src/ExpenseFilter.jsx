@@ -89,7 +89,7 @@ class ExpenseFilter extends React.Component {
               <option value="">(All)</option>
               <option value="Housing">Housing</option>
               <option value="Transportation">Transportation</option>
-              <option value="Dinning">Dinning</option>
+              <option value="Dining">Dining</option>
               <option value="Groceries">Groceries</option>
               <option value="Savings">Savings</option>
               <option value="Entertainment">Entertainment</option>

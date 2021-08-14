@@ -33,10 +33,10 @@ class ExpenseEdit extends React.Component {
 
   constructor() {
     super();
-    const issue = store.initialData ? store.initialData.issue : null;
+    const expense = store.initialData ? store.initialData.expense : null;
     delete store.initialData;
     this.state = {
-      issue,
+      expense,
       invalidFields: {},
       showingValidation: false,
     };
@@ -66,7 +66,7 @@ class ExpenseEdit extends React.Component {
     const { name, value: textValue } = event.target;
     const value = naturalValue === undefined ? textValue : naturalValue;
     this.setState(prevState => ({
-      issue: { ...prevState.issue, [name]: value },
+      expense: { ...prevState.expense, [name]: value },
     }));
   }
 
@@ -82,14 +82,14 @@ class ExpenseEdit extends React.Component {
   async handleSubmit(e) {
     e.preventDefault();
     this.showValidation();
-    const { issue, invalidFields } = this.state;
+    const { expense, invalidFields } = this.state;
     if (Object.keys(invalidFields).length !== 0) return;
 
-    const query = `mutation issueUpdate(
+    const query = `mutation expenseUpdate(
       $id: Int!
-      $changes: IssueUpdateInputs!
+      $changes: ExpenseUpdateInputs!
     ) {
-      issueUpdate(
+      expenseUpdate(
         id: $id
         changes: $changes
       ) {
@@ -97,7 +97,7 @@ class ExpenseEdit extends React.Component {
       }
     }`;
 
-    const { id, created, ...changes } = issue;
+    const { id, created, ...changes } = expense;
     const { showSuccess, showError } = this.props;
     const data = await graphQLFetch(query, { changes, id: parseInt(id, 10) }, showError);
     if (data) {
@@ -125,14 +125,14 @@ class ExpenseEdit extends React.Component {
   }
 
   render() {
-    const { issue } = this.state;
-    if (issue == null) return null;
+    const { expense } = this.state;
+    if (expense == null) return null;
 
-    const { issue: { id } } = this.state;
+    const { expense: { id } } = this.state;
     const { match: { params: { id: propsId } } } = this.props;
     if (id == null) {
       if (propsId != null) {
-        return <h3>{`Issue with ID ${propsId} not found.`}</h3>;
+        return <h3>{`expense with ID ${propsId} not found.`}</h3>;
       }
       return null;
     }
@@ -155,7 +155,7 @@ class ExpenseEdit extends React.Component {
       {!this.context.signedIn ? <NotSignedIn /> :
       <Panel>
         <Panel.Heading>
-          <Panel.Title>{`Editing issue: ${id}`}</Panel.Title>
+          <Panel.Title>{`Editing expense: ${id}`}</Panel.Title>
         </Panel.Heading>
         <Panel.Body>
           <Form horizontal onSubmit={this.handleSubmit}>
@@ -168,12 +168,12 @@ class ExpenseEdit extends React.Component {
               </Col>
             </FormGroup>
             <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>Status</Col>
+              <Col componentClass={ControlLabel} sm={3}>Category</Col>
               <Col sm={9}>
                 <FormControl
                   componentClass="select"
-                  name="status"
-                  value={status}
+                  name="category"
+                  value={category}
                   onChange={this.onChange}
                 >
                   <option value="Misc"> Misc</option>
@@ -190,40 +190,28 @@ class ExpenseEdit extends React.Component {
               </Col>
             </FormGroup>
             <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>Owner</Col>
-              <Col sm={9}>
-                <FormControl
-                  componentClass={TextInput}
-                  name="owner"
-                  value={owner}
-                  onChange={this.onChange}
-                  key={id}
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>Effort</Col>
+              <Col componentClass={ControlLabel} sm={3}>Amount</Col>
               <Col sm={9}>
                 <FormControl
                   componentClass={NumInput}
-                  name="effort"
-                  value={effort}
+                  name="amount"
+                  value={amount}
                   onChange={this.onChange}
                   key={id}
                 />
               </Col>
             </FormGroup>
-            <FormGroup validationState={
-              invalidFields.due ? 'error' : null
+            <FormGroup validationState={null
+              // invalidFields.due ? 'error' : null
             }
             >
-              <Col componentClass={ControlLabel} sm={3}>Due</Col>
+              <Col componentClass={ControlLabel} sm={3}>Created</Col>
               <Col sm={9}>
                 <FormControl
                   componentClass={DateInput}
                   onValidityChange={this.onValidityChange}
-                  name="due"
-                  value={due}
+                  name="created"
+                  value={created}
                   onChange={this.onChange}
                   key={id}
                 />
@@ -249,7 +237,6 @@ class ExpenseEdit extends React.Component {
               <Col smOffset={3} sm={6}>
                 <ButtonToolbar>
                   <Button
-                    disabled={!user.signedIn}
                     bsStyle="primary"
                     type="submit"
                   >
@@ -272,9 +259,9 @@ class ExpenseEdit extends React.Component {
   }
 }
 
-IssueEdit.contextType = UserContext;
+ExpenseEdit.contextType = UserContext;
 
-const IssueEditWithToast = withToast(IssueEdit);
-IssueEditWithToast.fetchData = IssueEdit.fetchData;
+const ExpenseEditWithToast = withToast(ExpenseEdit);
+ExpenseEditWithToast.fetchData = ExpenseEdit.fetchData;
 
-export default IssueEditWithToast;
+export default ExpenseEditWithToast;

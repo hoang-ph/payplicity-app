@@ -2,7 +2,7 @@ import React from 'react';
 import {
   NavItem, Modal, Button, NavDropdown, MenuItem,
 } from 'react-bootstrap';
-
+import { withRouter } from 'react-router-dom';
 import withToast from './withToast.jsx';
 
 class SignInNavItem extends React.Component {
@@ -52,13 +52,15 @@ class SignInNavItem extends React.Component {
       });
       const body = await response.text();
       const result = JSON.parse(body);
-      const { signedIn, givenName } = result;
+      const { email, signedIn, givenName } = result;
 
       const { onUserChange } = this.props;
-      onUserChange({ signedIn, givenName });
+      onUserChange({ email, signedIn, givenName });
     } catch (error) {
       showError(`Error signing into the app: ${error}`);
     }
+    const { history } = this.props;
+    history.push('/expenses');
   }
 
   async signOut() {
@@ -72,10 +74,12 @@ class SignInNavItem extends React.Component {
       const auth2 = window.gapi.auth2.getAuthInstance();
       await auth2.signOut();
       const { onUserChange } = this.props;
-      onUserChange({ signedIn: false, givenName: '' });
+      onUserChange({ email: '', signedIn: false, givenName: '' });
     } catch (error) {
       showError(`Error signing out: ${error}`);
     }
+    const { history } = this.props;
+    history.push('/home');
   }
 
   showModal() {
@@ -102,7 +106,7 @@ class SignInNavItem extends React.Component {
       );
     }
 
-    const { showing, disabled } = this.state;
+    const { showing } = this.state;
     return (
       <>
         <NavItem onClick={this.showModal}>
@@ -115,11 +119,10 @@ class SignInNavItem extends React.Component {
           <Modal.Body>
             <Button
               block
-              disabled={disabled}
               bsStyle="primary"
               onClick={this.signIn}
             >
-              <img src="https://goo.gl/4yjp6B" alt="Sign In" />
+              <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="Sign In" />
             </Button>
           </Modal.Body>
           <Modal.Footer>
@@ -131,4 +134,5 @@ class SignInNavItem extends React.Component {
   }
 }
 
-export default withToast(SignInNavItem);
+const SignInNavItemWithToast = withToast(SignInNavItem);
+export default withRouter(SignInNavItemWithToast);
