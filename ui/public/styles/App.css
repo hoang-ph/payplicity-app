@@ -17,6 +17,7 @@ div.jumbotron {
 #welcome-msg {
   position: relative;
   color: #5893D4;
+  font-size: 4vw;
   -webkit-text-stroke: 0.3vw #383d52;
 }
 
@@ -35,26 +36,12 @@ div.jumbotron {
   animation: animate 6s linear infinite;
 }
 
-/* Might move these */
-@media screen and (max-width: 568px) {
-  @keyframes animate {
-    0%,10%,100% {
-      width: 0;
-    }
-    70%,90% {
-      width: 100%;
-    }
+@keyframes animate {
+  0%,10%,100% {
+    width: 0;
   }
-}
-
-@media screen and (min-width: 768px) {
-  @keyframes animate {
-    0%,10%,100% {
-      width: 0;
-    }
-    70%,90% {
-      width: 60%;
-    }
+  70%,90% {
+    width: 55%;
   }
 }
 
