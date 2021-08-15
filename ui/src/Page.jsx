@@ -57,7 +57,7 @@ function NavBar({ user, onUserChange }) {
 
 function Footer() {
   return (
-    <small>
+    <div className="page-footer" >
       <hr />
       <p className="text-center">
         Full source code available at this
@@ -66,7 +66,10 @@ function Footer() {
           GitHub repository
         </a>
       </p>
-    </small>
+      <p className="text-center">
+        Copyright ⓒ {new Date().getFullYear()}
+      </p>
+    </div>
   );
 }
 

@@ -1,0 +1,31 @@
+body {
+  background-color: #CEDDEF;
+  color: #FFC35C;
+
+}
+
+.not-signed-in {
+  text-align: center;
+  color: #E0702F;
+}
+
+/************************** Welcome page **************************/
+
+div.jumbotron {
+  background-color: #5893D4;
+  font-family: 'Audiowide', cursive;
+}
+
+/************************** Footer **************************/
+
+.page-footer {
+  position:absolute;
+  left: 50%;
+  transform:translateX(-50%);
+  bottom:0;
+  color: #E0A43A;
+}
+
+.page-footer hr {
+  border-top: 5px dashed;
+}
