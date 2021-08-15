@@ -34,7 +34,7 @@ export default class Home extends React.Component {
     const { apiHome } = this.state;
     return (
       <Jumbotron>
-        <h1>{apiHome}</h1>
+        <h1 id="welcome-msg" data-text={apiHome}>{apiHome}</h1>
       </Jumbotron>
     );
   }

@@ -1,19 +1,70 @@
 body {
   background-color: #CEDDEF;
-  color: #FFC35C;
-
+  color: #A3906C;
+  background-image: url(background.jpeg);
+  background-blend-mode: screen;
 }
 
-.not-signed-in {
-  text-align: center;
-  color: #E0702F;
-}
+
 
 /************************** Welcome page **************************/
 
 div.jumbotron {
   background-color: #5893D4;
   font-family: 'Audiowide', cursive;
+}
+
+#welcome-msg {
+  position: relative;
+  color: #5893D4;
+  -webkit-text-stroke: 0.3vw #383d52;
+}
+
+#welcome-msg::before {
+  white-space: nowrap;
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  color: #FFC35C;
+  -webkit-text-stroke: 0vw #383d52;
+  border-right: 2px solid #FFC35C;
+  overflow: hidden;
+  animation: animate 6s linear infinite;
+}
+
+/* Might move these */
+@media screen and (max-width: 568px) {
+  @keyframes animate {
+    0%,10%,100% {
+      width: 0;
+    }
+    70%,90% {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  @keyframes animate {
+    0%,10%,100% {
+      width: 0;
+    }
+    70%,90% {
+      width: 60%;
+    }
+  }
+}
+
+/************************** Not Signed In **************************/
+
+.not-signed-in {
+  display: block;
+  text-align: center;
+  margin: auto;
+  color: #E0702F;
 }
 
 /************************** Footer **************************/
