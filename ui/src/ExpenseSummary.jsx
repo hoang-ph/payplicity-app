@@ -1,5 +1,5 @@
 import React from 'react';
-import { Panel } from 'react-bootstrap';
+import { Panel, Grid, Row, Col } from 'react-bootstrap';
 import { Chart } from 'react-google-charts';
 
 import ExpenseFilter from './ExpenseFilter.jsx';
@@ -79,19 +79,44 @@ class ExpenseSummary extends React.Component {
               <ExpenseFilter urlBase="/summary" />
             </Panel.Body>
           </Panel>
-          <div className="chart">
-            <Chart
-              width="500px"
-              height="300px"
-              chartType="PieChart"
-              loader={<div>Loading Chart</div>}
-              data={data}
-              options={{
-                title: 'Amount Spent by Category',
-              }}
-              rootProps={{ 'data-testid': '1' }}
-            />
-          </div>
+          <Grid>
+            <Row>
+              <Col sm={6}>
+                <Chart
+                width="500px"
+                height="300px"
+                chartType="PieChart"
+                loader={<div>Loading Chart</div>}
+                data={data}
+                options={{
+                  title: 'Amount Percentage Spent by Category',
+                }}
+                rootProps={{ 'data-testid': '1' }}
+                />
+              </Col>
+              <Col sm={6}>
+                <Chart
+                width={'500px'}
+                height={'300px'}
+                chartType="BarChart"
+                loader={<div>Loading Chart</div>}
+                data={data}
+                options={{
+                  title: 'Amount Spent by Category',
+                  chartArea: { width: '50%' },
+                  hAxis: {
+                    title: 'Dollar',
+                    minValue: 0,
+                  },
+                  vAxis: {
+                    title: 'Category',
+                  },
+                }}
+                rootProps={{ 'data-testid': '1' }}
+                />
+              </Col>
+            </Row>
+          </Grid>          
         </>}
       </>
     );
