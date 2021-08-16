@@ -185,34 +185,33 @@ class ExpenseList extends React.Component {
       ));
     }
 
+    const { signedIn } = this.context;
+    if (!signedIn) return <NotSignedIn />;
     return (
-      <>
-      {!this.context.signedIn ? <NotSignedIn /> :
-        <React.Fragment>
-          <Panel>
-            <Panel.Heading>
-              <Panel.Title toggle>Filter</Panel.Title>
-            </Panel.Heading>
-            <Panel.Body collapsible>
-              <ExpenseFilter urlBase="/expenses" />
-            </Panel.Body>
-          </Panel>
-          <ExpenseTable
-            expenses={expenses}
-            removeExpense={this.removeExpense}
-          />
-          <ExpenseDetail expense={selectedExpense} />
-          <Pagination>
-            <PageLink params={params} page={prevSection}>
-              <Pagination.Item>{'<'}</Pagination.Item>
-            </PageLink>
-            {items}
-            <PageLink params={params} page={nextSection}>
-              <Pagination.Item>{'>'}</Pagination.Item>
-            </PageLink>
-          </Pagination>
-        </React.Fragment>}
-      </>
+      <React.Fragment>
+        <Panel>
+          <Panel.Heading>
+            <Panel.Title toggle>Filter</Panel.Title>
+          </Panel.Heading>
+          <Panel.Body collapsible>
+            <ExpenseFilter urlBase="/expenses" />
+          </Panel.Body>
+        </Panel>
+        <ExpenseTable
+          expenses={expenses}
+          removeExpense={this.removeExpense}
+        />
+        <ExpenseDetail expense={selectedExpense} />
+        <Pagination>
+          <PageLink params={params} page={prevSection}>
+            <Pagination.Item>{'<'}</Pagination.Item>
+          </PageLink>
+          {items}
+          <PageLink params={params} page={nextSection}>
+            <Pagination.Item>{'>'}</Pagination.Item>
+          </PageLink>
+        </Pagination>
+      </React.Fragment>
     );
   }
 }

@@ -1,8 +1,6 @@
 import React from 'react';
-import { Panel, Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import { Chart } from 'react-google-charts';
-
-import ExpenseFilter from './ExpenseFilter.jsx';
 import withToast from './withToast.jsx';
 import graphQLFetch from './graphQLFetch.js';
 import store from './store.js';
@@ -67,27 +65,29 @@ class ExpenseSummary extends React.Component {
     if (stats == null) return null;
     const data = Object.entries(stats);
     data.unshift(['Category', 'Amount spent']);
+    const { signedIn } = this.context;
+    if (!signedIn) {
+      return <NotSignedIn />;
+    }
     return (
       <>
-        {!this.context.signedIn ? <NotSignedIn /> :
-        <>
-          <Grid>
-            <Row>
-              <Col sm={6}>
-                <p><b>Percentage based on total</b></p> 
-                <Chart
-                width="500px"
-                height="300px"
+        <Grid>
+          <Row>
+            <Col xs={12}>
+              <p><b>Percentage based on total</b></p>
+              <Chart
+                width="100%"
+                height="60%"
                 chartType="PieChart"
                 loader={<div>Loading Chart</div>}
                 data={data}
                 rootProps={{ 'data-testid': '1' }}
-                />
-              </Col>
-              <Col sm={6}>
-                <Chart
-                width={'500px'}
-                height={'300px'}
+              />
+            </Col>
+            <Col xs={12}>
+              <Chart
+                width="100%"
+                height="60%"
                 chartType="BarChart"
                 loader={<div>Loading Chart</div>}
                 data={data}
@@ -118,11 +118,10 @@ class ExpenseSummary extends React.Component {
                     },
                   },
                 ]}
-                />
-              </Col>
-            </Row>
-          </Grid>          
-        </>}
+              />
+            </Col>
+          </Row>
+        </Grid>
       </>
     );
   }
