@@ -23,7 +23,7 @@ async function list(_, {
   if (search) filter.$text = { $search: search };
 
   const cursor = db.collection('expenses').find(filter)
-    .sort({ id: 1 })
+    .sort({ created: -1 })
     .skip(PAGE_SIZE * (page - 1))
     .limit(PAGE_SIZE);
 
@@ -38,11 +38,15 @@ function validate(expense) {
   if (expense.description.length === 0) {
     errors.push('Description filed must be entered.');
   }
+
   if (!isFloat(expense.amount)) {
     errors.push('Amount can only be valid form of Int or Float.');
   } else if (expense.amount <= 0) {
     errors.push('Amount has to be greater than 0.');
+  } else {
+    expense.amount = parseFloat(expense.amount, 10);
   }
+
   if (errors.length > 0) {
     throw new UserInputError('Invalid input(s)', { errors });
   }
