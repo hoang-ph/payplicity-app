@@ -77,7 +77,7 @@ class ExpenseSummary extends React.Component {
               <p><b>Percentage based on total</b></p>
               <Chart
                 width="100%"
-                height="60%"
+                height="300px"
                 chartType="PieChart"
                 loader={<div>Loading Chart</div>}
                 data={data}
