@@ -71,26 +71,16 @@ class ExpenseSummary extends React.Component {
       <>
         {!this.context.signedIn ? <NotSignedIn /> :
         <>
-          <Panel>
-            <Panel.Heading>
-              <Panel.Title toggle>Filter</Panel.Title>
-            </Panel.Heading>
-            <Panel.Body collapsible>
-              <ExpenseFilter urlBase="/summary" />
-            </Panel.Body>
-          </Panel>
           <Grid>
             <Row>
               <Col sm={6}>
+                <p><b>Percentage based on total</b></p> 
                 <Chart
                 width="500px"
                 height="300px"
                 chartType="PieChart"
                 loader={<div>Loading Chart</div>}
                 data={data}
-                options={{
-                  title: 'Amount Percentage Spent by Category',
-                }}
                 rootProps={{ 'data-testid': '1' }}
                 />
               </Col>
@@ -113,6 +103,21 @@ class ExpenseSummary extends React.Component {
                   },
                 }}
                 rootProps={{ 'data-testid': '1' }}
+                controls={[
+                  {
+                    controlType: 'NumberRangeFilter',
+                    controlID: 'amount-filter',
+                    options: {
+                      filterColumnIndex: 1,
+                      ui: {
+                        labelStacking: 'vertical',
+                        label: 'Amount Range:',
+                        allowTyping: false,
+                        allowMultiple: false,
+                      },
+                    },
+                  },
+                ]}
                 />
               </Col>
             </Row>
