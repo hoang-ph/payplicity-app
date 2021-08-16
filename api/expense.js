@@ -1,6 +1,5 @@
 const { UserInputError } = require('apollo-server-express');
 const { getDb, getNextSequence } = require('./new_db.js');
-// const { mustBeSignedIn } = require('./auth.js');
 
 async function get(_, { id, email }) {
   const db = getDb();
@@ -124,7 +123,6 @@ async function counts(_, { email }) {
       },
     },
   ]).toArray();
-  console.log(results);
 
   const stats = {};
   results.forEach((result) => {
@@ -138,8 +136,8 @@ async function counts(_, { email }) {
 module.exports = {
   list,
   add,
-  get, // mustBeSignedIn(get)
-  update, // mustBeSignedIn(update),
+  get,
+  update,
   remove,
   restore,
   counts,

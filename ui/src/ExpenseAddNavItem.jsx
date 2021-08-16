@@ -48,7 +48,7 @@ class ExpenseAddNavItem extends React.Component {
     const data = await graphQLFetch(query, { expense }, showError);
     if (data) {
       const { history } = this.props;
-      history.push(`/edit/${data.expenseAdd.id}`);
+      history.push('/expenses');
     }
   }
 
