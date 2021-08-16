@@ -35,15 +35,21 @@ async function list(_, {
 
 function validate(expense) {
   const errors = [];
-  if (expense.description.length === null) {
+  if (expense.description.length === 0) {
     errors.push('Description filed must be entered.');
   }
-  if (expense.amount <= 0) {
+  if (!isFloat(expense.amount)) {
+    errors.push('Amount can only be valid form of Int or Float.');
+  } else if (expense.amount <= 0) {
     errors.push('Amount has to be greater than 0.');
   }
   if (errors.length > 0) {
     throw new UserInputError('Invalid input(s)', { errors });
   }
+}
+
+function isFloat(str) {
+  return /^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(str);
 }
 
 async function add(_, { expense }) {

@@ -58,7 +58,7 @@ input ExpenseInputs {
   category: CategoryType = Misc
   "Optional, if not supplied, will be set to current day'"
   created: GraphQLDate
-  amount: Float!
+  amount: String!
 }  
 """Inputs for expenseUpdate: all are optional. Whichever is specified will
 be set to the given value, undefined fields will remain unmodified. Remaining
@@ -68,7 +68,7 @@ input ExpenseUpdateInputs {
   description: String
   category: CategoryType
   created: GraphQLDate
-  amount: Float
+  amount: String
 }
 
 ##### Top level declarations
