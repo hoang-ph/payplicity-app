@@ -111,7 +111,7 @@ export default class Page extends React.Component {
         <NavBar user={user} onUserChange={this.onUserChange} />
         <Grid fluid>
           <UserContext.Provider value={user}>
-            <Contents />
+            <Contents id="content-wrap" />
           </UserContext.Provider>
         </Grid>
         <Footer />
