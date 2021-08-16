@@ -104,7 +104,7 @@ async function restore(_, { id }) {
 
   let result = await db.collection('expenses').insertOne(expense);
   if (result.insertedId) {
-    result = await db.collection('deleted_issues').removeOne({ id });
+    result = await db.collection('deleted_expenses').removeOne({ id });
     return result.deletedCount === 1;
   }
   return false;
