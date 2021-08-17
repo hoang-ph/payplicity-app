@@ -52,6 +52,28 @@ div.jumbotron {
   }
 }
 
+/******** Carousel ********/
+
+.carousel {
+  margin-top: 10rem;
+}
+
+.carousel-control {
+  background-image: none !important;
+}
+
+.carousel-inner .item {
+  text-align: center;
+}
+
+.carousel-indicators {
+  visibility: hidden;
+}
+
+.img-responsive {
+  width: 10%;
+}
+
 /************************** Not Signed In **************************/
 
 .not-signed-in {
