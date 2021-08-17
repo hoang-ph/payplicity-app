@@ -7,12 +7,10 @@ body {
   min-height: 88vh;
 }
 
-/************************** Nav Bar **************************
-.navbar {
-  background-color: #B9EBBDB;
-  color: white;
+/************************** Nav Bar **************************/
+.navbar-brand {
+  font-family: 'Knewave', cursive;
 }
-*/
 
 /************************** Welcome page **************************/
 
@@ -56,6 +54,7 @@ div.jumbotron {
 
 .carousel {
   margin-top: 10rem;
+  font-family: 'Pacifico', cursive;
 }
 
 .carousel-control {

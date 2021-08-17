@@ -23,8 +23,8 @@ export default function template(body, initialData, userData) {
   <!-- Google fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Knewave&family=Pacifico&display=swap" rel="stylesheet">
+  
 </head>
 <body>
   <!-- Page generated from template. -->
