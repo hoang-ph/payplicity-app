@@ -6,19 +6,33 @@ body {
   min-height: 88vh;
 }
 
-body.body-signed-in {
-  background-image: none;
+/************************** Nav Bar **************************/
+.navbar-default .navbar-brand {
+  font-family: 'Knewave', cursive;
+  color: #f8f8f2;
 }
 
-/************************** Nav Bar **************************/
-.navbar-brand {
-  font-family: 'Knewave', cursive;
+.navbar-default .navbar-nav>li>a {
+  color: #f8f8f2;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+  background-color: #44475a;
+  color: #ff79c6;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+  color: #ff79c6;
+}
+
+.navbar {
+  background-color: #282a36;
 }
 
 /************************** Welcome page **************************/
 
 div.jumbotron {
-  background-color: #5893D4;
+  background-color: #44475a;
   font-family: 'Audiowide', cursive;
 }
 
@@ -37,9 +51,9 @@ div.jumbotron {
   left: 0;
   width: 0;
   height: 100%;
-  color: #FFC35C;
+  color: #ff79c6;
   -webkit-text-stroke: 0vw #383d52;
-  border-right: 2px solid #FFC35C;
+  border-right: 2px solid #ff79c6;
   overflow: hidden;
   animation: animate 6s linear infinite;
 }
@@ -92,8 +106,72 @@ div.jumbotron {
   display: block;
   text-align: center;
   margin: auto;
-  color: #E0702F;
+  color: #ff5555;
 }
+
+/************************** Expense List **************************/
+
+/******** Filter ********/
+.panel-default>.panel-heading {
+  color: #f8f8f2;
+  background-color: #44475a;
+}
+
+.panel-body {
+  color: #f8f8f2;
+  background-color: #282a36;
+}
+
+.btn-primary {
+  color: #f8f8f2;
+  background-color: #6272a4;
+  border-color: #6272a4;
+}
+/******** Table ********/
+
+.table {
+  border-collapse: collapse;
+  color: #f8f8f2;
+  background-color: #44475a;
+  box-shadow: 0 5px 15x #6272a4;
+}
+
+tbody tr:hover {
+  color: #282a36;
+}
+
+tr.active {
+  color: #282a36;
+}
+
+/******** Detail ********/
+#expense-detail {
+  color: #f8f8f2;
+  background-color: #6272a4;
+}
+
+/******** Pagination ********/
+.pagination>li>a, .pagination>li>span {
+  background-color: #282a36;
+  color: #f8f8f2;
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+  background-color: #282a36;
+  color: #ff79c6;
+  border-color: #282a36;
+}
+
+.pagination>li:first-child>a, .pagination>li:first-child>span {
+  background-color: #282a36;
+  color: #ff79c6;
+}
+
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+  background-color: #282a36;
+  color: #ff79c6;
+}
+
 
 /************************** Summary **************************/
 .row p {
@@ -115,7 +193,7 @@ div.jumbotron {
   bottom: 0;
   width: 100%;
   height: 1rem; 
-  color: #E0A43A;
+  color: #ff79c6;
 }
 
 .page-footer hr {

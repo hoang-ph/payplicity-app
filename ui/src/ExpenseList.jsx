@@ -188,8 +188,6 @@ class ExpenseList extends React.Component {
     const { signedIn } = this.context;
     if (!signedIn) return <NotSignedIn />;
 
-    document.body.classList.add('body-signed-in');
-
     return (
       <React.Fragment>
         <Panel>

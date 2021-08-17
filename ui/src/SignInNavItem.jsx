@@ -78,7 +78,6 @@ class SignInNavItem extends React.Component {
     } catch (error) {
       showError(`Error signing out: ${error}`);
     }
-    document.body.classList.remove('body-signed-in');
     const { history } = this.props;
     history.push('/home');
   }

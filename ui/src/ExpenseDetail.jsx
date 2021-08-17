@@ -5,7 +5,7 @@ export default function ExpenseDetail({ expense }) {
     return (
       <div>
         <h3>Detail</h3>
-        <pre>{expense.description}</pre>
+        <pre id="expense-detail">{expense.description}</pre>
       </div>
     );
   }

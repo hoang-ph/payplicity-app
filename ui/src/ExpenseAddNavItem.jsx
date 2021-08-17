@@ -94,7 +94,7 @@ class ExpenseAddNavItem extends React.Component {
                     <option value="Savings">Savings</option>
                     <option value="Groceries">Groceries</option>
                     <option value="Entertainment">Entertainment</option>
-                    <option value="Utility">Utility & Phone</option>
+                    <option value="UtilityAndPhone">Utility & Phone</option>
                     <option value="Medical">Medical</option>
                     <option value="Clothing">Clothing</option>
                   </FormControl>
