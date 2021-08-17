@@ -175,16 +175,16 @@ class ExpenseEdit extends React.Component {
                   value={category}
                   onChange={this.onChange}
                 >
-                  <option value="Misc"> Misc</option>
-                  <option value="Housing"> Housing</option>
-                  <option value="Transportation">Transportation</option>
-                  <option value="Dining">Dining</option>
-                  <option value="Savings">Savings</option>
-                  <option value="Groceries">Groceries</option>
-                  <option value="Entertainment">Entertainment</option>
-                  <option value="UtilitiesAndPhone">Utility & Phone</option>
-                  <option value="Medical">Medical</option>
-                  <option value="Clothing">Clothing</option>
+                  <option value="Misc">😊 Misc</option>
+                  <option value="Housing">🏠 Housing</option>
+                  <option value="Transportation">🚌 Transportation</option>
+                  <option value="Dining">🍽️ Dining</option>
+                  <option value="Savings">💸 Savings</option>
+                  <option value="Groceries">🛍️ Groceries</option>
+                  <option value="Entertainment">🎭 Entertainment</option>
+                  <option value="UtilitiesAndPhone">📱 Utility & Phone</option>
+                  <option value="Medical">😷 Medical</option>
+                  <option value="Clothing">👔👚 Clothing</option>
                 </FormControl>
               </Col>
             </FormGroup>

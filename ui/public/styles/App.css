@@ -12,6 +12,10 @@ body {
   color: #f8f8f2;
 }
 
+.navbar-default .navbar-brand:hover {
+  color: #50fa7b;
+}
+
 .navbar-default .navbar-nav>li>a {
   color: #f8f8f2;
 }
@@ -182,6 +186,19 @@ tr.active {
   padding-bottom: 5rem;
 }
 
+.google-visualization-controls-rangefilter-thumblabel {
+  color: #ff79c6 !important;
+}
+
+.google-visualization-controls-slider-thumb {
+  background-color: #ff79c6 !important;
+  border: 1px solid #6272a4 !important;
+}
+
+.google-visualization-controls-slider-handle {
+  background-color: #bd93f9 !important;
+}
+
 /************************** Footer **************************/
 
 #content-wrap {
@@ -197,5 +214,6 @@ tr.active {
 }
 
 .page-footer hr {
+  width: 50%;
   border-top: 1px dashed;
 }

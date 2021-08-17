@@ -77,17 +77,21 @@ class ExpenseSummary extends React.Component {
               <p><b>Percentage based on total</b></p>
               <Chart
                 width="100%"
-                height="300px"
+                height="400px"
                 chartType="PieChart"
                 loader={<div>Loading Chart</div>}
                 data={data}
                 rootProps={{ 'data-testid': '1' }}
+                options={{
+                  backgroundColor: 'transparent',
+                  is3D: true,
+                }}
               />
             </Col>
             <Col xs={12}>
               <Chart
                 width="100%"
-                height="60%"
+                height="300px"
                 chartType="BarChart"
                 loader={<div>Loading Chart</div>}
                 data={data}
@@ -100,6 +104,13 @@ class ExpenseSummary extends React.Component {
                   },
                   vAxis: {
                     title: 'Category',
+                  },
+                  backgroundColor: 'transparent',
+                  colors: ['#44475a'],
+                  animation: {
+                    startup: true,
+                    easing: 'inAndOut',
+                    duration: 2000,
                   },
                 }}
                 rootProps={{ 'data-testid': '1' }}
