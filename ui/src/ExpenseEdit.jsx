@@ -6,7 +6,6 @@ import {
 } from 'react-bootstrap';
 
 import graphQLFetch from './graphQLFetch.js';
-import NumInput from './NumInput.jsx';
 import DateInput from './DateInput.jsx';
 import TextInput from './TextInput.jsx';
 import withToast from './withToast.jsx';
@@ -193,7 +192,6 @@ class ExpenseEdit extends React.Component {
               <Col componentClass={ControlLabel} sm={3}>Amount</Col>
               <Col sm={9}>
                 <FormControl
-                  componentClass={NumInput}
                   name="amount"
                   value={amount}
                   onChange={this.onChange}

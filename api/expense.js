@@ -45,7 +45,7 @@ function validate(expense) {
   } else {
     expense.amount = parseFloat(parseFloat(expense.amount, 10).toFixed(2));
   }
-  
+
   if (errors.length > 0) {
     throw new UserInputError('Invalid input(s)', { errors });
   }
@@ -71,10 +71,11 @@ async function add(_, { expense }) {
 
 async function update(_, { id, changes }) {
   const db = getDb();
-  if (changes.title || changes.amount || changes.paid) {
+  if (changes.description || changes.amount || changes.category) {
     const expense = await db.collection('expenses').findOne({ id });
     Object.assign(expense, changes);
     validate(expense);
+    changes.amount = parseFloat(parseFloat(changes.amount, 10).toFixed(2));
   }
   await db.collection('expenses').updateOne({ id }, { $set: changes });
   const savedExpense = await db.collection('expenses').findOne({ id });
