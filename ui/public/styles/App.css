@@ -58,6 +58,7 @@ div.jumbotron {
 .carousel {
   margin-top: 10rem;
   font-family: 'Pacifico', cursive;
+  color:#383d52;
 }
 
 .carousel-control {
@@ -75,6 +76,15 @@ div.jumbotron {
 .img-responsive {
   width: 10%;
 }
+
+.glyphicon-chevron-right {
+  color:#383d52;
+}
+
+.glyphicon-chevron-left {
+  color:#383d52;
+}
+
 
 /************************** Not Signed In **************************/
 
