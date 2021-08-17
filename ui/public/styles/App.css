@@ -1,10 +1,13 @@
 body {
   background-color: #CEDDEF;
-  color: #A3906C;
   background-image: url(background.jpeg);
   background-blend-mode: screen;
   position: relative;
   min-height: 88vh;
+}
+
+body.body-signed-in {
+  background-image: none;
 }
 
 /************************** Nav Bar **************************/

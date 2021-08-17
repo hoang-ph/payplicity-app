@@ -40,23 +40,23 @@ export default class Home extends React.Component {
       <Carousel>
         <Carousel.Item>
           <img className="img-responsive center-block" alt="Dollar sign" src="../styles/icons/bill.png" />
-          <h3>Track your spending</h3>
-          <p>Keep track of all your expenses, see what you've been paying</p>
+          <h2>Track your spending</h2>
+          <h3>Keep track of all your expenses, see what you've been paying</h3>
         </Carousel.Item>
         <Carousel.Item>
           <img className="img-responsive center-block" alt="Dollar sign" src="../styles/icons/category.png" />
-          <h3>Organize expenses</h3>
-          <p>Categorize your expense with details: Housing, Transportation, Dining, Groceries, Savings,... and more</p>
+          <h2>Organize expenses</h2>
+          <h3>Categorize your expense with details: Housing, Transportation, Dining, Groceries, Savings,... and more</h3>
         </Carousel.Item>
         <Carousel.Item>
           <img className="img-responsive center-block" alt="Dollar sign" src="../styles/icons/add.png" />
-          <h3>Add expenses easily</h3>
-          <p>Quickly add expenses on the go before you forget</p>
+          <h2>Add expenses easily</h2>
+          <h3>Quickly add expenses on the go before you forget</h3>
         </Carousel.Item>
         <Carousel.Item>
           <img className="img-responsive center-block" alt="Dollar sign" src="../styles/icons/summary.png" />
-          <h3>Be the boss of your finance</h3>
-          <p>Visualize your money flow with our comprehensive summary</p>
+          <h2>Be the boss of your finance</h2>
+          <h3>Visualize your money flow with our comprehensive summary</h3>
         </Carousel.Item>
       </Carousel>
 
