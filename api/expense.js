@@ -43,9 +43,9 @@ function validate(expense) {
   } else if (expense.amount <= 0) {
     errors.push('Amount has to be greater than 0.');
   } else {
-    expense.amount = parseFloat(expense.amount, 10);
+    expense.amount = parseFloat(parseFloat(expense.amount, 10).toFixed(2));
   }
-
+  
   if (errors.length > 0) {
     throw new UserInputError('Invalid input(s)', { errors });
   }
