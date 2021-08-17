@@ -48,7 +48,7 @@ class ExpenseAddNavItem extends React.Component {
     const data = await graphQLFetch(query, { expense }, showError);
     if (data) {
       const { history } = this.props;
-      history.push('/expenses');
+      history.push(`/edit/${data.expenseAdd.id}`);
     }
   }
 
@@ -102,7 +102,7 @@ class ExpenseAddNavItem extends React.Component {
               </FormGroup>
               <FormGroup>
                 <ControlLabel>Date</ControlLabel>
-                <FormControl name="date" placeholder="mm/dd/yyyy" />
+                <FormControl name="date" placeholder="yyyy-mm-dd" />
               </FormGroup>
             </Form>
           </Modal.Body>
