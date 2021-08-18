@@ -148,111 +148,111 @@ class ExpenseEdit extends React.Component {
 
     const { expense: { description, category } } = this.state;
     const { expense: { created, amount } } = this.state;
-
+    const { signedIn } = this.context;
+    if (!signedIn) return <NotSignedIn />;
     return (
       <>
-      {!this.context.signedIn ? <NotSignedIn /> :
-      <Panel>
-        <Panel.Heading>
-          <Panel.Title>{`Editing expense: ${id}`}</Panel.Title>
-        </Panel.Heading>
-        <Panel.Body>
-          <Form horizontal onSubmit={this.handleSubmit}>
-            <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>Created</Col>
-              <Col sm={9}>
-                <FormControl.Static>
-                  {created.toDateString()}
-                </FormControl.Static>
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>Category</Col>
-              <Col sm={9}>
-                <FormControl
-                  componentClass="select"
-                  name="category"
-                  value={category}
-                  onChange={this.onChange}
-                >
-                  <option value="Misc">😊 Misc</option>
-                  <option value="Housing">🏠 Housing</option>
-                  <option value="Transportation">🚌 Transportation</option>
-                  <option value="Dining">🍽️ Dining</option>
-                  <option value="Savings">💸 Savings</option>
-                  <option value="Groceries">🛍️ Groceries</option>
-                  <option value="Entertainment">🎭 Entertainment</option>
-                  <option value="UtilitiesAndPhone">📱 Utility & Phone</option>
-                  <option value="Medical">😷 Medical</option>
-                  <option value="Clothing">👔👚 Clothing</option>
-                </FormControl>
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>Amount</Col>
-              <Col sm={9}>
-                <FormControl
-                  name="amount"
-                  value={amount}
-                  onChange={this.onChange}
-                  key={id}
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup validationState={null
-              // invalidFields.due ? 'error' : null
-            }
-            >
-              <Col componentClass={ControlLabel} sm={3}>Created</Col>
-              <Col sm={9}>
-                <FormControl
-                  componentClass={DateInput}
-                  onValidityChange={this.onValidityChange}
-                  name="created"
-                  value={created}
-                  onChange={this.onChange}
-                  key={id}
-                />
-                <FormControl.Feedback />
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>Description</Col>
-              <Col sm={9}>
-                <FormControl
-                  componentClass={TextInput}
-                  tag="textarea"
-                  rows={4}
-                  cols={50}
-                  name="description"
-                  value={description}
-                  onChange={this.onChange}
-                  key={id}
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <Col smOffset={3} sm={6}>
-                <ButtonToolbar>
-                  <Button
-                    bsStyle="primary"
-                    type="submit"
+        <Panel>
+          <Panel.Heading>
+            <Panel.Title>{`Editing expense: ${id}`}</Panel.Title>
+          </Panel.Heading>
+          <Panel.Body>
+            <Form horizontal onSubmit={this.handleSubmit}>
+              <FormGroup>
+                <Col componentClass={ControlLabel} sm={3}>Created</Col>
+                <Col sm={9}>
+                  <FormControl.Static>
+                    {created.toDateString()}
+                  </FormControl.Static>
+                </Col>
+              </FormGroup>
+              <FormGroup>
+                <Col componentClass={ControlLabel} sm={3}>Category</Col>
+                <Col sm={9}>
+                  <FormControl
+                    componentClass="select"
+                    name="category"
+                    value={category}
+                    onChange={this.onChange}
                   >
-                    Submit
-                  </Button>
-                  <LinkContainer to="/expenses">
-                    <Button bsStyle="link">Back</Button>
-                  </LinkContainer>
-                </ButtonToolbar>
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <Col smOffset={3} sm={9}>{validationMessage}</Col>
-            </FormGroup>
-          </Form>
-        </Panel.Body>
-      </Panel>}
-    </>
+                    <option value="Misc">😊 Misc</option>
+                    <option value="Housing">🏠 Housing</option>
+                    <option value="Transportation">🚌 Transportation</option>
+                    <option value="Dining">🍽️ Dining</option>
+                    <option value="Savings">💸 Savings</option>
+                    <option value="Groceries">🛍️ Groceries</option>
+                    <option value="Entertainment">🎭 Entertainment</option>
+                    <option value="UtilitiesAndPhone">📱 Utility & Phone</option>
+                    <option value="Medical">😷 Medical</option>
+                    <option value="Clothing">👔👚 Clothing</option>
+                  </FormControl>
+                </Col>
+              </FormGroup>
+              <FormGroup>
+                <Col componentClass={ControlLabel} sm={3}>Amount</Col>
+                <Col sm={9}>
+                  <FormControl
+                    name="amount"
+                    value={amount}
+                    onChange={this.onChange}
+                    key={id}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup validationState={null
+                // invalidFields.due ? 'error' : null
+              }
+              >
+                <Col componentClass={ControlLabel} sm={3}>Created</Col>
+                <Col sm={9}>
+                  <FormControl
+                    componentClass={DateInput}
+                    onValidityChange={this.onValidityChange}
+                    name="created"
+                    value={created}
+                    onChange={this.onChange}
+                    key={id}
+                  />
+                  <FormControl.Feedback />
+                </Col>
+              </FormGroup>
+              <FormGroup>
+                <Col componentClass={ControlLabel} sm={3}>Description</Col>
+                <Col sm={9}>
+                  <FormControl
+                    componentClass={TextInput}
+                    tag="textarea"
+                    rows={4}
+                    cols={50}
+                    name="description"
+                    value={description}
+                    onChange={this.onChange}
+                    key={id}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup>
+                <Col smOffset={3} sm={6}>
+                  <ButtonToolbar>
+                    <Button
+                      bsStyle="primary"
+                      type="submit"
+                    >
+                      Submit
+                    </Button>
+                    <LinkContainer to="/expenses">
+                      <Button bsStyle="link">Back</Button>
+                    </LinkContainer>
+                  </ButtonToolbar>
+                </Col>
+              </FormGroup>
+              <FormGroup>
+                <Col smOffset={3} sm={9}>{validationMessage}</Col>
+              </FormGroup>
+            </Form>
+          </Panel.Body>
+        </Panel>
+      </>
     );
   }
 }

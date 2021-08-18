@@ -46,6 +46,10 @@ function validate(expense) {
     expense.amount = parseFloat(parseFloat(expense.amount, 10).toFixed(2));
   }
 
+  if (expense.created === null || isNaN(expense.created.getTime())) {
+    errors.push('The date must be in a valid format: yyyy-mm-dd');
+  }
+
   if (errors.length > 0) {
     throw new UserInputError('Invalid input(s)', { errors });
   }

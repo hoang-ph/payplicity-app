@@ -32,23 +32,27 @@ class ExpenseAddNavItem extends React.Component {
     this.hideModal();
     const form = document.forms.expenseAdd;
     const { user: { email } } = this.props;
+    const createdOn = form.date.value === '' ? new Date() : new Date(form.date.value);
     const expense = {
       email,
       description: form.description.value,
       amount: form.amount.value || 0.00,
       category: form.category.value,
-      created: new Date(form.date.value) || new Date(),
+      created: createdOn,
     };
     const query = `mutation expenseAdd($expense: ExpenseInputs!) {
       expenseAdd(expense: $expense) {
         id
       }
     }`;
-    const { showError } = this.props;
+    const { showSuccess, showError } = this.props;
     const data = await graphQLFetch(query, { expense }, showError);
     if (data) {
-      const { history } = this.props;
-      history.push('/expenses');
+      showSuccess('Successfully added a new expense');
+      setTimeout(() => {
+        const { history } = this.props;
+        history.push('/expenses');
+      }, 1000);
     }
   }
 
