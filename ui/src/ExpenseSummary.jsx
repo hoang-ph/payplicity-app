@@ -64,7 +64,7 @@ class ExpenseSummary extends React.Component {
     const { stats } = this.state;
     if (stats == null) return null;
     const noData = Object.values(stats).every(o => o === null);
-    if (noData) return <h1>No data</h1>;
+    if (noData) return <h1 className="not-found-msg">Welcome again! Looks like you haven't had any data.</h1>;
 
     const data = Object.entries(stats);
     data.unshift(['Category', 'Amount spent']);

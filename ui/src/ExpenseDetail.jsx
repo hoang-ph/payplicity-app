@@ -5,7 +5,7 @@ export default function ExpenseDetail({ expense }) {
     return (
       <div>
         <h3>Detail</h3>
-        <pre id="expense-detail">On {expense.created.toDateString()}, you spent {expense.amount} for {expense.description}</pre>
+        <pre id="expense-detail">On {expense.created.toDateString()}, you spent ${expense.amount} for {expense.description}</pre>
       </div>
     );
   }

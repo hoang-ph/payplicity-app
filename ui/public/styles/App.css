@@ -33,6 +33,12 @@ body {
   background-color: #282a36;
 }
 
+/************************** Add expense **************************/
+.modal-content {
+  background-color: #282a36;
+  color: #f8f8f2;
+}
+
 /************************** Welcome page **************************/
 
 div.jumbotron {
@@ -109,8 +115,16 @@ div.jumbotron {
 .not-signed-in {
   display: block;
   text-align: center;
+  font-family: 'Pacifico', cursive;
   margin: auto;
   color: #ff5555;
+}
+
+/************************** Not Signed In **************************/
+.not-found-msg {
+  text-align: justify;
+  font-family: 'Pacifico', cursive;
+  color: #ffb86c;
 }
 
 /************************** Expense List **************************/
