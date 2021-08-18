@@ -64,7 +64,7 @@ class ExpenseList extends React.Component {
         pages
       }
       expense(id: $selectedId, email: $email) @include (if : $hasSelection) {
-        id description
+        id description category amount created
       }
     }`;
     const data = await graphQLFetch(query, vars, showError);
@@ -82,6 +82,7 @@ class ExpenseList extends React.Component {
       expenses,
       selectedExpense,
       pages,
+      loading: false,
     };
     this.removeExpense = this.removeExpense.bind(this);
   }
@@ -112,6 +113,7 @@ class ExpenseList extends React.Component {
         expenses: data.expenseList.expenses,
         selectedExpense: data.expense,
         pages: data.expenseList.pages,
+        loading: true
       });
     }
   }
@@ -161,7 +163,7 @@ class ExpenseList extends React.Component {
   }
 
   render() {
-    const { expenses } = this.state;
+    const { expenses, loading } = this.state;
     if (expenses == null) return null;
 
     const { selectedExpense, pages } = this.state;
