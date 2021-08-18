@@ -3,6 +3,7 @@ import URLSearchParams from 'url-search-params';
 import { Panel, Pagination, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
+
 import ExpenseFilter from './ExpenseFilter.jsx';
 import ExpenseTable from './ExpenseTable.jsx';
 import ExpenseDetail from './ExpenseDetail.jsx';
@@ -113,7 +114,7 @@ class ExpenseList extends React.Component {
         expenses: data.expenseList.expenses,
         selectedExpense: data.expense,
         pages: data.expenseList.pages,
-        loading: true
+        loading: true,
       });
     }
   }
@@ -163,7 +164,7 @@ class ExpenseList extends React.Component {
   }
 
   render() {
-    const { expenses, loading } = this.state;
+    const { expenses } = this.state;
     if (expenses == null) return null;
 
     const { selectedExpense, pages } = this.state;
@@ -190,7 +191,10 @@ class ExpenseList extends React.Component {
     const { signedIn } = this.context;
     if (!signedIn) return <NotSignedIn />;
 
-    return (
+    const { loading } = this.state;
+
+    return (<>
+      {!loading ? <h1>Still loading - putting a spinner here maybe</h1> :
       <React.Fragment>
         <Panel>
           <Panel.Heading>
@@ -214,8 +218,8 @@ class ExpenseList extends React.Component {
             <Pagination.Item>{'>'}</Pagination.Item>
           </PageLink>
         </Pagination>
-      </React.Fragment>
-    );
+      </React.Fragment>}
+   </> );
   }
 }
 
