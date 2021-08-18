@@ -50,8 +50,7 @@ class ExpenseAddNavItem extends React.Component {
     if (data) {
       showSuccess('Successfully added a new expense');
       setTimeout(() => {
-        const { history } = this.props;
-        history.push('/expenses');
+        location.reload();
       }, 1000);
     }
   }

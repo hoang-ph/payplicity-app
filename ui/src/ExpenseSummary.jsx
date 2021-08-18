@@ -63,6 +63,9 @@ class ExpenseSummary extends React.Component {
   render() {
     const { stats } = this.state;
     if (stats == null) return null;
+    const noData = Object.values(stats).every(o => o === null);
+    if (noData) return <h1>No data</h1>;
+
     const data = Object.entries(stats);
     data.unshift(['Category', 'Amount spent']);
     const { signedIn } = this.context;
