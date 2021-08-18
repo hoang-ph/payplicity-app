@@ -1,5 +1,6 @@
 import React from 'react';
 import UserContext from './UserContext.js';
+import SyncLoader from "react-spinners/SyncLoader";
 
 export default class LoadingExpense extends React.Component {
   constructor(props) {
@@ -10,12 +11,14 @@ export default class LoadingExpense extends React.Component {
     const user = this.context;
     if (user.signedIn) {
       const { history } = this.props;
-      history.push('/expenses');
+      setTimeout(() => {
+        history.push('/expenses');
+      }, 500);
     }
   }
 
   render() {
-    return <h1>Please hold on while expenses are being loaded</h1>;
+    return <SyncLoader size={15} color={"#ff79c6"} loading={true} speedMultiplier={1.5} />
   }
 }
 
