@@ -9,10 +9,14 @@ export default class LoadingExpense extends React.Component {
 
   async componentDidMount() {
     const user = this.context;
+    const { history } = this.props;
     if (user.signedIn) {
-      const { history } = this.props;
       setTimeout(() => {
         history.push('/expenses');
+      }, 500);
+    } else {
+      setTimeout(() => {
+        history.push('/notSignedIn');
       }, 500);
     }
   }

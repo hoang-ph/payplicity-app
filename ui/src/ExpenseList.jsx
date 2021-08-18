@@ -11,7 +11,6 @@ import graphQLFetch from './graphQLFetch.js';
 import withToast from './withToast.jsx';
 import store from './store.js';
 import UserContext from './UserContext.js';
-import NotSignedIn from './NotSignedIn.jsx';
 
 const SECTION_SIZE = 5;
 
@@ -126,7 +125,7 @@ class ExpenseList extends React.Component {
     const { expenses } = this.state;
     const { location: { pathname, search }, history } = this.props;
     const { showSuccess, showError } = this.props;
-    const { id } = expenses[index];
+    const { id, description } = expenses[index];
     const data = await graphQLFetch(query, { id }, showError);
     if (data && data.expenseRemove) {
       this.setState((prevState) => {
@@ -139,7 +138,7 @@ class ExpenseList extends React.Component {
       });
       const undoMessage = (
         <span>
-          {`Removed expense ${id} successfully.`}
+          {`Removed expense with description "${description}" successfully.`}
           <Button bsStyle="link" onClick={() => this.restoreExpense(id)}>
             UNDO
           </Button>
@@ -158,7 +157,7 @@ class ExpenseList extends React.Component {
     const { showSuccess, showError } = this.props;
     const data = await graphQLFetch(query, { id }, showError);
     if (data) {
-      showSuccess(`Expense ${id} restored successfully.`);
+      showSuccess(`Recently deleted expense restored successfully.`);
       this.loadData();
     }
   }
@@ -187,9 +186,6 @@ class ExpenseList extends React.Component {
         </PageLink>
       ));
     }
-
-    const { signedIn } = this.context;
-    if (!signedIn) return <NotSignedIn />;
 
     const { history } = this.props;
     if (!loading) {

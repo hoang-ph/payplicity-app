@@ -68,10 +68,6 @@ class ExpenseSummary extends React.Component {
 
     const data = Object.entries(stats);
     data.unshift(['Category', 'Amount spent']);
-    const { signedIn } = this.context;
-    if (!signedIn) {
-      return <NotSignedIn />;
-    }
 
     const { history } = this.props;
     if (!loading) {
