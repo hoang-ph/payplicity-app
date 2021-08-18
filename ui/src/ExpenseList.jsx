@@ -164,7 +164,7 @@ class ExpenseList extends React.Component {
   }
 
   render() {
-    const { expenses } = this.state;
+    const { expenses, loading } = this.state;
     if (expenses == null) return null;
 
     const { selectedExpense, pages } = this.state;
@@ -191,10 +191,12 @@ class ExpenseList extends React.Component {
     const { signedIn } = this.context;
     if (!signedIn) return <NotSignedIn />;
 
-    const { loading } = this.state;
+    const { history } = this.props;
+    if (!loading) {
+      history.push('/loadingExpense');
+    }
 
-    return (<>
-      {!loading ? <h1>Still loading - putting a spinner here maybe</h1> :
+    return (
       <React.Fragment>
         <Panel>
           <Panel.Heading>
@@ -218,8 +220,8 @@ class ExpenseList extends React.Component {
             <Pagination.Item>{'>'}</Pagination.Item>
           </PageLink>
         </Pagination>
-      </React.Fragment>}
-   </> );
+      </React.Fragment>
+    );
   }
 }
 

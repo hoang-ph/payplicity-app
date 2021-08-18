@@ -3,7 +3,8 @@ import ExpenseSummary from './ExpenseSummary.jsx';
 import ExpenseEdit from './ExpenseEdit.jsx';
 import About from './About.jsx';
 import NotFound from './NotFound.jsx';
-import Login from './Login.jsx';
+import LoadingExpense from './LoadingExpense.jsx';
+import LoadingSummary from './LoadingSummary.jsx';
 import Home from './Home.jsx';
 import NotSignedIn from './NotSignedIn.jsx';
 
@@ -14,7 +15,8 @@ const routes = [
   { path: '/edit/:id', component: ExpenseEdit },
   { path: '/summary', component: ExpenseSummary },
   { path: '/about', component: About },
-  { path: '/login', component: Login },
+  { path: '/loadingExpense', component: LoadingExpense },
+  { path: '/loadingSummary', component: LoadingSummary },
   { path: '*', component: NotFound },
 ];
 

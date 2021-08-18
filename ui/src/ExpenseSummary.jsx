@@ -34,7 +34,7 @@ class ExpenseSummary extends React.Component {
     super(props);
     const stats = store.initialData ? store.initialData.expenseCounts : null;
     delete store.initialData;
-    this.state = { stats };
+    this.state = { stats, loading: false };
   }
 
   componentDidMount() {
@@ -56,12 +56,12 @@ class ExpenseSummary extends React.Component {
     const { location: { search }, match, showError } = this.props;
     const data = await ExpenseSummary.fetchData(match, search, showError, user);
     if (data) {
-      this.setState({ stats: data.expenseCounts });
+      this.setState({ stats: data.expenseCounts, loading: true });
     }
   }
 
   render() {
-    const { stats } = this.state;
+    const { stats, loading } = this.state;
     if (stats == null) return null;
     const noData = Object.values(stats).every(o => o === null);
     if (noData) return <h1 className="not-found-msg">Welcome again! Looks like you haven't had any data.</h1>;
@@ -72,6 +72,12 @@ class ExpenseSummary extends React.Component {
     if (!signedIn) {
       return <NotSignedIn />;
     }
+
+    const { history } = this.props;
+    if (!loading) {
+      history.push('/loadingSummary');
+    }
+
     return (
       <>
         <Grid>
