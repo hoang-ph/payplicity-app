@@ -60,7 +60,7 @@ async function add(_, { expense }) {
   validate(expense);
 
   const newExpense = Object.assign({}, expense);
-  newExpense.created = new Date();
+  // newExpense.created = new Date();
   newExpense.id = await getNextSequence('expenses');
 
   const result = await db.collection('expenses').insertOne(newExpense);
