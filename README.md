@@ -4,6 +4,33 @@ GitHub repo: https://github.ccs.neu.edu/NEU-CS5610-SU21/payplicity-app
 
 Heroku link: https://payplicity-ui.herokuapp.com/
 
+## Iteration 3: 
+
+Everything were fully functional (finally!). CRUD work as expected with enhanced features that only allows modification when user's signed in. This week's work focused heavily on UI design and redirect/ route user to specific page. 
+
++ Home page:
+
+![Home Page](readmeImg/home3.png)
+
++ Listing page:
+
+![Listing Page](readmeImg/list3.png)
+
++ Summary page:
+
+![Summary Page](readmeImg/summary3.png)
+
+### Group work:
+
+Phong:
++ Fix bugs for CRUD operations.
+
+An:
++ Deal with UI/ CSS.
+
+Evgenii:
++ Deal with cookies issue/ login.
+
 ## Iteration 2: 
 
 For iteration 2, API capable of executing GET and POST methods are when a functionality is called (Search, Edit, Delete, Summary, whole list displaying) due to a more detailed, extensible GraphQL query's and appropriate CRUD calls. We decided to drop the Grouping functionality due to the time-constraint.
